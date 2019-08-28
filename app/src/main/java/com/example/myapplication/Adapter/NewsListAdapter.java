@@ -84,7 +84,8 @@ public class NewsListAdapter extends RecyclerView.Adapter{
             });
         }
         Myholder mm = (Myholder) holder;
-        mm.item_news_tv_img.setImageBitmap(new DownloadImageTask().download(Dataset.get(position).getImage()));
+        if(Dataset.get(position).getImage()!=null)
+            mm.item_news_tv_img.setImageBitmap(new DownloadImageTask().download(Dataset.get(position).getImage()));
         mm.item_news_tv_title.setText(Dataset.get(position).getTitle());
     }
 

@@ -1,6 +1,9 @@
 package com.example.myapplication.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import com.example.myapplication.Adapter.SectionAdapter;
@@ -10,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.SearchView;
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isConnectIsNomarl();
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -149,5 +154,16 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    private boolean isConnectIsNomarl() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) this.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+        if (info != null && info.isAvailable()) {
+            String intentName = info.getTypeName();
+            Log.i("通了没！", "当前网络名称：" + intentName);
+            return true;
+        } else {
+            Log.i("通了没！", "没有可用网络");
+            return false;
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.example.myapplication.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import com.example.myapplication.Utilities.DownloadImageTask;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Adapter.ImageAboutAdapter;
 import com.example.myapplication.Adapter.NewsListAdapter;
@@ -41,9 +43,11 @@ public class Pageholder extends Fragment {
     private ViewPager mViewPager;
     private TextView mTvPagerTitle;
     private List<ImageView> mImageList;//轮播的图片集合
-    private String[] mImageTitles;//标题集合
+    private Vector<String> mImageTitles;//标题集合
     private int previousPosition = 0;//前一个被选中的position
     private List<View> mDots;//小点
+    private Thread autoPlay;
+    private Vector<Bitmap> imageRess;
     private boolean isStop = false;//线程是否停止
     private static int PAGER_TIOME = 5000;//间隔时间
     private NewsListAdapter newsListAdapter;
@@ -113,13 +117,19 @@ public class Pageholder extends Fragment {
         return context.getResources().getDrawable(resId);
     }
     public void initData() {
-        mImageTitles = new String[]{"这是一个好看的标题1","这是一个优美的标题2","这是一个快乐的标题3","这是一个开心的标题4"};
-        int[] imageRess = new int[]{R.drawable.ic_menu_gallery,R.drawable.ic_menu_gallery,R.drawable.ic_menu_gallery,R.drawable.ic_menu_gallery};
+        mImageTitles = new Vector<>();
+        for(int i=0;i<4&&i<newsListAdapter.Dataset.size();i++)
+            mImageTitles.add(newsListAdapter.Dataset.get(i).getTitle());
+
         mImageList = new ArrayList<>();
         ImageView iv;
-        for (int i = 0; i < mImageTitles.length; i++) {
+        for (int i = 0; i < mImageTitles.size(); i++) {
             iv = new ImageView(getContext());
-            iv.setBackgroundResource(imageRess[i]);//设置图片
+            if(newsListAdapter.Dataset.get(i).getImage()==null)
+                iv.setBackgroundResource(R.drawable.ic_menu_gallery);//设置图片
+            else
+                iv.setImageBitmap((new DownloadImageTask().download(newsListAdapter.Dataset.get(i).getImage())));
+
             iv.setId(imgae_ids[i]);//顺便给图片设置id
             iv.setOnClickListener(new pagerImageOnClick());//设置图片点击事件
             mImageList.add(iv);
@@ -152,7 +162,7 @@ public class Pageholder extends Fragment {
     }
 
     private void setFirstLocation() {
-        mTvPagerTitle.setText(mImageTitles[previousPosition]);
+        mTvPagerTitle.setText(mImageTitles.get(previousPosition));
         // 把ViewPager设置为默认选中Integer.MAX_VALUE / t2，从十几亿次开始轮播图片，达到无限循环目的;
         int m = (Integer.MAX_VALUE / 2) % mImageList.size();
         int currentPosition = Integer.MAX_VALUE / 2 - m;
@@ -195,7 +205,7 @@ public class Pageholder extends Fragment {
                 //伪无限循环，滑到最后一张图片又从新进入第一张图片
                 int newPosition = position % mImageList.size();
                 // 把当前选中的点给切换了, 还有描述信息也切换
-                mTvPagerTitle.setText(mImageTitles[newPosition]);//图片下面设置显示文本
+                mTvPagerTitle.setText(mImageTitles.get(newPosition));//图片下面设置显示文本
                 //设置轮播点
                 LinearLayout.LayoutParams newDotParams = (LinearLayout.LayoutParams) mDots.get(newPosition).getLayoutParams();
                 newDotParams.width = 24;
@@ -218,7 +228,8 @@ public class Pageholder extends Fragment {
         setFirstLocation();
     }
     private void autoPlayView() {
-        new Thread(new Runnable() {
+        isStop = false;
+        autoPlay = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (!isStop){
@@ -231,6 +242,20 @@ public class Pageholder extends Fragment {
                     SystemClock.sleep(PAGER_TIOME);
                 }
             }
-        }).start();
+        });
+        autoPlay.start();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        autoPlayView();
+    }
+
+
+    @Override
+    public  void onPause() {
+        super.onPause();
+        isStop = true;
     }
 }
