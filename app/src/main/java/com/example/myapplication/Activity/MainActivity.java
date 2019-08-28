@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.example.myapplication.Adapter.SectionAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.Utilities.GetWeb;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -148,4 +149,5 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }
