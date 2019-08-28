@@ -1,4 +1,6 @@
 package com.example.myapplication.Utilities;
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -6,7 +8,6 @@ import java.io.IOException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import com.example.myapplication.Utilities.DataList;
 public class GetWeb
 {
     public DataList newsList = new DataList();
@@ -33,7 +34,7 @@ public class GetWeb
         }).start();
     }
 
-    public DataList parseJSON(String jsonData)
+    private DataList parseJSON(String jsonData)
     {
         Gson gson = new Gson();
         return gson.fromJson(jsonData, DataList.class);
