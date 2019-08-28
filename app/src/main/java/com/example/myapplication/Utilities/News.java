@@ -1,8 +1,9 @@
 package com.example.myapplication.Utilities;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class News
+public class News implements Serializable
 {
     private String image;
     private String publishTime;
@@ -29,7 +30,7 @@ public class News
         this.content = content;
     }
 
-    public String[] getImage() {
+    public String[] getImageUrl() {
         if(image.length()==2)
             return null;
         String[] strings = image.split("\\[|\\]|\\,");
@@ -53,7 +54,7 @@ public class News
     public Who[] getWho() { return this.who; }
 }
 
-class Keyword
+class Keyword implements Serializable
 {
     private String word;
     private Double score;
@@ -68,7 +69,7 @@ class Keyword
     }
 }
 
-class When
+class When implements Serializable
 {
     private String word;
     private Double score;
@@ -83,7 +84,7 @@ class When
     }
 }
 
-class Where
+class Where implements Serializable
 {
     private String word;
     private Double score;
@@ -98,7 +99,7 @@ class Where
     }
 }
 
-class Who
+class Who implements Serializable
 {
     private String word;
     private Double score;
@@ -113,7 +114,7 @@ class Who
     }
 }
 
-class Person
+class Person implements Serializable
 {
     private String mention;
     private String linkedURL;
@@ -133,7 +134,7 @@ class Person
     }
 }
 
-class Organization
+class Organization implements Serializable
 {
     private String mention;
     private String linkedURL;
@@ -153,7 +154,7 @@ class Organization
     }
 }
 
-class Location
+class Location implements Serializable
 {
     private String mention;
     private Double lat;

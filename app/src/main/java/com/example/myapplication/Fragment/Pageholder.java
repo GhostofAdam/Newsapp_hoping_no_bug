@@ -93,15 +93,17 @@ public class Pageholder extends Fragment {
         newsListAdapter.setOnItemClickListener(new NewsListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent;
-                intent = new Intent(getActivity(), NewsDetailActivity.class);
+                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+                intent.putExtra("news",newsListAdapter.Dataset.get(position));
                 getActivity().startActivity(intent);
             }
         });
         newsListAdapter.setOnItemLongClickListener(new NewsListAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(View view, int position) {
-                Toast.makeText(getActivity(),"long click "+position,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+                intent.putExtra("news",newsListAdapter.Dataset.get(position));
+                getActivity().startActivity(intent);
             }
         });
 
@@ -125,10 +127,14 @@ public class Pageholder extends Fragment {
         ImageView iv;
         for (int i = 0; i < mImageTitles.size(); i++) {
             iv = new ImageView(getContext());
-            if(newsListAdapter.Dataset.get(i).getImage()==null)
+            if(newsListAdapter.Dataset.get(i).getImageUrl()==null)
                 iv.setBackgroundResource(R.drawable.ic_menu_gallery);//设置图片
-            else
-                iv.setImageBitmap((new DownloadImageTask().download(newsListAdapter.Dataset.get(i).getImage())));
+            else {
+                DownloadImageTask downloadImageTask =  new DownloadImageTask();
+                Bitmap bitmap = downloadImageTask.download(newsListAdapter.Dataset.get(i).getImageUrl());
+                while(downloadImageTask.mIcon11==null){}
+                iv.setImageBitmap(downloadImageTask.mIcon11);
+            }
 
             iv.setId(imgae_ids[i]);//顺便给图片设置id
             iv.setOnClickListener(new pagerImageOnClick());//设置图片点击事件

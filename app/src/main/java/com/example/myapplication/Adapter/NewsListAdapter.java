@@ -1,5 +1,7 @@
 package com.example.myapplication.Adapter;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -84,8 +86,12 @@ public class NewsListAdapter extends RecyclerView.Adapter{
             });
         }
         Myholder mm = (Myholder) holder;
-        if(Dataset.get(position).getImage()!=null)
-            mm.item_news_tv_img.setImageBitmap(new DownloadImageTask().download(Dataset.get(position).getImage()));
+        if(Dataset.get(position).getImageUrl()!=null) {
+            DownloadImageTask downloadImageTask =  new DownloadImageTask();
+            Bitmap bitmap = downloadImageTask.download(Dataset.get(position).getImageUrl());
+            while(downloadImageTask.mIcon11==null){}
+            mm.item_news_tv_img.setImageBitmap(downloadImageTask.mIcon11);
+        }
         mm.item_news_tv_title.setText(Dataset.get(position).getTitle());
     }
 
