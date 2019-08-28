@@ -27,11 +27,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import com.example.myapplication.Utilities.GetWeb;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Adapter.ImageAboutAdapter;
 import com.example.myapplication.Adapter.NewsListAdapter;
 import com.example.myapplication.Activity.NewsDetailActivity;
+import com.example.myapplication.Utilities.UrlRequest;
+
 public class Pageholder extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
     public String Label;
@@ -39,14 +40,13 @@ public class Pageholder extends Fragment {
     private RecyclerView recyclerView;
     private ViewPager mViewPager;
     private TextView mTvPagerTitle;
-    private Vector<News> Dataset;
     private List<ImageView> mImageList;//轮播的图片集合
     private String[] mImageTitles;//标题集合
     private int previousPosition = 0;//前一个被选中的position
     private List<View> mDots;//小点
     private boolean isStop = false;//线程是否停止
     private static int PAGER_TIOME = 5000;//间隔时间
-
+    private NewsListAdapter newsListAdapter;
     // 在values文件假下创建了pager_image_ids.xml文件，并定义了4张轮播图对应的id，用于点击事件
     private int[] imgae_ids = new int[]{R.id.pager_image1,R.id.pager_image2,R.id.pager_image3,R.id.pager_image4};
     public Pageholder(String label){
@@ -57,8 +57,7 @@ public class Pageholder extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
-        GetWeb getWeb = new GetWeb();
-
+        fragment.newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",label));
         return fragment;
     }
 
@@ -86,9 +85,8 @@ public class Pageholder extends Fragment {
 //        });
         recyclerView = root.findViewById(R.id.myRecycle);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        NewsListAdapter myAdapter = new NewsListAdapter(10);
-        recyclerView.setAdapter(myAdapter);
-        myAdapter.setOnItemClickListener(new NewsListAdapter.OnItemClickListener() {
+        recyclerView.setAdapter(newsListAdapter);
+        newsListAdapter.setOnItemClickListener(new NewsListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent;
@@ -96,7 +94,7 @@ public class Pageholder extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
-        myAdapter.setOnItemLongClickListener(new NewsListAdapter.OnItemLongClickListener() {
+        newsListAdapter.setOnItemLongClickListener(new NewsListAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(View view, int position) {
                 Toast.makeText(getActivity(),"long click "+position,Toast.LENGTH_SHORT).show();

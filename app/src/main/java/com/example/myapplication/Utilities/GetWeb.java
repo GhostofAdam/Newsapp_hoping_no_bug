@@ -9,7 +9,7 @@ import okhttp3.Response;
 import com.example.myapplication.Utilities.DataList;
 public class GetWeb
 {
-    public DataList newsList;
+    public DataList newsList = new DataList();
     public void senRequest(final String interFace)
     {
         new Thread(new Runnable()
