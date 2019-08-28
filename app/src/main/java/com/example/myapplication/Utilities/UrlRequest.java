@@ -9,17 +9,10 @@ public class UrlRequest {
         GetWeb getWeb = new GetWeb();
         getWeb.senRequest(url);
         Vector<News> data = new Vector<>();
-        synchronized(getWeb.newsList) {
-            while (getWeb.newsList.getData() == null) {
-                try {
-                    wait();
-                } catch (Exception e) {
-                    System.out.println(e);
-                }
-            }
-            for (int i = 0; i < size; i++) {
-                data.add(getWeb.newsList.getData()[i]);
-            }
+        while (getWeb.newsList.getData() == null)   {}
+        for (int i = 0; i < size; i++)
+        {
+            data.add(getWeb.newsList.getData()[i]);
         }
         return data;
     }

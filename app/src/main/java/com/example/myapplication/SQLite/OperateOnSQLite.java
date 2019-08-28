@@ -12,7 +12,7 @@
 //
 //    public OperateOnSQLite()
 //    {
-//        helper = new SQLiteDbHelper(getApplicationContext());
+//        helper = new SQLiteDbHelper(getContext());
 //        database = helper.getWritableDatabase();
 //    }
 //

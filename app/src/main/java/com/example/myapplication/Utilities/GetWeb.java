@@ -17,17 +17,14 @@ public class GetWeb
         {
             @Override
             public void run() {
-                synchronized (newsList) {
-                    try {
-                        OkHttpClient client = new OkHttpClient();
-                        Request request = new Request.Builder().url(interFace).build();
-                        Response response = client.newCall(request).execute();
-                        String responseData = response.body().string();
-                        newsList = parseJSON(responseData);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    newsList.notify();
+                try {
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder().url(interFace).build();
+                    Response response = client.newCall(request).execute();
+                    String responseData = response.body().string();
+                    newsList = parseJSON(responseData);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }).start();

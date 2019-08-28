@@ -20,8 +20,8 @@ public class SectionAdapter extends FragmentStatePagerAdapter{
     public SectionAdapter(Context context, FragmentManager fm) {
         super(fm);
         pages.add(Pageholder.newInstance(0,"科技"));
-        pages.add(Pageholder.newInstance(1,"文艺"));
-        pages.add(Pageholder.newInstance(2,"国际"));
+        pages.add(Pageholder.newInstance(1,"文化"));
+        pages.add(Pageholder.newInstance(2,"健康"));
         mContext = context;
     }
     @Override
