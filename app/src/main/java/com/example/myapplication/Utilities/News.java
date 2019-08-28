@@ -22,6 +22,13 @@ public class News
     private String category;
     private Who[] who;
 
+    public void setNews(String newsID, String title, String content)
+    {
+        this.newsID = newsID;
+        this.title = title;
+        this.content = content;
+    }
+
     public String[] getImage() {
         if(image.length()==2)
             return null;
