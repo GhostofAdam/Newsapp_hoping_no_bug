@@ -1,5 +1,7 @@
 package com.example.myapplication.Utilities;
 
+import java.util.List;
+
 public class News
 {
     private String image;
@@ -20,7 +22,12 @@ public class News
     private String category;
     private Who[] who;
 
-    public String getImage() { return this.image; }
+    public String[] getImage() {
+        if(image.length()==2)
+            return null;
+        String[] strings = image.split("\\[|\\]|\\,");
+        return strings;
+    }
     public String getPublishTime() { return this.publishTime; }
     public Keyword[] getKeywords() { return this.keywords; }
     public String getLanguage() { return this.language; }

@@ -1,6 +1,8 @@
 package com.example.myapplication.Activity;
 import com.example.myapplication.Adapter.NewsListAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.Utilities.UrlRequest;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +29,7 @@ public class SearchActivity extends AppCompatActivity {
             // 当点击搜索按钮时触发该方法
             @Override
             public boolean onQueryTextSubmit(String query) {
-
+                adapter.Dataset = new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",query,"");
                 return true;
             }
 
