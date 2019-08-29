@@ -19,17 +19,19 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        String query = (String) intent.getSerializableExtra("data");
         setContentView(R.layout.activity_search);
         recyclerView = findViewById(R.id.search_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new NewsListAdapter(10);
+        adapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",query,""),this,null);
         recyclerView.setAdapter(adapter);
         mSearchView = findViewById(R.id.searchView2);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             // 当点击搜索按钮时触发该方法
             @Override
             public boolean onQueryTextSubmit(String query) {
-                adapter.Dataset = new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",query,"");
+                adapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",query,""),false);
                 return true;
             }
 

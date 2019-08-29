@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.Pageholder">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/imageAbout"
         android:layout_width="wrap_content"
@@ -52,7 +52,13 @@
             android:layout_width="0dp" android:layout_height="match_parent">
         </LinearLayout>
     </LinearLayout>
-
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<!--        app:tr_wave_height="180dp"-->
+<!--        app:tr_head_height="100dp">-->
     <androidx.recyclerview.widget.RecyclerView
 
         android:id="@+id/myRecycle"
@@ -62,6 +68,5 @@
         app:layout_constraintBottom_toTopOf="parent">
 
     </androidx.recyclerview.widget.RecyclerView>
-
-
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 </LinearLayout>

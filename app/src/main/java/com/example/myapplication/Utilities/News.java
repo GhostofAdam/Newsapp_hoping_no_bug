@@ -1,6 +1,7 @@
 package com.example.myapplication.Utilities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class News implements Serializable
@@ -30,10 +31,21 @@ public class News implements Serializable
         this.content = content;
     }
 
-    public String[] getImageUrl() {
-        if(image.length()==2)
+    public ArrayList<String> getImageUrl() {
+        if(image==null)
             return null;
-        String[] strings = image.split("\\[|\\]|\\,");
+        String[] strings = image.split("\\[|\\]|,");
+        ArrayList<String> list = new  ArrayList<String>();
+        for(int i=0;i<strings.length;i++){
+            if(strings[i].length()>3)
+                list.add(strings[i]);
+        }
+        return list;
+    }
+    public String[] getVideoUrl() {
+        if(video==null||video.length()==0)
+            return null;
+        String[] strings = video.split("\\[|\\]|,");
         return strings;
     }
     public String getPublishTime() { return this.publishTime; }

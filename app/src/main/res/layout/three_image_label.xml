@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:id="@+id/item_three_image_news_layout"
+    >
+    <LinearLayout
+        android:id="@+id/item_three_image_news_linearlayout"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/item_three_image_news_1"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_weight="2"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_menu_gallery" />
+
+        <ImageView
+            android:id="@+id/item_three_image_news_2"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_weight="2"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_menu_gallery" />
+
+        <ImageView
+            android:id="@+id/item_three_image_news_3"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_weight="2"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_menu_gallery" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/item_three_image_news_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+</LinearLayout>

@@ -10,7 +10,7 @@ public class UrlRequest {
         getWeb.senRequest(url);
         Vector<News> data = new Vector<>();
         while (getWeb.newsList.getData() == null)   {}
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < getWeb.newsList.getData().length; i++)
         {
             data.add(getWeb.newsList.getData()[i]);
         }
