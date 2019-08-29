@@ -54,6 +54,18 @@ public class OperateOnSQLite
         return newsList;
     }
 
+    public boolean findNews(SQLiteDatabase db, String newsID)
+    {
+        Cursor cursor = db.query(SQLiteDbHelper.TABLE_COLLECTION, null, "newsID=?", new String[] {newsID}, null, null, null);
+        if(cursor.moveToNext())
+        {
+            cursor.close();
+            return true;
+        }
+        cursor.close();
+        return false;
+    }
+
     /* insert new account, return true if succeed, false if identity has existed */
     public boolean insertAccount(SQLiteDatabase db, String identity, String password)
     {
