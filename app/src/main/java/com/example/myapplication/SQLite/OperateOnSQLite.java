@@ -54,9 +54,9 @@ public class OperateOnSQLite
         return newsList;
     }
 
-    public boolean findNews(SQLiteDatabase db, String newsID)
+    public boolean findNews(SQLiteDatabase db, String newsID, String identity)
     {
-        Cursor cursor = db.query(SQLiteDbHelper.TABLE_COLLECTION, null, "newsID=?", new String[] {newsID}, null, null, null);
+        Cursor cursor = db.query(SQLiteDbHelper.TABLE_COLLECTION, null, "newsID=? and identity=?", new String[] {newsID, identity}, null, null, null);
         if(cursor.moveToNext())
         {
             cursor.close();
