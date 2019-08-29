@@ -16,6 +16,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
     public static final String DB_NAME = "database.db";
     public static final String TABLE_ACCOUNT = "account";
     public static final String TABLE_COLLECTION = "collection";
+    public static final String TABLE_SEEN = "seen";
     private static final String ACCOUNT_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
             + TABLE_ACCOUNT + " ("
             + "identity TEXT PRIMARY KEY NOT NULL,"
@@ -23,6 +24,17 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
             + ");";
     private static final String COLLECTION_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
             + TABLE_COLLECTION + " ("
+            + "newsID TEXT PRIMARY KEY NOT NULL,"
+            + "title TEXT,"
+            + "content TEXT,"
+            + "publisher TEXT,"
+            + "publishTime TEXT,"
+            + "identity TEXT,"
+            + "FOREIGN KEY(identity) REFERENCES account(identity) ON DELETE CASCADE ON UPDATE CASCADE"
+            + ");";
+
+    private static final String SEEN_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
+            + TABLE_SEEN + " ("
             + "newsID TEXT PRIMARY KEY NOT NULL,"
             + "title TEXT,"
             + "content TEXT,"
@@ -55,6 +67,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
     {
         db.execSQL(ACCOUNT_CREATE_TABLE_SQL);
         db.execSQL(COLLECTION_CREATE_TABLE_SQL);
+        db.execSQL(SEEN_CREATE_TABLE_SQL);
     }
     @Override
     public void onOpen(SQLiteDatabase db)

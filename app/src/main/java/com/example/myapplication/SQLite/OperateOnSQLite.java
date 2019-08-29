@@ -1,6 +1,5 @@
 package com.example.myapplication.SQLite;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,10 +10,11 @@ import com.example.myapplication.Utilities.News;
 
 public class OperateOnSQLite
 {
+    /* tableName: selected from SQLiteDbHelper.TABLE_ACCOUNT, SQLiteDbHelper.TABLE_COLLECTION, SQLiteDbHelper.TABLE_SEEN */
     /* insert news */
-    public void insertNews(SQLiteDatabase db, News news, String identity)
+    public void insertNews(SQLiteDatabase db, String tableName, News news, String identity)
     {
-        db.insert(SQLiteDbHelper.TABLE_COLLECTION, null, news2ContentValues(news, identity));
+        db.insert(tableName, null, news2ContentValues(news, identity));
     }
 
     private ContentValues news2ContentValues(News news, String identity)
@@ -30,17 +30,17 @@ public class OperateOnSQLite
     }
 
     /* delete news */
-    public void deleteNews(SQLiteDatabase db, News news, String identity)
+    public void deleteNews(SQLiteDatabase db, String tableName, News news, String identity)
     {
-        db.delete(SQLiteDbHelper.TABLE_COLLECTION, "newsID=? and identity=?", new String[] {news.getNewsID(), identity});
+        db.delete(tableName, "newsID=? and identity=?", new String[] {news.getNewsID(), identity});
     }
 
     /* return all news in this identity */
-    public Vector<News> allNews(SQLiteDatabase db, String identity)
+    public Vector<News> allNews(SQLiteDatabase db, String tableName, String identity)
     {
         Vector<News> newsList = new Vector<> ();
         News news = new News();
-        Cursor cursor = db.query(SQLiteDbHelper.TABLE_COLLECTION, null, "identity=?", new String[] {identity}, null, null, null);
+        Cursor cursor = db.query(tableName, null, "identity=?", new String[] {identity}, null, null, null);
         while(cursor.moveToNext())
         {
             news.setNews(cursor.getString(cursor.getColumnIndex("newsID")),
@@ -56,7 +56,7 @@ public class OperateOnSQLite
 
     public boolean findNews(SQLiteDatabase db, String newsID, String identity)
     {
-        Cursor cursor = db.query(SQLiteDbHelper.TABLE_COLLECTION, null, "newsID=? and identity=?", new String[] {newsID, identity}, null, null, null);
+        Cursor cursor = db.query(SQLiteDbHelper.TABLE_ACCOUNT, null, "newsID=? and identity=?", new String[] {newsID, identity}, null, null, null);
         if(cursor.moveToNext())
         {
             cursor.close();
@@ -85,6 +85,32 @@ public class OperateOnSQLite
     public void deleteAccount(SQLiteDatabase db, String identity)
     {
         db.delete(SQLiteDbHelper.TABLE_ACCOUNT, "identity=?", new String[] {identity});
+    }
+
+    /* if true, the identity has existed; else, not */
+    public boolean isAccount(SQLiteDatabase db, String identity)
+    {
+        Cursor cursor = db.query(SQLiteDbHelper.TABLE_ACCOUNT, null, "identity=?", new String[] {identity}, null, null, null);
+        if(cursor.moveToNext())
+        {
+            cursor.close();
+            return true;
+        }
+        cursor.close();
+        return false;
+    }
+
+    /* if true, the password is right; else, not */
+    public boolean isRightPassword(SQLiteDatabase db, String identity, String password)
+    {
+        Cursor cursor = db.query(SQLiteDbHelper.TABLE_ACCOUNT, null, "identity=? and password=?", new String[] {identity, password}, null, null, null);
+        if(cursor.moveToNext())
+        {
+            cursor.close();
+            return true;
+        }
+        cursor.close();
+        return false;
     }
 
 }
