@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
-
+import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.Adapter.DeletableNewsListAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.Utilities.SwipeToDeleteCallback;

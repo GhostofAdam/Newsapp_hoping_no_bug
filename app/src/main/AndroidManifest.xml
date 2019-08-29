@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myapplication">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,7 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.NewsDetailActivity"></activity>
+        <activity android:name=".Activity.ChannelTagsActivity"></activity>
+        <activity
+            android:name=".Activity.SignInorOutActivity"
+            android:label="@string/title_activity_sign_inor_out"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activity.NewsDetailActivity" />
         <activity android:name=".Activity.SearchActivity" />
         <activity android:name=".Activity.CollectionsActivity" />
         <activity android:name=".Activity.HistoryActivity" />
@@ -27,6 +29,8 @@
             </intent-filter>
         </activity>
     </application>
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

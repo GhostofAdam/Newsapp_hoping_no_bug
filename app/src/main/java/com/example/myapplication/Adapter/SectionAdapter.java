@@ -11,10 +11,12 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.myapplication.Fragment.Pageholder;
 import com.example.myapplication.R;
+
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class SectionAdapter extends FragmentStatePagerAdapter{
-    private static Vector<Integer> TAB_TITLES = new Vector<Integer>();
+    private static Vector<String> tab_tiles = new Vector<String>();
     private static Vector<Pageholder>  pages = new Vector<Pageholder>();
     private final Context mContext;
     public SectionAdapter(Context context, FragmentManager fm) {
@@ -22,6 +24,9 @@ public class SectionAdapter extends FragmentStatePagerAdapter{
         pages.add(Pageholder.newInstance(0,"科技"));
         pages.add(Pageholder.newInstance(1,"文化"));
         pages.add(Pageholder.newInstance(2,"健康"));
+        tab_tiles.add("科技");
+        tab_tiles.add("文化");
+        tab_tiles.add("健康");
         mContext = context;
     }
     @Override
@@ -37,6 +42,9 @@ public class SectionAdapter extends FragmentStatePagerAdapter{
         // TODO Auto-generated method stub
         return PagerAdapter.POSITION_NONE;
     }
+    public Vector<String> getTabTitles(){
+        return tab_tiles;
+    }
     public void removeTabPage(int position) {
         if (!pages.isEmpty() && position<pages.size()) {
             pages.remove(position);
@@ -45,6 +53,15 @@ public class SectionAdapter extends FragmentStatePagerAdapter{
     }
     public void addTabPage(String title) {
         pages.add(Pageholder.newInstance(pages.size(),""));
+        notifyDataSetChanged();
+    }
+    public void refreshTabPage(ArrayList<String>titles){
+        tab_tiles.clear();
+        tab_tiles.addAll(titles);
+        pages.clear();
+        for(int i=0;i<tab_tiles.size();i++){
+            pages.add(Pageholder.newInstance(i,tab_tiles.get(i)));
+        }
         notifyDataSetChanged();
     }
     public int getCount() {

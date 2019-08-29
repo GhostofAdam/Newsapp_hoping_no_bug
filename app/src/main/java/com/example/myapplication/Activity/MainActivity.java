@@ -16,7 +16,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import android.widget.Button;
 import android.widget.SearchView;
+
+import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -33,6 +36,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.view.Menu;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Toolbar toolbar;
@@ -44,8 +49,9 @@ public class MainActivity extends AppCompatActivity
     private ViewPager viewPager;
     private TabLayout tabs;
     private SearchView mSearchView;
-
-
+    private Button channelTags;
+    private String username;
+    private String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,14 +59,14 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toggle = new ActionBarDrawerToggle(
@@ -74,6 +80,16 @@ public class MainActivity extends AppCompatActivity
         viewPager.setAdapter(sectionAdapter);
         tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        channelTags = findViewById(R.id.tab_button);
+        channelTags.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v.getId()==R.id.tab_button){
+                    Intent intent = new Intent(MainActivity.this,ChannelTagsActivity.class);
+                    intent.putExtra("data",sectionAdapter.getTabTitles());
+                    startActivityForResult(intent,0);
+            }
+        }});
         mSearchView = findViewById(R.id.searchView);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             // 当点击搜索按钮时触发该方法
@@ -99,6 +115,23 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode){
+            case 0:
+                ArrayList<String> titles = data.getStringArrayListExtra("result");
+                this.sectionAdapter.refreshTabPage(titles);
+                break;
+            case 1:
+                String []strings = data.getStringArrayExtra("result");
+                username = strings[0];
+                password = strings[1];
+                default:
+                    break;
+        }
     }
 
     @Override
@@ -141,6 +174,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
+            Intent intent = new Intent(this,SignInorOutActivity.class);
+            startActivityForResult(intent,0);
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent(this,CollectionsActivity.class);
             startActivity(intent);

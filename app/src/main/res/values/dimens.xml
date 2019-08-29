@@ -7,4 +7,9 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="app_bar_height">100dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="padding">10dp</dimen>
+    <dimen name="margin_text_size">15sp</dimen>
+    <dimen name="main_text_size">25sp</dimen>
+    <dimen name="larger_margin_text_size">20sp</dimen>
+    <dimen name="channel_item_txsize">15sp</dimen>
 </resources>

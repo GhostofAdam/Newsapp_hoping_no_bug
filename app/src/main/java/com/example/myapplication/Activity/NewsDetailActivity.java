@@ -6,11 +6,15 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextPaint;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.Utilities.News;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.varunest.sparkbutton.SparkButton;
+import com.varunest.sparkbutton.SparkEventListener;
 
 import java.awt.font.TextAttribute;
 
@@ -18,6 +22,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     TextView contentView;
     TextView titleView;
     TextView subtitleView;
+    SparkButton collect;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +40,27 @@ public class NewsDetailActivity extends AppCompatActivity {
         subtitleView.setText(news.getPublisher()+"\n"+news.getPublishTime()+"\n"+news.getOrganizations()+"\n"+news.getLocations());
         tp = subtitleView.getPaint();
         tp.setFakeBoldText(true);
+        collect = findViewById(R.id.spark_button);
+        collect.setEventListener(new SparkEventListener(){
+            @Override
+            public void onEvent(ImageView button, boolean buttonState) {
+                if (buttonState) {
+                    // Button is active
+                } else {
+                    // Button is inactive
+                }
+            }
+            @Override
+            public void onEventAnimationStart(ImageView button, boolean buttonState) {
+
+            }
+
+            @Override
+            public void onEventAnimationEnd(ImageView button, boolean buttonState) {
+
+            }
+        });
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     }
 }

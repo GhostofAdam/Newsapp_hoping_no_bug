@@ -6,7 +6,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.text.Spannable;
 import android.text.TextPaint;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -191,9 +193,6 @@ public class NewsListAdapter extends RecyclerView.Adapter{
             NoImageHolder vh = (NoImageHolder) holder;
             vh.subtitleView.setText(Dataset.get(position).getPublisher()+" "+Dataset.get(position).getPublishTime());
             vh.titleView.setText(Dataset.get(position).getTitle());
-            vh.titleView.setTextScaleX(2);
-            TextPaint tp = vh.titleView.getPaint();
-            tp.setFakeBoldText(true);
         }
         else if(holder instanceof VideoHolder){
             VideoHolder vh = (VideoHolder)holder;
@@ -205,6 +204,7 @@ public class NewsListAdapter extends RecyclerView.Adapter{
                 mediaController = new MediaController(activity);
             vh.videoView.setMediaController(mediaController);
             vh.videoView.start();
+            vh.textView.setText(Dataset.get(position).getTitle());
         }
         else{
 

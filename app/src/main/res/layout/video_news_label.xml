@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/menu_border"
+    android:paddingTop="@dimen/padding"
+    android:paddingBottom="@dimen/padding"
     >
     <VideoView
         android:id="@+id/video_news_label_video"
+        android:background="@drawable/menu_border"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></VideoView>
     <TextView
         android:id="@+id/video_news_label_title"
         android:layout_width="wrap_content"
+        android:textSize="@dimen/larger_margin_text_size"
         android:layout_height="wrap_content"></TextView>
 
 </LinearLayout>
