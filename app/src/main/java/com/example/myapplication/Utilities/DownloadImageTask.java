@@ -11,6 +11,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     public Bitmap mIcon11 = null;
     public String[] urls;
@@ -24,18 +27,15 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String urldisplay;
                 int i = 0;
                 while (i < urls.length && urls[i].equals("")) {
                     i++;
                 }
-                urldisplay = urls[i];
+                String urldisplay = urls[i];
 
                 try {
                     URL imageUrl = new URL(urldisplay);
                     mIcon11 = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

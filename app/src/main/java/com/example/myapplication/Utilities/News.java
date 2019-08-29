@@ -23,11 +23,13 @@ public class News implements Serializable
     private String category;
     private Who[] who;
 
-    public void setNews(String newsID, String title, String content)
+    public void setNews(String newsID, String title, String content, String publisher, String publishTime)
     {
         this.newsID = newsID;
         this.title = title;
         this.content = content;
+        this.publisher = publisher;
+        this.publishTime = publishTime;
     }
 
     public String[] getImageUrl() {
