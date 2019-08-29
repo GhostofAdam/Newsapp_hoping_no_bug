@@ -11,45 +11,53 @@ import com.example.myapplication.Utilities.News;
 
 public class OperateOnSQLite
 {
-    private SQLiteDbHelper helper;
-    private SQLiteDatabase database;
-
-    public OperateOnSQLite(Activity activity)
+    /* insert news */
+    public void insertNews(SQLiteDatabase db, News news, String identity)
     {
-        helper = new SQLiteDbHelper(activity.getApplicationContext());
-        database = helper.getWritableDatabase();
+        db.insert(SQLiteDbHelper.TABLE_COLLECTION, null, news2ContentValues(news, identity));
     }
 
-    public void insertNews(News news, String account)
+    private ContentValues news2ContentValues(News news, String identity)
     {
-        ContentValues values = news2ContentValues(news, account);
-        database.insert(SQLiteDbHelper.TABLE_COLLECTION, null, values);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("newsID", news.getNewsID());
+        contentValues.put("title", news.getTitle());
+        contentValues.put("content", news.getContent());
+        contentValues.put("publisher", news.getPublisher());
+        contentValues.put("publishTime", news.getPublishTime());
+        contentValues.put("identity", identity);
+        return contentValues;
     }
 
-    public void deleteNews(News news, String account)
+    /* delete news */
+    public void deleteNews(SQLiteDatabase db, News news, String identity)
     {
-        database.delete(SQLiteDbHelper.TABLE_COLLECTION, "newsID=? and account=?", new String[] {news.getNewsID(), account});
+        db.delete(SQLiteDbHelper.TABLE_COLLECTION, "newsID=? and identity=?", new String[] {news.getNewsID(), identity});
     }
 
-    public Vector<News> allNews(String account)
+    /* return all news in this identity */
+    public Vector<News> allNews(SQLiteDatabase db, String identity)
     {
         Vector<News> newsList = new Vector<> ();
         News news = new News();
-        Cursor cursor = database.query(SQLiteDbHelper.TABLE_COLLECTION, null, "account=?", new String[] {account}, null, null, null);
+        Cursor cursor = db.query(SQLiteDbHelper.TABLE_COLLECTION, null, "identity=?", new String[] {identity}, null, null, null);
         while(cursor.moveToNext())
         {
             news.setNews(cursor.getString(cursor.getColumnIndex("newsID")),
                          cursor.getString(cursor.getColumnIndex("title")),
-                         cursor.getString(cursor.getColumnIndex("content")));
+                         cursor.getString(cursor.getColumnIndex("content")),
+                         cursor.getString(cursor.getColumnIndex("publisher")),
+                         cursor.getString(cursor.getColumnIndex("publishTime")));
             newsList.add(news);
         }
         cursor.close();
         return newsList;
     }
 
-    public boolean insertAccount(String identity, String password)
+    /* insert new account, return true if succeed, false if identity has existed */
+    public boolean insertAccount(SQLiteDatabase db, String identity, String password)
     {
-        Cursor cursor = database.query(SQLiteDbHelper.TABLE_ACCOUNT, null, "identity=?", new String[] {identity}, null, null, null);
+        Cursor cursor = db.query(SQLiteDbHelper.TABLE_ACCOUNT, null, "identity=?", new String[] {identity}, null, null, null);
         if(cursor.moveToNext())
         {
             cursor.close();
@@ -58,23 +66,13 @@ public class OperateOnSQLite
         cursor.close();
         ContentValues values = new ContentValues();
         values.put(identity, password);
-        database.insert(SQLiteDbHelper.TABLE_ACCOUNT, null, values);
+        db.insert(SQLiteDbHelper.TABLE_ACCOUNT, null, values);
         return true;
     }
 
-    public void deleteNews(String identity)
+    public void deleteAccount(SQLiteDatabase db, String identity)
     {
-        database.delete(SQLiteDbHelper.TABLE_ACCOUNT, "identity=?", new String[] {identity});
-    }
-
-    private ContentValues news2ContentValues(News news, String account)
-    {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("newsID", news.getNewsID());
-        contentValues.put("title", news.getTitle());
-        contentValues.put("content", news.getContent());
-        contentValues.put("account", account);
-        return contentValues;
+        db.delete(SQLiteDbHelper.TABLE_ACCOUNT, "identity=?", new String[] {identity});
     }
 
 }

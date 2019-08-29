@@ -128,8 +128,8 @@ public class Pageholder extends Fragment {
             }
         });
 
-        mViewPager = (ViewPager) root.findViewById(R.id.imageAbout);
-        mTvPagerTitle = (TextView) root.findViewById(R.id.tv_pager_title);
+        mViewPager = root.findViewById(R.id.imageAbout);
+        mTvPagerTitle = root.findViewById(R.id.tv_pager_title);
         initData();//初始化数据
         initView();//初始化View，设置适配器
         autoPlayView();//开启线程，自动播放
@@ -159,7 +159,7 @@ public class Pageholder extends Fragment {
         }
 
         //添加轮播点
-        LinearLayout linearLayoutDots = (LinearLayout) root.findViewById(R.id.lineLayout_dot);
+        LinearLayout linearLayoutDots = root.findViewById(R.id.lineLayout_dot);
         mDots = addDots(linearLayoutDots,fromResToDrawable(getContext(),R.drawable.is_dot_normal),mImageList.size());//其中fromResToDrawable()方法是我自定义的，目的是将资源文件转成Drawable
     }
     private void RefreshData(){
