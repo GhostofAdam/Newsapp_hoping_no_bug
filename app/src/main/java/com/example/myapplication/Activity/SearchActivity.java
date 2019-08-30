@@ -49,11 +49,28 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",query,""),this,null);
         recyclerView.setAdapter(adapter);
-
+        adapter.setOnItemClickListener(new NewsListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(SearchActivity.this, NewsDetailActivity.class);
+                intent.putExtra("news",adapter.Dataset.get(position));
+                startActivity(intent);
+            }
+        });
+        adapter.setOnItemLongClickListener(new NewsListAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View view, int position) {
+                Intent intent = new Intent(SearchActivity.this, NewsDetailActivity.class);
+                intent.putExtra("news",adapter.Dataset.get(position));
+                startActivity(intent);
+            }
+        });
         mSearchView = findViewById(R.id.floating_search_view_2);
         mDimSearchViewBackground = findViewById(R.id.dim_background_2);
         setmSearchView();
         setSearchSuggestions();
+        mSearchView.setTranslationZ(4);
+        mSearchView.invalidate();
     }
 
     private void setSearchSuggestions(){

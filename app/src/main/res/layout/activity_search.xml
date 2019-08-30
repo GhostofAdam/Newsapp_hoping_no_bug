@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Activity.SearchActivity">
-    <FrameLayout
-        android:id="@+id/dim_background_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    android:layout_height="match_parent">
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/parent_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".Activity.SearchActivity">
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="?attr/actionBarSize"
+            >
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:clipToPadding="false"
+        />
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/dim_background_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <com.arlib.floatingsearchview.FloatingSearchView
             android:id="@+id/floating_search_view_2"
             android:layout_width="wrap_content"
@@ -25,14 +47,6 @@
             app:floatingSearch_searchHint="Search..."
             app:floatingSearch_showSearchKey="true"
             app:floatingSearch_suggestionsListAnimDuration="250"/>
-    </FrameLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-</LinearLayout>
+        </FrameLayout>
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

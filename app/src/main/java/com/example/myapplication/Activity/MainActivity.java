@@ -83,8 +83,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         isConnectIsNomarl();
         setContentView(R.layout.activity_main);
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 //        fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -96,10 +96,10 @@ public class MainActivity extends AppCompatActivity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+//        toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
         sectionAdapter = new SectionAdapter(this,getSupportFragmentManager());
@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity
         mSearchView = findViewById(R.id.floating_search_view);
 
         setmSearchView();
+        mSearchView.attachNavigationDrawerToMenuButton(drawer);
         setSearchSuggestions();
 
     }

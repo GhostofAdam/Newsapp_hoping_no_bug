@@ -6,46 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <RelativeLayout
+        android:id="@+id/parent_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="50dp"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-            <FrameLayout
-                android:id="@+id/dim_background"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            <com.arlib.floatingsearchview.FloatingSearchView
-                android:id="@+id/floating_search_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:floatingSearch_close_search_on_keyboard_dismiss="false"
-                app:floatingSearch_dimBackground="false"
-                app:floatingSearch_dismissOnOutsideTouch="true"
-                app:floatingSearch_leftActionMode="showHamburger"
-                app:floatingSearch_menu="@menu/menu_search_view"
-                app:floatingSearch_searchBarMarginLeft="@dimen/search_view_inset"
-                app:floatingSearch_searchBarMarginRight="@dimen/search_view_inset"
-                app:floatingSearch_searchBarMarginTop="@dimen/search_view_inset"
-                app:floatingSearch_searchHint="Search..."
-                app:floatingSearch_showSearchKey="true"
-                app:floatingSearch_suggestionsListAnimDuration="250"/>
-            </FrameLayout>
-        </LinearLayout>
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".MainActivity">
+        <FrameLayout
+            android:id="@+id/dim_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></FrameLayout>
 
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <include layout="@layout/content_main" />
-
+    <include layout="@layout/content_main"
+        />
+    </RelativeLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -53,5 +27,24 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    <com.arlib.floatingsearchview.FloatingSearchView
+        android:id="@+id/floating_search_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:floatingSearch_close_search_on_keyboard_dismiss="false"
+        app:floatingSearch_dimBackground="false"
+        app:floatingSearch_dismissOnOutsideTouch="true"
+        app:floatingSearch_leftActionMode="showHamburger"
+        app:floatingSearch_menu="@menu/menu_search_view"
+        app:floatingSearch_searchBarMarginLeft="@dimen/search_view_inset"
+        app:floatingSearch_searchBarMarginRight="@dimen/search_view_inset"
+        app:floatingSearch_searchBarMarginTop="@dimen/search_view_inset"
+        app:floatingSearch_searchHint="Search..."
+        app:floatingSearch_showSearchKey="true"
+        app:floatingSearch_suggestionsListAnimDuration="250"
+        app:layout_anchor="@+id/parent_view"
+        app:layout_anchorGravity="center" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
