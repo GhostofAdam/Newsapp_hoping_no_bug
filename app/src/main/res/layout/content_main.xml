@@ -16,14 +16,14 @@
         >
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
-        android:layout_width="360dp"
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <Button
         android:id="@+id/tab_button"
-        android:layout_width="60dp"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:gravity="right"
         android:text="more"

@@ -17,6 +17,7 @@ import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.SwipeToDeleteCallback;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 
@@ -30,8 +31,10 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
         recyclerView = findViewById(R.id.history_list);
         Intent intent = getIntent();
-        Vector<News> data = (Vector<News>)intent.getSerializableExtra("data");
-        mAdapter = new DeletableNewsListAdapter(data,this,null);
+        ArrayList<News> data = (ArrayList<News>)intent.getSerializableExtra("data");
+        Vector<News> newslist = new Vector<News>();
+        newslist.addAll(data);
+        mAdapter = new DeletableNewsListAdapter(newslist,this,null);
         setUpRecyclerView();
         back = findViewById(R.id.history_back);
         back.setOnClickListener(new View.OnClickListener() {
