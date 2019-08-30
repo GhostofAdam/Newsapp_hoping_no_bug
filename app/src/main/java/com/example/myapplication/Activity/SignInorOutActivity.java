@@ -16,6 +16,8 @@ import androidx.percentlayout.widget.PercentLayoutHelper;
 import androidx.percentlayout.widget.PercentRelativeLayout;
 
 import com.example.myapplication.R;
+import com.example.myapplication.SQLite.OperateOnSQLite;
+import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class SignInorOutActivity extends AppCompatActivity implements View.OnClickListener{
@@ -75,7 +77,7 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
                 strings[0] = uesrname.getText().toString();
                 strings[1] = password.getText().toString();
                 intent.putExtra("result",strings);
-                setResult(1,intent);
+                setResult(2,intent);
                 finish();
             }
         });
@@ -85,6 +87,9 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
                 Animation clockwise= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_right_to_left);
                 if(isSigninScreen)
                     btnSignup.startAnimation(clockwise);
+                OperateOnSQLite op = new OperateOnSQLite();
+                SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
+                op.insertAccount(help.getWritableDatabase(),uesrname.getText().toString(),password.getText().toString());
             }
         });
     }
@@ -140,6 +145,14 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
 
         }
 
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent();
+
+        setResult(-1,intent);
+        finish();
     }
 
 

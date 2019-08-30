@@ -128,11 +128,11 @@ public class Pageholder extends Fragment {
             }
         });
 
-        mViewPager = root.findViewById(R.id.imageAbout);
-        mTvPagerTitle = root.findViewById(R.id.tv_pager_title);
+        //mViewPager = root.findViewById(R.id.imageAbout);
+       // mTvPagerTitle = root.findViewById(R.id.tv_pager_title);
         initData();//初始化数据
-        initView();//初始化View，设置适配器
-        autoPlayView();//开启线程，自动播放
+        //initView();//初始化View，设置适配器
+        //autoPlayView();//开启线程，自动播放
 
         return root;
     }
@@ -144,36 +144,36 @@ public class Pageholder extends Fragment {
         for(int i=0;i<4&&i<newsListAdapter.Dataset.size();i++)
             mImageTitles.add(newsListAdapter.Dataset.get(i).getTitle());
 
-        mImageList = new ArrayList<>();
-        ImageView iv;
-        int j=0;
-        for (int i = 0; i < mImageTitles.size(); i++) {
-            iv = new ImageView(getContext());
-            while(newsListAdapter.Dataset.get(j).getImageUrl().size()==0)
-                j++;
-            Glide.with(getActivity()).load(newsListAdapter.Dataset.get(j).getImageUrl().get(0)).into(iv);
-            iv.setId(j);
-            iv.setOnClickListener(new pagerImageOnClick());//设置图片点击事件
-            mImageList.add(iv);
-            j++;
-        }
-
-        //添加轮播点
-        LinearLayout linearLayoutDots = root.findViewById(R.id.lineLayout_dot);
-        mDots = addDots(linearLayoutDots,fromResToDrawable(getContext(),R.drawable.is_dot_normal),mImageList.size());//其中fromResToDrawable()方法是我自定义的，目的是将资源文件转成Drawable
+//        mImageList = new ArrayList<>();
+//        ImageView iv;
+//        int j=0;
+//        for (int i = 0; i < mImageTitles.size(); i++) {
+//            iv = new ImageView(getContext());
+//            while(newsListAdapter.Dataset.get(j).getImageUrl().size()==0)
+//                j++;
+//            Glide.with(getActivity()).load(newsListAdapter.Dataset.get(j).getImageUrl().get(0)).into(iv);
+//            iv.setId(j);
+//            iv.setOnClickListener(new pagerImageOnClick());//设置图片点击事件
+//            mImageList.add(iv);
+//            j++;
+//        }
+//
+//        //添加轮播点
+//        LinearLayout linearLayoutDots = root.findViewById(R.id.lineLayout_dot);
+//        mDots = addDots(linearLayoutDots,fromResToDrawable(getContext(),R.drawable.is_dot_normal),mImageList.size());//其中fromResToDrawable()方法是我自定义的，目的是将资源文件转成Drawable
     }
     private void RefreshData(){
         newsListAdapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",Label),false);
-        int j=0;
-        for (int i = 0; i < mImageTitles.size(); i++) {
-            ImageView iv =  mImageList.get(i);
-            while(newsListAdapter.Dataset.get(j).getImageUrl().size()==0)
-                j++;
-            Glide.with(getActivity()).load(newsListAdapter.Dataset.get(j).getImageUrl().get(0)).into(iv);
-            iv.setId(j);
-            iv.setOnClickListener(new pagerImageOnClick());//设置图片点击事件
-            j++;
-        }
+//        int j=0;
+//        for (int i = 0; i < mImageTitles.size(); i++) {
+//            ImageView iv =  mImageList.get(i);
+//            while(newsListAdapter.Dataset.get(j).getImageUrl().size()==0)
+//                j++;
+//            Glide.with(getActivity()).load(newsListAdapter.Dataset.get(j).getImageUrl().get(0)).into(iv);
+//            iv.setId(j);
+//            iv.setOnClickListener(new pagerImageOnClick());//设置图片点击事件
+//            j++;
+//        }
     }
     private void LoadMoreData(){
         newsListAdapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",Label),true);
@@ -276,13 +276,13 @@ public class Pageholder extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        autoPlayView();
+        //autoPlayView();
     }
 
 
     @Override
     public  void onPause() {
         super.onPause();
-        isStop = true;
+        //isStop = true;
     }
 }

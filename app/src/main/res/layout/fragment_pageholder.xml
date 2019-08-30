@@ -8,50 +8,50 @@
     tools:context=".Fragment.Pageholder">
 
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/imageAbout"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="parent"
-        android:flipInterval="30"
-        android:persistentDrawingCache="animation" />
-    <LinearLayout
-        android:weightSum="10"
-        android:background="#33000000"
-        android:orientation="horizontal"
-        android:layout_gravity="top"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="50dip"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="parent"
-        >
+<!--    <androidx.viewpager.widget.ViewPager-->
+<!--        android:id="@+id/imageAbout"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="150dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintBottom_toTopOf="parent"-->
+<!--        android:flipInterval="30"-->
+<!--        android:persistentDrawingCache="animation" />-->
+<!--    <LinearLayout-->
+<!--        android:weightSum="10"-->
+<!--        android:background="#33000000"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_gravity="top"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dip"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintBottom_toTopOf="parent"-->
+<!--        >-->
 
-        <TextView
-            android:id="@+id/tv_pager_title"
-            android:layout_width="0dp"
-            android:layout_height="35dip"
-            android:layout_weight="8"
-            android:gravity="center_vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="parent"
-            android:paddingLeft="8dip"
-            android:text="很长的标题。。。。。你懂我意思吧" />
-        <!--用来动态添加轮播小点-->
-        <LinearLayout
-            android:id="@+id/lineLayout_dot"
-            android:layout_weight="2"
-            android:gravity="center|right"
-            android:layout_marginRight="5dp"
-            android:paddingLeft="3dp"
-            android:paddingRight="3dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="parent"
-            android:layout_width="0dp" android:layout_height="match_parent">
-        </LinearLayout>
-    </LinearLayout>
+<!--        <TextView-->
+<!--            android:id="@+id/tv_pager_title"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="35dip"-->
+<!--            android:layout_weight="8"-->
+<!--            android:gravity="center_vertical"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintBottom_toTopOf="parent"-->
+<!--            android:paddingLeft="8dip"-->
+<!--            android:text="很长的标题。。。。。你懂我意思吧" />-->
+<!--        &lt;!&ndash;用来动态添加轮播小点&ndash;&gt;-->
+<!--        <LinearLayout-->
+<!--            android:id="@+id/lineLayout_dot"-->
+<!--            android:layout_weight="2"-->
+<!--            android:gravity="center|right"-->
+<!--            android:layout_marginRight="5dp"-->
+<!--            android:paddingLeft="3dp"-->
+<!--            android:paddingRight="3dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintBottom_toTopOf="parent"-->
+<!--            android:layout_width="0dp" android:layout_height="match_parent">-->
+<!--        </LinearLayout>-->
+<!--    </LinearLayout>-->
     <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/refreshLayout"

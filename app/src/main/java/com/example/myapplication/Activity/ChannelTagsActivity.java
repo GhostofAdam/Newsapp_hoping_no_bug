@@ -39,7 +39,7 @@ public class ChannelTagsActivity extends AppCompatActivity {
                         strings.add(c.title);
                     }
                     intent.putExtra("result",strings);
-                    setResult(0,intent);
+                    setResult(1,intent);
                     finish();
             }});
         Intent intent = getIntent();
@@ -47,9 +47,9 @@ public class ChannelTagsActivity extends AppCompatActivity {
         initData(added);
         channelTagView.showPahtAnim(false);
         channelTagView.setCategaryAddedBannerTX("已添加(滑动删除)");
-        channelTagView.setCategoryAddedBannerBg(R.color.lawngreen);
+        channelTagView.setCategoryAddedBannerBg(R.color.colorPrimary);
         channelTagView.setCategrayUnAddedBannerTX("未添加(点击添加)");
-        channelTagView.setCategoryUnAddedBannerBg(R.color.lawngreen);
+        channelTagView.setCategoryUnAddedBannerBg(R.color.colorPrimary);
         //channelTagView.setCategoryBannerTXsize(10);
         //channelTagView.setChannelItemTxSizeSP(10);
         channelTagView.initChannels(addedChannels, unAddedItems, false, new ChannelTagView.RedDotRemainderListener() {
@@ -104,6 +104,16 @@ public class ChannelTagsActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent();
+
+        setResult(-1,intent);
+        finish();
+    }
+
     private void initData(ArrayList<String> added) {
         String[] chanles = getResources().getStringArray(R.array.chanles);
         Vector<String> all = new Vector<String>();

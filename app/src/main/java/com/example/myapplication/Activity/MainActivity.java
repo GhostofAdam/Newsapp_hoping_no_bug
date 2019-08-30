@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toggle = new ActionBarDrawerToggle(
@@ -121,11 +122,13 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode){
-            case 0:
+            case -1:
+                return;
+            case 1:
                 ArrayList<String> titles = data.getStringArrayListExtra("result");
                 this.sectionAdapter.refreshTabPage(titles);
                 break;
-            case 1:
+            case 2:
                 String []strings = data.getStringArrayExtra("result");
                 username = strings[0];
                 password = strings[1];
