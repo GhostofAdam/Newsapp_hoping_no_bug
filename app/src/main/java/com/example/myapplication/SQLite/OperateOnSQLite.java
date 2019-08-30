@@ -39,10 +39,10 @@ public class OperateOnSQLite
     public Vector<News> allNews(SQLiteDatabase db, String tableName, String identity)
     {
         Vector<News> newsList = new Vector<>();
-        News news = new News();
         Cursor cursor = db.query(tableName, null, "identity=?", new String[] {identity}, null, null, null);
         while(cursor.moveToNext())
         {
+            News news = new News();
             news.setNews(cursor.getString(cursor.getColumnIndex("newsID")),
                          cursor.getString(cursor.getColumnIndex("title")),
                          cursor.getString(cursor.getColumnIndex("content")),
