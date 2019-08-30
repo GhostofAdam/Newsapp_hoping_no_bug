@@ -7,11 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".Activity.SearchActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/search_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:theme="@style/AppTheme.AppBarOverlay">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -23,16 +18,22 @@
             android:background="@android:color/transparent"
             android:src="@drawable/ic_back" />
 
-        <SearchView
-            android:id="@+id/searchView2"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:iconifiedByDefault="false"
-            android:queryHint="For Search" />
+            <com.arlib.floatingsearchview.FloatingSearchView
+                android:id="@+id/floating_search_view_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:floatingSearch_close_search_on_keyboard_dismiss="false"
+                app:floatingSearch_dimBackground="false"
+                app:floatingSearch_dismissOnOutsideTouch="true"
+                app:floatingSearch_leftActionMode="showHamburger"
+                app:floatingSearch_menu="@menu/menu_search_view"
+                app:floatingSearch_searchBarMarginLeft="@dimen/search_view_inset"
+                app:floatingSearch_searchBarMarginRight="@dimen/search_view_inset"
+                app:floatingSearch_searchBarMarginTop="@dimen/search_view_inset"
+                app:floatingSearch_searchHint="Search..."
+                app:floatingSearch_showSearchKey="true"
+                app:floatingSearch_suggestionsListAnimDuration="250"/>
         </LinearLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_list"
         android:layout_width="match_parent"

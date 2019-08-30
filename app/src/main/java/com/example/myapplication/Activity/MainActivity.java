@@ -6,9 +6,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.myapplication.Adapter.SectionAdapter;
+import com.example.myapplication.Entity.MySearchSuggest;
 import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
@@ -45,6 +48,7 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.sql.DataSource;
@@ -59,7 +63,7 @@ public class MainActivity extends AppCompatActivity
     private SectionAdapter sectionAdapter;
     private ViewPager viewPager;
     private TabLayout tabs;
-    private SearchView mSearchView;
+    private FloatingSearchView mSearchView;
     private Button channelTags;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,31 +101,41 @@ public class MainActivity extends AppCompatActivity
                 if(v.getId()==R.id.tab_button){
                     Intent intent = new Intent(MainActivity.this,ChannelTagsActivity.class);
                     intent.putExtra("data",sectionAdapter.getTabTitles());
+
                     startActivityForResult(intent,0);
             }
         }});
-        mSearchView = findViewById(R.id.searchView);
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            // 当点击搜索按钮时触发该方法
+        mSearchView = findViewById(R.id.floating_search_view);
+
+
+        setSearchSuggestions();
+        mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                if(query.equals(""))
-                    return false;
+            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
+                if(searchSuggestion.getBody().equals(""))
+                    return;
                 Intent intent = new Intent(MainActivity.this,SearchActivity.class);
-                intent.putExtra("data",query);
+                intent.putExtra("data",searchSuggestion.getBody());
+                addSearch(searchSuggestion.getBody());
                 startActivity(intent);
-                return true;
             }
 
-            // 当搜索内容改变时触发该方法
             @Override
-            public boolean onQueryTextChange(String newText) {
-                if (!TextUtils.isEmpty(newText)){
-
-                }else{
-
-                }
-                return false;
+            public void onSearchAction(String currentQuery) {
+                if(currentQuery.equals(""))
+                    return;
+                Intent intent = new Intent(MainActivity.this,SearchActivity.class);
+                intent.putExtra("data",currentQuery);
+                addSearch(currentQuery);
+                startActivity(intent);
+            }
+        });
+        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, final String newQuery) {
+                //get suggestions based on newQuery
+                //pass them on to the search view
+                //mSearchView.swapSuggestions(newSuggestions);
             }
         });
     }
@@ -231,6 +245,28 @@ public class MainActivity extends AppCompatActivity
         } else {
             Log.i("通了没！", "没有可用网络");
             return false;
+        }
+    }
+    private void setSearchSuggestions(){
+        User user = (User)getApplication();
+        if(user.getUsername()==null){
+            return;
+        }
+        Vector<SearchSuggestion>suggestionList = new Vector<>();
+        SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
+        OperateOnSQLite op = new OperateOnSQLite();
+        Vector<String> strings = op.findSearch(helper.getWritableDatabase(),user.getUsername());
+        for (String s:strings){
+            suggestionList.add(new MySearchSuggest(s));
+        }
+        mSearchView.swapSuggestions(suggestionList);
+    }
+    private void addSearch(String s){
+        User user = (User)getApplication();
+        if(user.getUsername()!=null) {
+            SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
+            OperateOnSQLite op = new OperateOnSQLite();
+            op.insertSearch(helper.getWritableDatabase(),s,user.getUsername());
         }
     }
 }

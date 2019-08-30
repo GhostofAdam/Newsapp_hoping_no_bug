@@ -1,7 +1,13 @@
 package com.example.myapplication.Activity;
+import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.example.myapplication.Adapter.NewsListAdapter;
+import com.example.myapplication.Entity.MySearchSuggest;
 import com.example.myapplication.R;
+import com.example.myapplication.SQLite.OperateOnSQLite;
+import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Utilities.UrlRequest;
+import com.example.myapplication.Utilities.User;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,8 +20,10 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 
+import java.util.Vector;
+
 public class SearchActivity extends AppCompatActivity {
-    private SearchView mSearchView;
+    private FloatingSearchView mSearchView;
     private NewsListAdapter adapter;
     private RecyclerView recyclerView;
     private ImageButton back;
@@ -36,25 +44,50 @@ public class SearchActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        mSearchView = findViewById(R.id.searchView2);
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            // 当点击搜索按钮时触发该方法
+        mSearchView = findViewById(R.id.floating_search_view_2);
+        setSearchSuggestions();
+        mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                adapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",query,""),false);
-                return true;
+            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
+                if(searchSuggestion.getBody().equals(""))
+                    return;
+                adapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",searchSuggestion.getBody(),""),false);
+                setSearchSuggestions();
+                addSearch(searchSuggestion.getBody());
             }
 
-            // 当搜索内容改变时触发该方法
             @Override
-            public boolean onQueryTextChange(String newText) {
-                if (!TextUtils.isEmpty(newText)){
-
-                }else{
-
-                }
-                return false;
+            public void onSearchAction(String currentQuery) {
+                if(currentQuery.equals(""))
+                    return;
+                adapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",currentQuery,""),false);
+                setSearchSuggestions();
+                addSearch(currentQuery);
             }
         });
+
+    }
+    private void setSearchSuggestions(){
+        User user = (User)getApplication();
+        if(user.getUsername()==null){
+            return;
+        }
+        Vector<SearchSuggestion> suggestionList = new Vector<>();
+        SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
+        OperateOnSQLite op = new OperateOnSQLite();
+
+        Vector<String> strings = op.findSearch(helper.getWritableDatabase(),user.getUsername());
+        for (String s:strings){
+            suggestionList.add(new MySearchSuggest(s));
+        }
+        mSearchView.swapSuggestions(suggestionList);
+    }
+    private void addSearch(String s){
+        User user = (User)getApplication();
+        if(user.getUsername()!=null) {
+            SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
+            OperateOnSQLite op = new OperateOnSQLite();
+            op.insertSearch(helper.getWritableDatabase(),s,user.getUsername());
+        }
     }
 }
