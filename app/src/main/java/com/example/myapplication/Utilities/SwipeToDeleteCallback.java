@@ -3,10 +3,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.Adapter.DeletableNewsListAdapter;
+import com.example.myapplication.Adapter.NewsListAdapter;
 
 public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
-    private DeletableNewsListAdapter mAdapter;
-    public SwipeToDeleteCallback(DeletableNewsListAdapter adapter) {
+    private NewsListAdapter mAdapter;
+    public SwipeToDeleteCallback(NewsListAdapter adapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mAdapter = adapter;
     }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.example.myapplication.Adapter.NewsListAdapter;
 import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.Adapter.DeletableNewsListAdapter;
 import com.example.myapplication.R;
@@ -22,7 +23,7 @@ import java.util.Vector;
 
 
 public class HistoryActivity extends AppCompatActivity {
-    private DeletableNewsListAdapter mAdapter;
+    private NewsListAdapter mAdapter;
     private RecyclerView recyclerView;
     private ImageButton back;
     @Override
@@ -34,7 +35,25 @@ public class HistoryActivity extends AppCompatActivity {
         ArrayList<News> data = (ArrayList<News>)intent.getSerializableExtra("data");
         Vector<News> newslist = new Vector<News>();
         newslist.addAll(data);
-        mAdapter = new DeletableNewsListAdapter(newslist,this,null);
+        mAdapter = new NewsListAdapter(newslist,this,null);
+        mAdapter.setOnItemClickListener(new NewsListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(HistoryActivity.this, NewsDetailActivity.class);
+                intent.putExtra("news",mAdapter.Dataset.get(position));
+                startActivity(intent);
+            }
+        });
+        mAdapter.setOnItemLongClickListener(new NewsListAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View view, int position) {
+                Intent intent = new Intent(HistoryActivity.this, NewsDetailActivity.class);
+                intent.putExtra("news",mAdapter.Dataset.get(position));
+                startActivity(intent);
+            }
+        });
+        mAdapter.setNoImage();
+
         setUpRecyclerView();
         back = findViewById(R.id.history_back);
         back.setOnClickListener(new View.OnClickListener() {

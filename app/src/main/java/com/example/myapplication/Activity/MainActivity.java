@@ -13,6 +13,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Utilities.GetWeb;
+import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -44,6 +45,7 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.sql.DataSource;
 
@@ -196,8 +198,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this,CollectionsActivity.class);
             OperateOnSQLite op = new OperateOnSQLite();
             SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
-
-            intent.putExtra("data",op.allNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,user.getUsername()));
+            Vector<News> newsList = op.allNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,user.getUsername());
+            intent.putExtra("data",newsList);
             startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
             final User user = (User)getApplication();
@@ -209,7 +211,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this,HistoryActivity.class);
             OperateOnSQLite op = new OperateOnSQLite();
             SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
-            intent.putExtra("data",op.allNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,user.getUsername()));
+            Vector<News> newsList = op.allNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,user.getUsername());
+            intent.putExtra("data",newsList);
             startActivity(intent);
 
         }

@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.Spannable;
@@ -35,6 +36,7 @@ public class NewsListAdapter extends RecyclerView.Adapter{
     public Vector<News> Dataset = new Vector<News>();
     private Activity activity;
     private Fragment fragment;
+    private boolean no_image=false;
     public NewsListAdapter(int size){
         for(int i=0;i<size;i++){
             Dataset.add(new News());
@@ -115,9 +117,13 @@ public class NewsListAdapter extends RecyclerView.Adapter{
             textView = view.findViewById(R.id.video_news_label_title);
         }
     }
-
+    public void  setNoImage(){
+        no_image=true;
+    }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(no_image)
+            viewType = 2;
         switch (viewType) {
             case 0: {
                 View v = LayoutInflater.from(parent.getContext())
@@ -234,5 +240,10 @@ public class NewsListAdapter extends RecyclerView.Adapter{
     @Override
     public int getItemCount() {
         return Dataset.size();
+    }
+
+    public void deleteItem(int pos){
+        Dataset.remove(pos);
+        notifyDataSetChanged();
     }
 }
