@@ -1,5 +1,6 @@
 package com.example.myapplication.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,8 +14,11 @@ import android.widget.ImageButton;
 import com.example.myapplication.Adapter.DeletableNewsListAdapter;
 import com.example.myapplication.Adapter.NewsListAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.SQLite.OperateOnSQLite;
+import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.SwipeToDeleteCallback;
+import com.example.myapplication.Utilities.User;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -65,7 +69,27 @@ public class CollectionsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
         ItemTouchHelper itemTouchHelper = new
-                ItemTouchHelper(new SwipeToDeleteCallback(mAdapter));
+                ItemTouchHelper(new  ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT){
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
+                OperateOnSQLite op  = new OperateOnSQLite();
+                User user = (User)getApplication();
+                op.deleteNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,mAdapter.Dataset.get(position),user.getUsername());
+                mAdapter.deleteItem(position);
+            }
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+        });
+
+
+
+
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 

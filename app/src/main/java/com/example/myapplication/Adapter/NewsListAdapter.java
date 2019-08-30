@@ -26,7 +26,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.myapplication.Activity.MainActivity;
 import com.example.myapplication.R;
 
+import com.example.myapplication.SQLite.OperateOnSQLite;
+import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Utilities.News;
+import com.example.myapplication.Utilities.User;
 
 import java.net.URL;
 import java.util.ArrayList;
