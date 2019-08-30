@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity
     private Button channelTags;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        getApplicationContext().deleteDatabase("database.db");
         super.onCreate(savedInstanceState);
         isConnectIsNomarl();
         setContentView(R.layout.activity_main);

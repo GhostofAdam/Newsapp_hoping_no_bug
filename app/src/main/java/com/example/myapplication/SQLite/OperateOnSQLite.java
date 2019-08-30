@@ -20,6 +20,7 @@ public class OperateOnSQLite
     private ContentValues news2ContentValues(News news, String identity)
     {
         ContentValues contentValues = new ContentValues();
+        contentValues.put("sole", identity + news.getNewsID());
         contentValues.put("newsID", news.getNewsID());
         contentValues.put("title", news.getTitle());
         contentValues.put("content", news.getContent());
@@ -32,7 +33,7 @@ public class OperateOnSQLite
     /* delete news */
     public void deleteNews(SQLiteDatabase db, String tableName, News news, String identity)
     {
-        db.delete(tableName, "newsID=? and identity=?", new String[] {news.getNewsID(), identity});
+        db.delete(tableName, "sole=?", new String[] {identity + news.getNewsID()});
     }
 
     /* return all news in this identity */
@@ -56,7 +57,7 @@ public class OperateOnSQLite
 
     public boolean findNews(SQLiteDatabase db, String tableName, String newsID, String identity)
     {
-        Cursor cursor = db.query(tableName, null, "newsID=? and identity=?", new String[] {newsID, identity}, null, null, null);
+        Cursor cursor = db.query(tableName, null, "sole=?", new String[] {identity + newsID}, null, null, null);
         if(cursor.moveToNext())
         {
             cursor.close();
