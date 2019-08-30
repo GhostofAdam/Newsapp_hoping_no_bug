@@ -8,16 +8,17 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name="com.example.myapplication.Utilities.User" >
+        android:name="com.example.myapplication.Utilities.User"
         android:theme="@style/AppTheme">
 
         <activity android:name=".Activity.ChannelTagsActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".Activity.SignInorOutActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+        <activity android:name=".Activity.SignInorOutActivity"
             android:label="@string/title_activity_sign_inor_out"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity android:name=".Activity.NewsDetailActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
