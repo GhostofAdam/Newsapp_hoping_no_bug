@@ -84,7 +84,7 @@ public class OperateOnSQLite
     {
         Vector<String> words = new Vector<>();
         Cursor cursor = db.query(SQLiteDbHelper.TABLE_SEARCH, null, "identity=?", new String[] {identity}, null, null, "id desc");
-        if(cursor.moveToNext())
+        while(cursor.moveToNext())
         {
             words.add(cursor.getString(cursor.getColumnIndex("word")));
         }
