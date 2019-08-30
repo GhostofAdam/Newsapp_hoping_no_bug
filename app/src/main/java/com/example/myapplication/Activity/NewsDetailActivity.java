@@ -11,9 +11,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.SQLite.OperateOnSQLite;
+import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Utilities.News;
+import com.example.myapplication.Utilities.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
@@ -25,13 +29,14 @@ public class NewsDetailActivity extends AppCompatActivity {
     TextView titleView;
     TextView subtitleView;
     SparkButton collect;
+    News news;
     private ImageButton back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
         Intent intent= getIntent();
-        News news = (News) intent.getSerializableExtra("news");
+        news = (News) intent.getSerializableExtra("news");
         contentView = findViewById(R.id.news_content);
         contentView.setText(news.getContent());
         titleView = findViewById(R.id.news_title);
@@ -44,13 +49,35 @@ public class NewsDetailActivity extends AppCompatActivity {
         tp = subtitleView.getPaint();
         tp.setFakeBoldText(true);
         collect = findViewById(R.id.spark_button);
+
         collect.setEventListener(new SparkEventListener(){
             @Override
             public void onEvent(ImageView button, boolean buttonState) {
+                OperateOnSQLite op = new OperateOnSQLite();
+                SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
+                User user = (User)getApplication();
                 if (buttonState) {
                     // Button is active
+                    if(user.getUsername()==null){
+                        Toast.makeText(getApplicationContext(), "请登陆",
+                                Toast.LENGTH_SHORT).show();
+                        collect.setChecked(true);
+                        return;
+                    }
+                    op.insertNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION, news,user.getUsername());
+                    Toast.makeText(getApplicationContext(), "收藏成功",
+                            Toast.LENGTH_SHORT).show();
                 } else {
+                    if(user.getUsername()==null){
+                        Toast.makeText(getApplicationContext(), "请登陆",
+                                Toast.LENGTH_SHORT).show();
+                        collect.setChecked(true);
+                        return;
+                    }
+                    op.deleteNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION, news,user.getUsername());
                     // Button is inactive
+                    Toast.makeText(getApplicationContext(), "取消收藏",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
@@ -70,7 +97,15 @@ public class NewsDetailActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+
+        User user = (User)getApplication();
+        if(user.getUsername()!=null){
+            OperateOnSQLite op = new OperateOnSQLite();
+            SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
+            op.insertNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN, news,user.getUsername());
+        }
+       else
+           collect.setChecked(true);
+
     }
 }

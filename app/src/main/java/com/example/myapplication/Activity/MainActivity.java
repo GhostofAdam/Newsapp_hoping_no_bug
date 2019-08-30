@@ -38,6 +38,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.Menu;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -182,17 +183,28 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this,SignInorOutActivity.class);
             startActivityForResult(intent,0);
         } else if (id == R.id.nav_gallery) {
+            final User user = (User)getApplication();
+            if(user.getUsername()==null){
+                Toast.makeText(getApplicationContext(), "请登陆",
+                        Toast.LENGTH_SHORT).show();
+                return false;
+            }
             Intent intent = new Intent(this,CollectionsActivity.class);
             OperateOnSQLite op = new OperateOnSQLite();
             SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
-            final User user = (User)getApplication();
+
             intent.putExtra("data",op.allNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,user.getUsername()));
             startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
+            final User user = (User)getApplication();
+            if(user.getUsername()==null){
+                Toast.makeText(getApplicationContext(), "请登陆",
+                        Toast.LENGTH_SHORT).show();
+                return false;
+            }
             Intent intent = new Intent(this,HistoryActivity.class);
             OperateOnSQLite op = new OperateOnSQLite();
             SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
-            final User user = (User)getApplication();
             intent.putExtra("data",op.allNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,user.getUsername()));
             startActivity(intent);
 
