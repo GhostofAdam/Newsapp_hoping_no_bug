@@ -13,7 +13,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
     *  获取db，作为参数传入OperateOnSQLite类的函数中*/
     private static SQLiteDbHelper helper;
 
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 1;
     public static final String DB_NAME = "database.db";
     public static final String TABLE_ACCOUNT = "account";
     public static final String TABLE_COLLECTION = "collection";
@@ -26,7 +26,8 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
             + ");";
     private static final String COLLECTION_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
             + TABLE_COLLECTION + " ("
-            + "newsID TEXT PRIMARY KEY NOT NULL,"
+            + "sole TEXT PRIMARY KEY,"
+            + "newsID TEXT,"
             + "title TEXT,"
             + "content TEXT,"
             + "publisher TEXT,"
@@ -37,7 +38,8 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
 
     private static final String SEEN_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
             + TABLE_SEEN + " ("
-            + "newsID TEXT PRIMARY KEY NOT NULL,"
+            + "sole TEXT PRIMARY KEY,"
+            + "newsID TEXT,"
             + "title TEXT,"
             + "content TEXT,"
             + "publisher TEXT,"
@@ -78,7 +80,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
         db.execSQL(ACCOUNT_CREATE_TABLE_SQL);
         db.execSQL(COLLECTION_CREATE_TABLE_SQL);
         db.execSQL(SEEN_CREATE_TABLE_SQL);
-//        db.execSQL(SEARCH_CREATE_TABLE_SQL);
+        db.execSQL(SEARCH_CREATE_TABLE_SQL);
     }
     @Override
     public void onOpen(SQLiteDatabase db)
@@ -92,10 +94,6 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        if(oldVersion == 1)
-        {
-            db.execSQL(SEARCH_CREATE_TABLE_SQL);
-        }
     }
 }
 
