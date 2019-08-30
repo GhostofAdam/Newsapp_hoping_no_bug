@@ -60,6 +60,8 @@ import java.util.Vector;
 
 import javax.sql.DataSource;
 
+import redis.clients.jedis.Jedis;
+
 import static cn.bingoogolapple.badgeview.BGAExplosionAnimator.ANIM_DURATION;
 
 public class MainActivity extends AppCompatActivity
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity
     private View mDimSearchViewBackground;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        getApplicationContext().deleteDatabase("database.db");
+//        Jedis jedis = new Jedis();
         super.onCreate(savedInstanceState);
         isConnectIsNomarl();
         setContentView(R.layout.activity_main);
