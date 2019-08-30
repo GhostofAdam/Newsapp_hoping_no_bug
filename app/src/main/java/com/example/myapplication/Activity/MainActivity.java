@@ -1,9 +1,16 @@
 package com.example.myapplication.Activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
@@ -53,6 +60,8 @@ import java.util.Vector;
 
 import javax.sql.DataSource;
 
+import static cn.bingoogolapple.badgeview.BGAExplosionAnimator.ANIM_DURATION;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Toolbar toolbar;
@@ -65,6 +74,9 @@ public class MainActivity extends AppCompatActivity
     private TabLayout tabs;
     private FloatingSearchView mSearchView;
     private Button channelTags;
+    private String mLastQuery="";
+    private ColorDrawable mDimDrawable;
+    private View mDimSearchViewBackground;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,41 +117,12 @@ public class MainActivity extends AppCompatActivity
                     startActivityForResult(intent,0);
             }
         }});
+        mDimSearchViewBackground = findViewById(R.id.dim_background);
         mSearchView = findViewById(R.id.floating_search_view);
 
-
+        setmSearchView();
         setSearchSuggestions();
-        mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
-            @Override
-            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
-                if(searchSuggestion.getBody().equals(""))
-                    return;
-                Intent intent = new Intent(MainActivity.this,SearchActivity.class);
-                intent.putExtra("data",searchSuggestion.getBody());
-                addSearch(searchSuggestion.getBody());
-                startActivity(intent);
-            }
 
-            @Override
-            public void onSearchAction(String currentQuery) {
-                if(currentQuery.equals(""))
-                    return;
-                Intent intent = new Intent(MainActivity.this,SearchActivity.class);
-                intent.putExtra("data",currentQuery);
-                addSearch(currentQuery);
-                startActivity(intent);
-            }
-        });
-        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-            @Override
-            public void onSearchTextChanged(String oldQuery, final String newQuery) {
-                if (!oldQuery.equals("") && newQuery.equals("")) {
-                    mSearchView.clearSuggestions();
-                } else {
-
-                    mSearchView.showProgress();
-            }
-        }});
     }
 
     @Override
@@ -270,5 +253,91 @@ public class MainActivity extends AppCompatActivity
             OperateOnSQLite op = new OperateOnSQLite();
             op.insertSearch(helper.getWritableDatabase(),s,user.getUsername());
         }
+    }
+    private void setmSearchView(){
+        mDimDrawable = new ColorDrawable(Color.BLACK);
+        mDimDrawable.setAlpha(0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mDimSearchViewBackground.setBackground(mDimDrawable);
+        }else {
+            mDimSearchViewBackground.setBackgroundDrawable(mDimDrawable);
+        }
+
+        mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
+            @Override
+            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
+                if(searchSuggestion.getBody().equals(""))
+                    return;
+                Intent intent = new Intent(MainActivity.this,SearchActivity.class);
+                intent.putExtra("data",searchSuggestion.getBody());
+                addSearch(searchSuggestion.getBody());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onSearchAction(String currentQuery) {
+                if(currentQuery.equals(""))
+                    return;
+                Intent intent = new Intent(MainActivity.this,SearchActivity.class);
+                intent.putExtra("data",currentQuery);
+                addSearch(currentQuery);
+                startActivity(intent);
+            }
+        });
+        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, final String newQuery) {
+
+            }
+        });
+        mSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
+            @Override
+            public void onFocus() {
+                int headerHeight = getResources().getDimensionPixelOffset(R.dimen.sliding_search_view_header_height);
+                ObjectAnimator anim = ObjectAnimator.ofFloat(mSearchView, "translationY",
+                        headerHeight, 0);
+                anim.setDuration(350);
+                fadeDimBackground(0, 150, null);
+                anim.addListener(new AnimatorListenerAdapter() {
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        //show suggestions when search bar gains focus (typically history suggestions)
+                        setSearchSuggestions();
+                    }
+                });
+                anim.start();
+            }
+
+            @Override
+            public void onFocusCleared() {
+                int headerHeight = getResources().getDimensionPixelOffset(R.dimen.sliding_search_view_header_height);
+                ObjectAnimator anim = ObjectAnimator.ofFloat(mSearchView, "translationY",
+                        0, headerHeight);
+                anim.setDuration(350);
+                anim.start();
+                fadeDimBackground(150, 0, null);
+                //set the title of the bar so that when focus is returned a new query begins
+                mSearchView.setSearchBarTitle(mLastQuery);
+                //you can also set setSearchText(...) to make keep the query there when not focused and when focus returns
+                //mSearchView.setSearchText(searchSuggestion.getBody());
+            }
+        });
+    }
+    private void fadeDimBackground(int from, int to, Animator.AnimatorListener listener) {
+        ValueAnimator anim = ValueAnimator.ofInt(from, to);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+
+                int value = (Integer) animation.getAnimatedValue();
+                mDimDrawable.setAlpha(value);
+            }
+        });
+        if(listener != null) {
+            anim.addListener(listener);
+        }
+        anim.setDuration(ANIM_DURATION);
+        anim.start();
     }
 }

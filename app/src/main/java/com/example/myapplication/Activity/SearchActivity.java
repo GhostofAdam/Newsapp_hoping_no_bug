@@ -9,11 +9,19 @@ import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Utilities.UrlRequest;
 import com.example.myapplication.Utilities.User;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,11 +30,15 @@ import android.widget.SearchView;
 
 import java.util.Vector;
 
+import static cn.bingoogolapple.badgeview.BGAExplosionAnimator.ANIM_DURATION;
+
 public class SearchActivity extends AppCompatActivity {
     private FloatingSearchView mSearchView;
     private NewsListAdapter adapter;
     private RecyclerView recyclerView;
-    private ImageButton back;
+    private String mLastQuery="";
+    private ColorDrawable mDimDrawable;
+    private View mDimSearchViewBackground;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,54 +49,11 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",query,""),this,null);
         recyclerView.setAdapter(adapter);
-        back = findViewById(R.id.search_back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+
         mSearchView = findViewById(R.id.floating_search_view_2);
+        mDimSearchViewBackground = findViewById(R.id.dim_background_2);
+        setmSearchView();
         setSearchSuggestions();
-        mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
-            @Override
-            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
-                if(searchSuggestion.getBody().equals(""))
-                    return;
-                adapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",searchSuggestion.getBody(),""),false);
-                setSearchSuggestions();
-                addSearch(searchSuggestion.getBody());
-            }
-
-            @Override
-            public void onSearchAction(String currentQuery) {
-                if(currentQuery.equals(""))
-                    return;
-                adapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",currentQuery,""),false);
-                setSearchSuggestions();
-                addSearch(currentQuery);
-            }
-        });
-        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-
-            @Override
-            public void onSearchTextChanged(String oldQuery, final String newQuery) {
-
-                if (!oldQuery.equals("") && newQuery.equals("")) {
-                    mSearchView.clearSuggestions();
-                } else {
-
-                    //this shows the top left circular progress
-                    //you can call it where ever you want, but
-                    //it makes sense to do it when loading something in
-                    //the background.
-                    mSearchView.showProgress();
-
-                    //simulates a query call to a data source
-                    //with a new query.
-            }
-        }});
-
     }
 
     private void setSearchSuggestions(){
@@ -109,5 +78,101 @@ public class SearchActivity extends AppCompatActivity {
             OperateOnSQLite op = new OperateOnSQLite();
             op.insertSearch(helper.getWritableDatabase(),s,user.getUsername());
         }
+    }
+    private void setmSearchView(){
+        mDimDrawable = new ColorDrawable(Color.BLACK);
+        mDimDrawable.setAlpha(0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mDimSearchViewBackground.setBackground(mDimDrawable);
+        }else {
+            mDimSearchViewBackground.setBackgroundDrawable(mDimDrawable);
+        }
+        mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
+            @Override
+            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
+                if(searchSuggestion.getBody().equals(""))
+                    return;
+                mLastQuery = searchSuggestion.getBody();
+                adapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",searchSuggestion.getBody(),""),false);
+                setSearchSuggestions();
+                addSearch(searchSuggestion.getBody());
+            }
+
+            @Override
+            public void onSearchAction(String currentQuery) {
+                if(currentQuery.equals(""))
+                    return;
+                mLastQuery = currentQuery;
+                adapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",currentQuery,""),false);
+                setSearchSuggestions();
+                addSearch(currentQuery);
+            }
+        });
+
+
+        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+
+            @Override
+            public void onSearchTextChanged(String oldQuery, final String newQuery) {
+
+            }
+        });
+        mSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
+            @Override
+            public void onFocus() {
+                int headerHeight = getResources().getDimensionPixelOffset(R.dimen.sliding_search_view_header_height);
+                ObjectAnimator anim = ObjectAnimator.ofFloat(mSearchView, "translationY",
+                        headerHeight, 0);
+                anim.setDuration(350);
+                fadeDimBackground(0, 150, null);
+                anim.addListener(new AnimatorListenerAdapter() {
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        //show suggestions when search bar gains focus (typically history suggestions)
+                        setSearchSuggestions();
+                    }
+                });
+                anim.start();
+            }
+
+            @Override
+            public void onFocusCleared() {
+                int headerHeight = getResources().getDimensionPixelOffset(R.dimen.sliding_search_view_header_height);
+                ObjectAnimator anim = ObjectAnimator.ofFloat(mSearchView, "translationY",
+                        0, headerHeight);
+                anim.setDuration(350);
+                anim.start();
+                fadeDimBackground(150, 0, null);
+                //set the title of the bar so that when focus is returned a new query begins
+                mSearchView.setSearchBarTitle(mLastQuery);
+                //you can also set setSearchText(...) to make keep the query there when not focused and when focus returns
+                //mSearchView.setSearchText(searchSuggestion.getBody());
+            }
+        });
+        mSearchView.setOnHomeActionClickListener(new FloatingSearchView.OnHomeActionClickListener() {
+            @Override
+            public void onHomeClicked() {
+                onBackPressed();
+            }
+        });
+    }
+
+
+    private void fadeDimBackground(int from, int to, Animator.AnimatorListener listener) {
+        ValueAnimator anim = ValueAnimator.ofInt(from, to);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+
+                int value = (Integer) animation.getAnimatedValue();
+                mDimDrawable.setAlpha(value);
+            }
+        });
+        if(listener != null) {
+            anim.addListener(listener);
+        }
+        anim.setDuration(ANIM_DURATION);
+        anim.start();
     }
 }
