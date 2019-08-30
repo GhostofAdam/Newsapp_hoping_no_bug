@@ -21,6 +21,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.myapplication.Activity.MainActivity;
 import com.example.myapplication.R;
 
@@ -177,15 +178,16 @@ public class NewsListAdapter extends RecyclerView.Adapter{
         }
         else if(holder instanceof ThreeImageHolder){
             ThreeImageHolder vh = (ThreeImageHolder)holder;
+            ArrayList<String>urls=Dataset.get(position).getImageUrl();
             if(activity==null) {
-                Glide.with(fragment).load(Dataset.get(position).getImageUrl().get(0)).into(vh.imageView_1);
-                Glide.with(fragment).load(Dataset.get(position).getImageUrl().get(1)).into(vh.imageView_2);
-                Glide.with(fragment).load(Dataset.get(position).getImageUrl().get(2)).into(vh.imageView_3);
+                Glide.with(fragment).load(urls.get(0)).skipMemoryCache(true).into(vh.imageView_1);
+                Glide.with(fragment).load(urls.get(1)).skipMemoryCache(true).into(vh.imageView_2);
+                Glide.with(fragment).load(urls.get(2)).skipMemoryCache(true).into(vh.imageView_3);
             }
             else{
-                Glide.with(activity).load(Dataset.get(position).getImageUrl().get(0)).into(vh.imageView_1);
-                Glide.with(activity).load(Dataset.get(position).getImageUrl().get(1)).into(vh.imageView_2);
-                Glide.with(activity).load(Dataset.get(position).getImageUrl().get(2)).into(vh.imageView_3);
+                Glide.with(activity).load(urls.get(0)).skipMemoryCache(true).into(vh.imageView_1);
+                Glide.with(activity).load(urls.get(1)).skipMemoryCache(true).into(vh.imageView_2);
+                Glide.with(activity).load(urls.get(2)).skipMemoryCache(true).into(vh.imageView_3);
             }
             vh.textView.setText(Dataset.get(position).getTitle());
         }

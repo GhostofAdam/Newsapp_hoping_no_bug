@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.myapplication.Adapter.SectionAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
@@ -19,6 +21,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.SearchView;
 
@@ -41,6 +44,8 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import javax.sql.DataSource;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -69,7 +74,7 @@ public class MainActivity extends AppCompatActivity
 //                        .setAction("Action", null).show();
 //            }
 //        });
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toggle = new ActionBarDrawerToggle(
@@ -117,7 +122,6 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
-
     }
 
     @Override
