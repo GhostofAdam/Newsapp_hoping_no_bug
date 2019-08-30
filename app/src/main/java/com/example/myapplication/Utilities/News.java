@@ -36,7 +36,7 @@ public class News implements Serializable
     public ArrayList<String> getImageUrl() {
         if(image==null)
             return null;
-        String[] strings = image.split("\\[|\\]|,");
+        String[] strings = image.split("\\[|\\]|,| ");
         ArrayList<String> list = new  ArrayList<String>();
         for(int i=0;i<strings.length;i++){
             if(strings[i].length()>3)

@@ -23,6 +23,7 @@ import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
 
 import java.awt.font.TextAttribute;
+import java.util.ArrayList;
 
 public class NewsDetailActivity extends AppCompatActivity {
     TextView contentView;
@@ -37,6 +38,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_news_detail);
         Intent intent= getIntent();
         news = (News) intent.getSerializableExtra("news");
+        ArrayList<String>urls = news.getImageUrl();
         contentView = findViewById(R.id.news_content);
         contentView.setText(news.getContent());
         titleView = findViewById(R.id.news_title);
