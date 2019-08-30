@@ -78,7 +78,16 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
                 String[] strings = new String[2];
                 strings[0] = uesrname.getText().toString();
                 strings[1] = password.getText().toString();
-
+                if(!op.isAccount(help.getWritableDatabase(),strings[0])){
+                    Toast.makeText(getApplicationContext(), "用户名不存在",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(op.isRightPassword(help.getWritableDatabase(),strings[0],strings[1])){
+                    Toast.makeText(getApplicationContext(), "密码错误",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent();
 
                 intent.putExtra("result",strings);
@@ -93,13 +102,16 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
                 if(isSigninScreen)
                     btnSignup.startAnimation(clockwise);
                 OperateOnSQLite op = new OperateOnSQLite();
+                String[] strings = new String[2];
+                strings[0] = uesrname.getText().toString();
+                strings[1] = password.getText().toString();
                 SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
-                if(op.isAccount(help.getWritableDatabase(),uesrname.getText().toString())){
+                if(op.isAccount(help.getWritableDatabase(),strings[0])){
                     Toast.makeText(getApplicationContext(), "用户名已存在",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                op.insertAccount(help.getWritableDatabase(),uesrname.getText().toString(),password.getText().toString());
+                op.insertAccount(help.getWritableDatabase(),strings[0],strings[1]);
                 Toast.makeText(getApplicationContext(), "注册成功",
                         Toast.LENGTH_SHORT).show();
             }

@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import com.example.myapplication.Adapter.SectionAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.SQLite.OperateOnSQLite;
+import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Utilities.GetWeb;
 import com.example.myapplication.Utilities.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -181,6 +183,10 @@ public class MainActivity extends AppCompatActivity
             startActivityForResult(intent,0);
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent(this,CollectionsActivity.class);
+            OperateOnSQLite op = new OperateOnSQLite();
+            SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
+            final User user = (User)getApplication();
+            intent.putExtra("data",op.allNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,user.getUsername()));
             startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
             Intent intent = new Intent(this,HistoryActivity.class);
