@@ -77,7 +77,8 @@ public class OperateOnSQLite
         }
         cursor.close();
         ContentValues values = new ContentValues();
-        values.put(identity, password);
+        values.put("identity", identity);
+        values.put("password", password);
         db.insert(SQLiteDbHelper.TABLE_ACCOUNT, null, values);
         return true;
     }

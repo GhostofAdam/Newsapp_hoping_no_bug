@@ -88,7 +88,7 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                else if(op.isRightPassword(help.getWritableDatabase(),strings[0],strings[1])){
+                else if(!op.isRightPassword(help.getWritableDatabase(),strings[0],strings[1])){
                     Toast.makeText(getApplicationContext(), "密码错误",
                             Toast.LENGTH_SHORT).show();
                     return;
