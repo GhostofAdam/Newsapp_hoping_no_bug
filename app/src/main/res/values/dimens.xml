@@ -14,4 +14,5 @@
     <dimen name="larger_margin_text_size">20sp</dimen>
     <dimen name="channel_item_txsize">15sp</dimen>
     <dimen name="search_view_inset">0sp</dimen>
+    <dimen name="sliding_search_view_header_height">10sp</dimen>
 </resources>
