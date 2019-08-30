@@ -38,7 +38,7 @@ public class OperateOnSQLite
     /* return all news in this identity */
     public Vector<News> allNews(SQLiteDatabase db, String tableName, String identity)
     {
-        Vector<News> newsList = new Vector<> ();
+        Vector<News> newsList = new Vector<>();
         News news = new News();
         Cursor cursor = db.query(tableName, null, "identity=?", new String[] {identity}, null, null, null);
         while(cursor.moveToNext())
@@ -64,6 +64,30 @@ public class OperateOnSQLite
         }
         cursor.close();
         return false;
+    }
+
+    public void insertSearch(SQLiteDatabase db, String word, String identity)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("word", word);
+        contentValues.put("identity", identity);
+        db.insert(SQLiteDbHelper.TABLE_SEARCH, null, contentValues);
+    }
+
+    public void deleteSearch(SQLiteDatabase db, String word, String identity)
+    {
+        db.delete(SQLiteDbHelper.TABLE_SEARCH, "word=? and identity=?", new String[] {word, identity});
+    }
+
+    public Vector<String> findSearch(SQLiteDatabase db, String identity)
+    {
+        Vector<String> words = new Vector<>();
+        Cursor cursor = db.query(SQLiteDbHelper.TABLE_SEARCH, null, "identity=?", new String[] {identity}, null, null, "id desc");
+        if(cursor.moveToNext())
+        {
+            words.add(cursor.getString(cursor.getColumnIndex("word")));
+        }
+        return words;
     }
 
     /* insert new account, return true if succeed, false if identity has existed */

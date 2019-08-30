@@ -18,6 +18,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
     public static final String TABLE_ACCOUNT = "account";
     public static final String TABLE_COLLECTION = "collection";
     public static final String TABLE_SEEN = "seen";
+    public static final String TABLE_SEARCH = "search";
     private static final String ACCOUNT_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
             + TABLE_ACCOUNT + " ("
             + "identity TEXT PRIMARY KEY NOT NULL,"
@@ -41,6 +42,14 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
             + "content TEXT,"
             + "publisher TEXT,"
             + "publishTime TEXT,"
+            + "identity TEXT,"
+            + "FOREIGN KEY(identity) REFERENCES account(identity) ON DELETE CASCADE ON UPDATE CASCADE"
+            + ");";
+
+    private static final String SEARCH_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
+            + TABLE_SEARCH + " ("
+            + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "word TEXT NOT NULL,"
             + "identity TEXT,"
             + "FOREIGN KEY(identity) REFERENCES account(identity) ON DELETE CASCADE ON UPDATE CASCADE"
             + ");";
@@ -69,6 +78,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
         db.execSQL(ACCOUNT_CREATE_TABLE_SQL);
         db.execSQL(COLLECTION_CREATE_TABLE_SQL);
         db.execSQL(SEEN_CREATE_TABLE_SQL);
+        db.execSQL(SEARCH_CREATE_TABLE_SQL);
     }
     @Override
     public void onOpen(SQLiteDatabase db)
