@@ -133,11 +133,13 @@ public class MainActivity extends AppCompatActivity
         mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
             public void onSearchTextChanged(String oldQuery, final String newQuery) {
-                //get suggestions based on newQuery
-                //pass them on to the search view
-                //mSearchView.swapSuggestions(newSuggestions);
+                if (!oldQuery.equals("") && newQuery.equals("")) {
+                    mSearchView.clearSuggestions();
+                } else {
+
+                    mSearchView.showProgress();
             }
-        });
+        }});
     }
 
     @Override

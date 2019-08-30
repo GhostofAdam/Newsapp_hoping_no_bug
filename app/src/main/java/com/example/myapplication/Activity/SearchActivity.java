@@ -65,8 +65,28 @@ public class SearchActivity extends AppCompatActivity {
                 addSearch(currentQuery);
             }
         });
+        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+
+            @Override
+            public void onSearchTextChanged(String oldQuery, final String newQuery) {
+
+                if (!oldQuery.equals("") && newQuery.equals("")) {
+                    mSearchView.clearSuggestions();
+                } else {
+
+                    //this shows the top left circular progress
+                    //you can call it where ever you want, but
+                    //it makes sense to do it when loading something in
+                    //the background.
+                    mSearchView.showProgress();
+
+                    //simulates a query call to a data source
+                    //with a new query.
+            }
+        }});
 
     }
+
     private void setSearchSuggestions(){
         User user = (User)getApplication();
         if(user.getUsername()==null){
