@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.example.myapplication.Adapter.SectionAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.Utilities.GetWeb;
+import com.example.myapplication.Utilities.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -50,8 +51,6 @@ public class MainActivity extends AppCompatActivity
     private TabLayout tabs;
     private SearchView mSearchView;
     private Button channelTags;
-    private String username;
-    private String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,8 +129,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 2:
                 String []strings = data.getStringArrayExtra("result");
-                username = strings[0];
-                password = strings[1];
+                final User user = (User)getApplication();
+                user.setUsername(strings[0]);
+                user.setPassword(strings[1]);
                 default:
                     break;
         }

@@ -6,25 +6,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.SearchActivity">
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/search_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         android:theme="@style/AppTheme.AppBarOverlay">
-            <SearchView
-                android:id="@+id/searchView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:iconifiedByDefault="false"
-                android:queryHint="For Search"
-                app:layout_constraintBottom_toBottomOf="@+id/tabs"
-                app:layout_constraintBottom_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/search_back"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="left"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_back" />
+
+        <SearchView
+            android:id="@+id/searchView2"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:iconifiedByDefault="false"
+            android:queryHint="For Search" />
+        </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
 
     </androidx.recyclerview.widget.RecyclerView>

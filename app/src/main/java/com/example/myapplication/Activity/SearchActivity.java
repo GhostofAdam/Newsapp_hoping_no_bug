@@ -10,12 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 
 public class SearchActivity extends AppCompatActivity {
     private SearchView mSearchView;
     private NewsListAdapter adapter;
     private RecyclerView recyclerView;
+    private ImageButton back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +29,13 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",query,""),this,null);
         recyclerView.setAdapter(adapter);
+        back = findViewById(R.id.search_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         mSearchView = findViewById(R.id.searchView2);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             // 当点击搜索按钮时触发该方法

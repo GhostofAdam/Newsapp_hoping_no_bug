@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.myapplication.R;
 import com.zhl.channeltagview.bean.ChannelItem;
@@ -23,6 +24,7 @@ public class ChannelTagsActivity extends AppCompatActivity {
     private ArrayList<ChannelItem> unAddedChannels = new ArrayList<>();
     private ArrayList<GroupItem> unAddedItems = new ArrayList<>();
     private Button confirm;
+    private ImageButton back;
     private int requestCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,13 @@ public class ChannelTagsActivity extends AppCompatActivity {
                     setResult(1,intent);
                     finish();
             }});
+        back = findViewById(R.id.channel_tag_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         Intent intent = getIntent();
         ArrayList<String> added = (ArrayList<String>) intent.getSerializableExtra("data");
         initData(added);

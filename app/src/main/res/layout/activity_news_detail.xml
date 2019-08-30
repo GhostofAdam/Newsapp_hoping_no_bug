@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,21 +20,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+                <ImageButton
+                    android:id="@+id/news_back"
+                    android:layout_width="?attr/actionBarSize"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:src="@drawable/ic_back"
+                    android:background="@android:color/transparent"
+                    />
+                <com.varunest.sparkbutton.SparkButton
+                    android:id="@+id/spark_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="right"
+                    app:sparkbutton_activeImage="@drawable/ic_star_on"
+                    app:sparkbutton_inActiveImage="@drawable/ic_star_off"
+                    app:sparkbutton_iconSize="40dp"
+                    app:sparkbutton_primaryColor="@color/green"
+                    app:sparkbutton_secondaryColor="@color/darkgreen" />
+            </androidx.appcompat.widget.Toolbar>
 
-        <com.varunest.sparkbutton.SparkButton
-            android:id="@+id/spark_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="end"
-            app:sparkbutton_activeImage="@drawable/ic_star_on"
-            app:sparkbutton_inActiveImage="@drawable/ic_star_off"
-            app:sparkbutton_iconSize="40dp"
-            app:sparkbutton_primaryColor="@color/green"
-            app:sparkbutton_secondaryColor="@color/darkgreen" />
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/news_content" />
+    <include layout="@layout/news_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

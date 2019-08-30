@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.percentlayout.widget.PercentLayoutHelper;
@@ -72,10 +73,14 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
+                OperateOnSQLite op = new OperateOnSQLite();
+                SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
                 String[] strings = new String[2];
                 strings[0] = uesrname.getText().toString();
                 strings[1] = password.getText().toString();
+
+                Intent intent = new Intent();
+
                 intent.putExtra("result",strings);
                 setResult(2,intent);
                 finish();
@@ -89,7 +94,14 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
                     btnSignup.startAnimation(clockwise);
                 OperateOnSQLite op = new OperateOnSQLite();
                 SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
+                if(op.isAccount(help.getWritableDatabase(),uesrname.getText().toString())){
+                    Toast.makeText(getApplicationContext(), "用户名已存在",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 op.insertAccount(help.getWritableDatabase(),uesrname.getText().toString(),password.getText().toString());
+                Toast.makeText(getApplicationContext(), "注册成功",
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
