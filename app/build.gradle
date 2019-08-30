@@ -40,4 +40,7 @@ dependencies {
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
     implementation files('libs/jedis-3.1.0.jar')
     implementation 'commons-pool:commons-pool:1.6'
+    api 'com.github.open-android:JieCaoVideoPlayer:0.1.0'
+    api 'com.youth.banner:banner:1.4.10'
+    api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }

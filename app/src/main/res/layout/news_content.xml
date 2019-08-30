@@ -15,37 +15,24 @@
             android:id="@+id/news_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/main_text_size"
             android:layout_margin="@dimen/text_margin"
             />
         <TextView
             android:id="@+id/news_sub_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/margin_text_size"
             android:layout_margin="@dimen/text_margin"
             />
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/imageAbout"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="parent"
-            android:flipInterval="30"
-            android:persistentDrawingCache="animation" />
-        <LinearLayout
-            android:id="@+id/lineLayout_dot"
-            android:layout_weight="2"
-            android:gravity="center|right"
-            android:layout_marginRight="5dp"
-            android:paddingLeft="3dp"
-            android:paddingRight="3dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="parent"
-            android:layout_width="0dp" android:layout_height="match_parent">
-        </LinearLayout>
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
 
     <TextView
         android:id="@+id/news_content"
+        android:paddingTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"

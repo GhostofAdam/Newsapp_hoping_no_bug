@@ -30,10 +30,14 @@ import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.User;
+import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Vector;
+
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 public class NewsListAdapter extends RecyclerView.Adapter{
     public Vector<News> Dataset = new Vector<News>();
@@ -111,13 +115,11 @@ public class NewsListAdapter extends RecyclerView.Adapter{
         }
     }
     class VideoHolder extends RecyclerView.ViewHolder{
-        VideoView videoView;
-        TextView textView;
+        JCVideoPlayerStandard jcVideoPlayer;
         public VideoHolder(View view){
             super(view);
             view = (LinearLayout)view;
-            videoView = view.findViewById(R.id.video_news_label_video);
-            textView = view.findViewById(R.id.video_news_label_title);
+            jcVideoPlayer = view.findViewById(R.id.videoplayer);
         }
     }
     public void  setNoImage(){
@@ -127,6 +129,8 @@ public class NewsListAdapter extends RecyclerView.Adapter{
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(no_image)
             viewType = 2;
+        if(viewType==2)
+            viewType=3;
         switch (viewType) {
             case 0: {
                 View v = LayoutInflater.from(parent.getContext())
@@ -203,19 +207,14 @@ public class NewsListAdapter extends RecyclerView.Adapter{
         else if(holder instanceof NoImageHolder) {
             NoImageHolder vh = (NoImageHolder) holder;
             vh.subtitleView.setText(Dataset.get(position).getPublisher()+" "+Dataset.get(position).getPublishTime());
-            vh.titleView.setText(Dataset.get(position).getTitle());
         }
         else if(holder instanceof VideoHolder){
             VideoHolder vh = (VideoHolder)holder;
-            vh.videoView.setVideoURI(Uri.parse("https://www.w3schools.com/html/movie.mp4"));
-            MediaController mediaController;
-            if(fragment!=null)
-                mediaController = new MediaController(fragment.getContext());
-            else
-                mediaController = new MediaController(activity);
-            vh.videoView.setMediaController(mediaController);
-            vh.videoView.start();
-            vh.textView.setText(Dataset.get(position).getTitle());
+            //vh.videoView.setVideoURI(Uri.parse("https://www.w3schools.com/html/movie.mp4"));
+            vh.jcVideoPlayer.setUp("https://www.w3schools.com/html/movie.mp4", JCVideoPlayer.SCREEN_LAYOUT_LIST,Dataset.get(position).getTitle());
+//            Picasso.with(fragment)
+//                    .load(VideoConstant.videoThumbs[pager][position])
+//                    .into(viewHolder.jcVideoPlayer.thumbImageView);
         }
         else{
 
