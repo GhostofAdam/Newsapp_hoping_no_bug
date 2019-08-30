@@ -32,6 +32,8 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
     private Button btnSignin;
     private TextInputEditText uesrname;
     private TextInputEditText password;
+    private TextInputEditText sign_up_uesrname;
+    private TextInputEditText sign_up_password;
     LinearLayout llsignin,llsignup;
 
     @Override
@@ -54,6 +56,9 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
         llSignin = (LinearLayout) findViewById(R.id.llSignin);
         uesrname = (TextInputEditText) findViewById(R.id.username);
         password = (TextInputEditText) findViewById(R.id.password);
+        sign_up_uesrname = (TextInputEditText) findViewById(R.id.sign_up_username);
+        sign_up_password = (TextInputEditText) findViewById(R.id.sign_up_password);
+
         tvSignupInvoker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,8 +108,8 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
                     btnSignup.startAnimation(clockwise);
                 OperateOnSQLite op = new OperateOnSQLite();
                 String[] strings = new String[2];
-                strings[0] = uesrname.getText().toString();
-                strings[1] = password.getText().toString();
+                strings[0] = sign_up_uesrname.getText().toString();
+                strings[1] = sign_up_password.getText().toString();
                 SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
                 if(op.isAccount(help.getWritableDatabase(),strings[0])){
                     Toast.makeText(getApplicationContext(), "用户名已存在",

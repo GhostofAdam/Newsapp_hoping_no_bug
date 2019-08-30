@@ -190,6 +190,10 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
             Intent intent = new Intent(this,HistoryActivity.class);
+            OperateOnSQLite op = new OperateOnSQLite();
+            SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
+            final User user = (User)getApplication();
+            intent.putExtra("data",op.allNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,user.getUsername()));
             startActivity(intent);
 
         }
