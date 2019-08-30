@@ -3,8 +3,8 @@ package com.example.myapplication.Utilities;
 import android.app.Application;
 
 public class User extends Application {
-    private  String username;
-    private  String password;
+    private  String username=null;
+    private  String password=null;
     public  void setUsername(String s){
         username = s;
     }
