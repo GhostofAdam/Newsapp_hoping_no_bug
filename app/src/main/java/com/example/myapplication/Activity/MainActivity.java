@@ -34,9 +34,13 @@ import android.view.View;
 
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SearchView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -44,14 +48,17 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -66,19 +73,19 @@ import static cn.bingoogolapple.badgeview.BGAExplosionAnimator.ANIM_DURATION;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private Toolbar toolbar;
-    private FloatingActionButton fab;
+
     private DrawerLayout drawer;
     private NavigationView navigationView;
-    private ActionBarDrawerToggle toggle;
+
     private SectionAdapter sectionAdapter;
     private ViewPager viewPager;
-    private TabLayout tabs;
+    private SmartTabLayout tabs;
     private FloatingSearchView mSearchView;
-    private Button channelTags;
+    private ImageButton channelTags;
     private String mLastQuery="";
     private ColorDrawable mDimDrawable;
     private View mDimSearchViewBackground;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        Jedis jedis = new Jedis();
@@ -95,20 +102,32 @@ public class MainActivity extends AppCompatActivity
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(2).setEnabled(false);
+        navigationView.getHeaderView(0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                User user = (User)getApplication();
+                if(user.getUsername()==null) {
+                    Intent intent = new Intent(MainActivity.this, SignInorOutActivity.class);
+                    startActivityForResult(intent, 0);
+                }
+            }
+        });
 //        toggle = new ActionBarDrawerToggle(
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 //        drawer.addDrawerListener(toggle);
 //        toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        sectionAdapter = new SectionAdapter(this,getSupportFragmentManager());
+        sectionAdapter = new SectionAdapter(this,getSupportFragmentManager(),getResources().getStringArray(R.array.chanles));
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionAdapter);
         tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
+        tabs.setViewPager(viewPager);
         channelTags = findViewById(R.id.tab_button);
         channelTags.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,12 +157,19 @@ public class MainActivity extends AppCompatActivity
             case 1:
                 ArrayList<String> titles = data.getStringArrayListExtra("result");
                 this.sectionAdapter.refreshTabPage(titles);
+                tabs.setViewPager(viewPager);
+
                 break;
             case 2:
                 String []strings = data.getStringArrayExtra("result");
                 final User user = (User)getApplication();
                 user.setUsername(strings[0]);
                 user.setPassword(strings[1]);
+                //TextView textView=(TextView)navigationView.getHeaderView(1);
+                View headView = navigationView.getHeaderView(0);
+                TextView textView = headView.findViewById(R.id.user_name_show);
+                textView.setText(user.getUsername());
+                navigationView.getMenu().getItem(2).setEnabled(true);
                 default:
                     break;
         }
@@ -187,11 +213,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-            // Handle the camera action
-            Intent intent = new Intent(this,SignInorOutActivity.class);
-            startActivityForResult(intent,0);
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_gallery) {
             final User user = (User)getApplication();
             if(user.getUsername()==null){
                 Toast.makeText(getApplicationContext(), "请登陆",
@@ -199,25 +221,26 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
             Intent intent = new Intent(this,CollectionsActivity.class);
-            OperateOnSQLite op = new OperateOnSQLite();
-            SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
-            Vector<News> newsList = op.allNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,user.getUsername());
-            intent.putExtra("data",newsList);
             startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
             final User user = (User)getApplication();
             if(user.getUsername()==null){
-                Toast.makeText(getApplicationContext(), "请登陆",
+                Toast.makeText(getApplicationContext(), "请登录",
                         Toast.LENGTH_SHORT).show();
                 return false;
             }
             Intent intent = new Intent(this,HistoryActivity.class);
-            OperateOnSQLite op = new OperateOnSQLite();
-            SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
-            Vector<News> newsList = op.allNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,user.getUsername());
-            intent.putExtra("data",newsList);
             startActivity(intent);
 
+        }
+        else if(id==R.id.exit){
+            User user = (User)getApplication();
+            user.setPassword(null);
+            user.setUsername(null);
+            navigationView.getMenu().getItem(2).setEnabled(false);
+            View headView = navigationView.getHeaderView(0);
+            TextView textView = headView.findViewById(R.id.user_name_show);
+            textView.setText("请登录");
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

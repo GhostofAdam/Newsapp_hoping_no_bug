@@ -129,8 +129,6 @@ public class NewsListAdapter extends RecyclerView.Adapter{
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(no_image)
             viewType = 2;
-        if(viewType==2)
-            viewType=3;
         switch (viewType) {
             case 0: {
                 View v = LayoutInflater.from(parent.getContext())
@@ -206,6 +204,7 @@ public class NewsListAdapter extends RecyclerView.Adapter{
         }
         else if(holder instanceof NoImageHolder) {
             NoImageHolder vh = (NoImageHolder) holder;
+            vh.titleView.setText(Dataset.get(position).getTitle());
             vh.subtitleView.setText(Dataset.get(position).getPublisher()+" "+Dataset.get(position).getPublishTime());
         }
         else if(holder instanceof VideoHolder){
