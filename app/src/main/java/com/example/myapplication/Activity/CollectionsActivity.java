@@ -17,9 +17,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Utilities.News;
-import com.example.myapplication.Utilities.SwipeToDeleteCallback;
 import com.example.myapplication.Utilities.User;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -33,10 +31,7 @@ public class CollectionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collections);
-        Intent intent = getIntent();
-        ArrayList<News> data = (ArrayList<News>)intent.getSerializableExtra("data");
         Vector<News> newslist = new Vector<News>();
-        newslist.addAll(data);
         mAdapter = new DeletableNewsListAdapter(newslist,this,null);
 
         recyclerView = findViewById(R.id.collections_list);
@@ -93,4 +88,13 @@ public class CollectionsActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        final User user = (User)getApplication();
+        OperateOnSQLite op = new OperateOnSQLite();
+        SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
+        Vector<News> newsList = op.allNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,user.getUsername());
+        mAdapter.notifyAdapter(newsList,false);
+    }
 }

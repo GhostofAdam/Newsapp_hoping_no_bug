@@ -19,14 +19,13 @@ public class SectionAdapter extends FragmentStatePagerAdapter{
     private static Vector<String> tab_tiles = new Vector<String>();
     private static Vector<Pageholder>  pages = new Vector<Pageholder>();
     private final Context mContext;
-    public SectionAdapter(Context context, FragmentManager fm) {
+    public SectionAdapter(Context context, FragmentManager fm,String[] chanles) {
         super(fm);
-        pages.add(Pageholder.newInstance(0,"科技"));
-        pages.add(Pageholder.newInstance(1,"文化"));
-        pages.add(Pageholder.newInstance(2,"健康"));
-        tab_tiles.add("科技");
-        tab_tiles.add("文化");
-        tab_tiles.add("健康");
+        pages.add(Pageholder.newInstance(0,"推荐"));
+        for(int i=0;i<chanles.length;i++){
+            pages.add(Pageholder.newInstance(i+1,chanles[i]));
+            tab_tiles.add(chanles[i]);
+        }
         mContext = context;
     }
     @Override

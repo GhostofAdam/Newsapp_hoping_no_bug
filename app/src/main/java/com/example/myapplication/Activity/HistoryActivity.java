@@ -11,12 +11,15 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.myapplication.Adapter.NewsListAdapter;
-import com.example.myapplication.SQLite.OperateOnSQLite;
-import com.example.myapplication.Adapter.DeletableNewsListAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.SwipeToDeleteCallback;
+<<<<<<< HEAD
+=======
+import com.example.myapplication.Utilities.User;
 import com.google.android.material.snackbar.Snackbar;
+>>>>>>> 3ed7866c51c58607d68f13f22c99bfd2a681e9ba
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -31,10 +34,7 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         recyclerView = findViewById(R.id.history_list);
-        Intent intent = getIntent();
-        ArrayList<News> data = (ArrayList<News>)intent.getSerializableExtra("data");
         Vector<News> newslist = new Vector<News>();
-        newslist.addAll(data);
         mAdapter = new NewsListAdapter(newslist,this,null);
         mAdapter.setOnItemClickListener(new NewsListAdapter.OnItemClickListener() {
             @Override
@@ -71,4 +71,13 @@ public class HistoryActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        final User user = (User)getApplication();
+        OperateOnSQLite op = new OperateOnSQLite();
+        SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
+        Vector<News> newsList = op.allNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,user.getUsername());
+        mAdapter.notifyAdapter(newsList,false);
+    }
 }

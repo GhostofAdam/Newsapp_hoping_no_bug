@@ -37,6 +37,7 @@ import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Adapter.NewsListAdapter;
 import com.example.myapplication.Activity.NewsDetailActivity;
 import com.example.myapplication.Utilities.UrlRequest;
+import com.example.myapplication.Utilities.User;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
@@ -59,7 +60,13 @@ public class Pageholder extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
-        fragment.newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",label),null,fragment);
+        if(label.equals("推荐")){
+            //User user= (User) fragment.getActivity().getApplication();
+
+            fragment.newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",label),null,fragment);
+        }
+        else
+            fragment.newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",label),null,fragment);
         return fragment;
     }
 

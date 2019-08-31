@@ -21,6 +21,7 @@ import com.example.myapplication.Adapter.GlideImageLoader;
 
 import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
+import com.example.myapplication.SQLite.OperateOnServer;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.User;
@@ -111,6 +112,7 @@ public class NewsDetailActivity extends AppCompatActivity {
             OperateOnSQLite op = new OperateOnSQLite();
             SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
             op.insertNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN, news,user.getUsername());
+            new OperateOnServer().inseartNews(SQLiteDbHelper.TABLE_SEEN, news,user.getUsername(), user.getPassword());
             if(op.findNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,news.getNewsID(),user.getUsername())){
                 collect.setChecked(true);
             }

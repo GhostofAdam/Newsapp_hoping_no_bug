@@ -92,20 +92,12 @@ public class OperateOnSQLite
     }
 
     /* insert new account, return true if succeed, false if identity has existed */
-    public boolean insertAccount(SQLiteDatabase db, String identity, String password)
+    public void insertAccount(SQLiteDatabase db, String identity, String password)
     {
-        Cursor cursor = db.query(SQLiteDbHelper.TABLE_ACCOUNT, null, "identity=?", new String[] {identity}, null, null, null);
-        if(cursor.moveToNext())
-        {
-            cursor.close();
-            return false;
-        }
-        cursor.close();
         ContentValues values = new ContentValues();
         values.put("identity", identity);
         values.put("password", password);
         db.insert(SQLiteDbHelper.TABLE_ACCOUNT, null, values);
-        return true;
     }
 
     public void deleteAccount(SQLiteDatabase db, String identity)
