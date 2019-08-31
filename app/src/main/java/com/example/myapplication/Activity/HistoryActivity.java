@@ -15,11 +15,10 @@ import com.example.myapplication.R;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.SwipeToDeleteCallback;
-<<<<<<< HEAD
-=======
+
 import com.example.myapplication.Utilities.User;
 import com.google.android.material.snackbar.Snackbar;
->>>>>>> 3ed7866c51c58607d68f13f22c99bfd2a681e9ba
+
 
 import java.util.ArrayList;
 import java.util.Vector;

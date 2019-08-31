@@ -29,12 +29,11 @@ import android.view.View;
 
 import android.view.WindowManager;
 import android.widget.Button;
-<<<<<<< HEAD
-=======
+
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
->>>>>>> 3ed7866c51c58607d68f13f22c99bfd2a681e9ba
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
