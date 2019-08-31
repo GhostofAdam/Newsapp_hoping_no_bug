@@ -6,6 +6,7 @@ import com.example.myapplication.Entity.MySearchSuggest;
 import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
+import com.example.myapplication.Service.SQLservice;
 import com.example.myapplication.Utilities.UrlRequest;
 import com.example.myapplication.Utilities.User;
 
@@ -28,6 +29,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import static cn.bingoogolapple.badgeview.BGAExplosionAnimator.ANIM_DURATION;
@@ -79,10 +82,7 @@ public class SearchActivity extends AppCompatActivity {
             return;
         }
         Vector<SearchSuggestion> suggestionList = new Vector<>();
-        SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
-        OperateOnSQLite op = new OperateOnSQLite();
-
-        Vector<String> strings = op.findSearch(helper.getWritableDatabase(),user.getUsername());
+        Vector<String>strings = user.getSearch();
         for (String s:strings){
             suggestionList.add(new MySearchSuggest(s));
         }
@@ -91,9 +91,11 @@ public class SearchActivity extends AppCompatActivity {
     private void addSearch(String s){
         User user = (User)getApplication();
         if(user.getUsername()!=null) {
-            SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
-            OperateOnSQLite op = new OperateOnSQLite();
-            op.insertSearch(helper.getWritableDatabase(),s,user.getUsername());
+            user.addSearch(s);
+            Intent intent1 = new Intent(SearchActivity.this, SQLservice.class);
+            intent1.putExtra("flag",User.ADD_SEARCH);
+            intent1.putExtra("data",s);
+            startService(intent1);
         }
     }
     private void setmSearchView(){

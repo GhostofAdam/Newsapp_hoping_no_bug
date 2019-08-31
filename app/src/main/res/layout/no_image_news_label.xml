@@ -5,6 +5,8 @@
     android:background="@drawable/menu_border"
     android:paddingTop="@dimen/larger_padding"
     android:paddingBottom="@dimen/larger_padding"
+    android:paddingStart="@dimen/news_item_padding"
+    android:paddingEnd="@dimen/news_item_padding"
     >
     <TextView
         android:id="@+id/no_image_news_label_title"
@@ -16,6 +18,7 @@
     <TextView
         android:id="@+id/no_image_news_label_subtitle"
         android:layout_width="wrap_content"
+        android:paddingTop="10dp"
         android:textSize="@dimen/margin_text_size"
         android:paddingStart="@dimen/padding"
         android:paddingEnd="@dimen/padding"

@@ -10,9 +10,11 @@
     <dimen name="padding">10dp</dimen>
     <dimen name="larger_padding">20dp</dimen>
     <dimen name="margin_text_size">15sp</dimen>
-    <dimen name="main_text_size">25sp</dimen>
+    <dimen name="main_text_size">20sp</dimen>
+    <dimen name="header_size">25sp</dimen>
     <dimen name="larger_margin_text_size">20sp</dimen>
     <dimen name="channel_item_txsize">15sp</dimen>
     <dimen name="search_view_inset">0sp</dimen>
     <dimen name="sliding_search_view_header_height">10sp</dimen>
+    <dimen name="news_item_padding">5dp</dimen>
 </resources>

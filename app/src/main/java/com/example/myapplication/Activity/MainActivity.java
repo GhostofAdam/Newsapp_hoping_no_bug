@@ -22,6 +22,7 @@ import com.example.myapplication.Entity.MySearchSuggest;
 import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
+import com.example.myapplication.Service.SQLservice;
 import com.example.myapplication.Utilities.GetWeb;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.User;
@@ -63,6 +64,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import javax.sql.DataSource;
@@ -146,6 +148,7 @@ public class MainActivity extends AppCompatActivity
         mSearchView.attachNavigationDrawerToMenuButton(drawer);
         setSearchSuggestions();
 
+
     }
 
     @Override
@@ -162,9 +165,10 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 2:
                 String []strings = data.getStringArrayExtra("result");
-                final User user = (User)getApplication();
+                User user = (User)getApplication();
                 user.setUsername(strings[0]);
                 user.setPassword(strings[1]);
+                initUserData();
                 //TextView textView=(TextView)navigationView.getHeaderView(1);
                 View headView = navigationView.getHeaderView(0);
                 TextView textView = headView.findViewById(R.id.user_name_show);
@@ -235,8 +239,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if(id==R.id.exit){
             User user = (User)getApplication();
-            user.setPassword(null);
-            user.setUsername(null);
+            user.clear();
             navigationView.getMenu().getItem(2).setEnabled(false);
             View headView = navigationView.getHeaderView(0);
             TextView textView = headView.findViewById(R.id.user_name_show);
@@ -265,9 +268,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }
         Vector<SearchSuggestion>suggestionList = new Vector<>();
-        SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
-        OperateOnSQLite op = new OperateOnSQLite();
-        Vector<String> strings = op.findSearch(helper.getWritableDatabase(),user.getUsername());
+        Vector<String> strings = user.getSearch();
         for (String s:strings){
             suggestionList.add(new MySearchSuggest(s));
         }
@@ -276,9 +277,11 @@ public class MainActivity extends AppCompatActivity
     private void addSearch(String s){
         User user = (User)getApplication();
         if(user.getUsername()!=null) {
-            SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
-            OperateOnSQLite op = new OperateOnSQLite();
-            op.insertSearch(helper.getWritableDatabase(),s,user.getUsername());
+            user.addSearch(s);
+            Intent intent1 = new Intent(MainActivity.this, SQLservice.class);
+            intent1.putExtra("flag",User.ADD_SEARCH);
+            intent1.putExtra("data",s);
+            startService(intent1);
         }
     }
     private void setmSearchView(){
@@ -366,5 +369,13 @@ public class MainActivity extends AppCompatActivity
         }
         anim.setDuration(ANIM_DURATION);
         anim.start();
+    }
+    private void initUserData(){
+        SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
+        OperateOnSQLite op = new OperateOnSQLite();
+        User user = (User)getApplication();
+        user.initCollections(op.allNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,user.getUsername()));
+        user.initHistory(op.allNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,user.getUsername()));
+        user.initSearch(op.findSearch(helper.getWritableDatabase(),user.getUsername()));
     }
 }

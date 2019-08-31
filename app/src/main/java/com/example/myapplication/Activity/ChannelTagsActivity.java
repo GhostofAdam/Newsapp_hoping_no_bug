@@ -86,6 +86,8 @@ public class ChannelTagsActivity extends AppCompatActivity {
 
             @Override
             public void onAddedChannelItemClick(View itemView, int position) {
+                ChannelItem item = addedChannels.remove(position);
+                unAddedChannels.add(item);
             }
 
             @Override

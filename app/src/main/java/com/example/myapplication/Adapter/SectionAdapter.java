@@ -22,6 +22,7 @@ public class SectionAdapter extends FragmentStatePagerAdapter{
     public SectionAdapter(Context context, FragmentManager fm,String[] chanles) {
         super(fm);
         pages.add(Pageholder.newInstance(0,"推荐"));
+        tab_tiles.add("推荐");
         for(int i=0;i<chanles.length;i++){
             pages.add(Pageholder.newInstance(i+1,chanles[i]));
             tab_tiles.add(chanles[i]);

@@ -16,6 +16,7 @@ import com.example.myapplication.Adapter.NewsListAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
+import com.example.myapplication.Service.SQLservice;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.SwipeToDeleteCallback;
 import com.example.myapplication.Utilities.User;
@@ -70,10 +71,12 @@ public class CollectionsActivity extends AppCompatActivity {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
-                OperateOnSQLite op  = new OperateOnSQLite();
                 User user = (User)getApplication();
-                op.deleteNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,mAdapter.Dataset.get(position),user.getUsername());
+                user.deleteCollection(mAdapter.Dataset.get(position));
+                Intent intent1 = new Intent(CollectionsActivity.this, SQLservice.class);
+                intent1.putExtra("flag",User.DELETE_COLLECTION);
+                intent1.putExtra("data",mAdapter.Dataset.get(position));
+                startService(intent1);
                 mAdapter.deleteItem(position);
             }
 
@@ -94,9 +97,7 @@ public class CollectionsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         final User user = (User)getApplication();
-        OperateOnSQLite op = new OperateOnSQLite();
-        SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
-        Vector<News> newsList = op.allNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,user.getUsername());
+        Vector<News> newsList =  user.getCollections();
         mAdapter.notifyAdapter(newsList,false);
     }
 }

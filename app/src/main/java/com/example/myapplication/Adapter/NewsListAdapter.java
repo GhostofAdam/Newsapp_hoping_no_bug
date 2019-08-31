@@ -81,12 +81,14 @@ public class NewsListAdapter extends RecyclerView.Adapter{
         LinearLayout t;
         TextView item_news_tv_title;
         ImageView item_news_tv_img;
+        TextView subtitle;
 
         public OneImageHolder(View view) {
             super(view);
             t = (LinearLayout) view;
             item_news_tv_title = view.findViewById(R.id.item_news_tv_title);
             item_news_tv_img = view.findViewById(R.id.item_news_tv_img);
+            subtitle = view.findViewById(R.id.item_news_tv_subtitle);
         }
     }
     class ThreeImageHolder extends RecyclerView.ViewHolder{
@@ -94,6 +96,7 @@ public class NewsListAdapter extends RecyclerView.Adapter{
         ImageView imageView_2;
         ImageView imageView_3;
         TextView textView;
+        TextView subtitle;
         LinearLayout layout;
         public ThreeImageHolder(View view){
             super(view);
@@ -102,11 +105,13 @@ public class NewsListAdapter extends RecyclerView.Adapter{
             imageView_2 = view.findViewById(R.id.item_three_image_news_2);
             imageView_3 = view.findViewById(R.id.item_three_image_news_3);
             textView = view.findViewById(R.id.item_three_image_news_title);
+            subtitle = view.findViewById(R.id.item_three_image_news_subtitle);
         }
     }
     class NoImageHolder extends RecyclerView.ViewHolder{
         TextView titleView;
         TextView subtitleView;
+
         public NoImageHolder(View view){
             super(view);
             view = (LinearLayout) view;
@@ -116,10 +121,12 @@ public class NewsListAdapter extends RecyclerView.Adapter{
     }
     class VideoHolder extends RecyclerView.ViewHolder{
         JCVideoPlayerStandard jcVideoPlayer;
+        TextView subtitle;
         public VideoHolder(View view){
             super(view);
             view = (LinearLayout)view;
             jcVideoPlayer = view.findViewById(R.id.videoplayer);
+            subtitle = view.findViewById(R.id.item_video_news_subtitle);
         }
     }
     public void  setNoImage(){
@@ -186,6 +193,7 @@ public class NewsListAdapter extends RecyclerView.Adapter{
             else
                 Glide.with(activity).load(Dataset.get(position).getImageUrl().get(0)).into(mm.item_news_tv_img);
             mm.item_news_tv_title.setText(Dataset.get(position).getTitle());
+            mm.subtitle.setText(Dataset.get(position).getPublisher()+" "+Dataset.get(position).getPublishTime());
         }
         else if(holder instanceof ThreeImageHolder){
             ThreeImageHolder vh = (ThreeImageHolder)holder;
@@ -201,6 +209,7 @@ public class NewsListAdapter extends RecyclerView.Adapter{
                 Glide.with(activity).load(urls.get(2)).skipMemoryCache(true).into(vh.imageView_3);
             }
             vh.textView.setText(Dataset.get(position).getTitle());
+            vh.subtitle.setText(Dataset.get(position).getPublisher()+" "+Dataset.get(position).getPublishTime());
         }
         else if(holder instanceof NoImageHolder) {
             NoImageHolder vh = (NoImageHolder) holder;
@@ -211,6 +220,7 @@ public class NewsListAdapter extends RecyclerView.Adapter{
             VideoHolder vh = (VideoHolder)holder;
             //vh.videoView.setVideoURI(Uri.parse("https://www.w3schools.com/html/movie.mp4"));
             vh.jcVideoPlayer.setUp("https://www.w3schools.com/html/movie.mp4", JCVideoPlayer.SCREEN_LAYOUT_LIST,Dataset.get(position).getTitle());
+            vh.subtitle.setText(Dataset.get(position).getPublisher()+" "+Dataset.get(position).getPublishTime());
 //            Picasso.with(fragment)
 //                    .load(VideoConstant.videoThumbs[pager][position])
 //                    .into(viewHolder.jcVideoPlayer.thumbImageView);

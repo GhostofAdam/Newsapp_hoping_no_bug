@@ -74,9 +74,7 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         final User user = (User)getApplication();
-        OperateOnSQLite op = new OperateOnSQLite();
-        SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
-        Vector<News> newsList = op.allNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,user.getUsername());
+        Vector<News> newsList = user.getHistory();
         mAdapter.notifyAdapter(newsList,false);
     }
 }

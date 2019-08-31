@@ -30,16 +30,14 @@
                     android:src="@drawable/ic_back"
                     android:background="@android:color/transparent"
                     />
-                <com.varunest.sparkbutton.SparkButton
-                    android:id="@+id/spark_button"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="right"
-                    app:sparkbutton_activeImage="@drawable/ic_star_on"
-                    app:sparkbutton_inActiveImage="@drawable/ic_star_off"
-                    app:sparkbutton_iconSize="40dp"
-                    app:sparkbutton_primaryColor="@color/green"
-                    app:sparkbutton_secondaryColor="@color/darkgreen" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/header_size"
+                    android:gravity="center"
+                    android:textColor="#FFFF"
+                    android:text="Avian News"/>
+
             </androidx.appcompat.widget.Toolbar>
 
 

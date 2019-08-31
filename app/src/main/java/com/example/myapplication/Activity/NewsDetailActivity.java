@@ -22,6 +22,7 @@ import com.example.myapplication.Adapter.GlideImageLoader;
 import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
+import com.example.myapplication.Service.SQLservice;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.User;
 
@@ -44,7 +45,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
-        Intent intent= getIntent();
+        final Intent intent= getIntent();
         news = (News) intent.getSerializableExtra("news");
         contentView = findViewById(R.id.news_content);
         contentView.setText(news.getContent());
@@ -61,8 +62,6 @@ public class NewsDetailActivity extends AppCompatActivity {
         collect.setEventListener(new SparkEventListener(){
             @Override
             public void onEvent(ImageView button, boolean buttonState) {
-                OperateOnSQLite op = new OperateOnSQLite();
-                SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
                 User user = (User)getApplication();
                 if (buttonState) {
                     // Button is active
@@ -72,7 +71,11 @@ public class NewsDetailActivity extends AppCompatActivity {
                         collect.setChecked(true);
                         return;
                     }
-                    op.insertNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION, news,user.getUsername());
+                    user.addCollection(news);
+                    Intent intent1 = new Intent(NewsDetailActivity.this, SQLservice.class);
+                    intent1.putExtra("flag",User.ADD_COLLECTION);
+                    intent1.putExtra("data",news);
+                    startService(intent1);
                     Toast.makeText(getApplicationContext(), "收藏成功",
                             Toast.LENGTH_SHORT).show();
                 } else {
@@ -82,7 +85,11 @@ public class NewsDetailActivity extends AppCompatActivity {
                         collect.setChecked(true);
                         return;
                     }
-                    op.deleteNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION, news,user.getUsername());
+                    user.deleteCollection(news);
+                    Intent intent1 = new Intent(NewsDetailActivity.this, SQLservice.class);
+                    intent1.putExtra("flag",User.DELETE_COLLECTION);
+                    intent1.putExtra("data",news);
+                    startService(intent1);
                     // Button is inactive
                     Toast.makeText(getApplicationContext(), "取消收藏",
                             Toast.LENGTH_SHORT).show();
@@ -108,10 +115,13 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         User user = (User)getApplication();
         if(user.getUsername()!=null){
-            OperateOnSQLite op = new OperateOnSQLite();
-            SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
-            op.insertNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN, news,user.getUsername());
-            if(op.findNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,news.getNewsID(),user.getUsername())){
+
+            user.addHistory(news);
+            Intent intent1 = new Intent(NewsDetailActivity.this, SQLservice.class);
+            intent1.putExtra("flag",User.ADD_HISTORY);
+            intent1.putExtra("data",news);
+            startService(intent1);
+            if(user.findCollection(news)){
                 collect.setChecked(true);
             }
         }
@@ -122,7 +132,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         banner.setImageLoader(new GlideImageLoader());
         ArrayList<String> urls =  news.getImageUrl();
-        if(urls.size()==0){
+        if(urls==null||urls.size()==0){
             ArrayList<Integer> path = new  ArrayList<Integer>();
             path.add(R.drawable.bg_people);
             banner.setImages(path);

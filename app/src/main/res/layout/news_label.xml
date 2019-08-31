@@ -5,6 +5,8 @@
     android:background="@drawable/menu_border"
     android:paddingTop="@dimen/padding"
     android:paddingBottom="@dimen/padding"
+    android:paddingStart="@dimen/news_item_padding"
+    android:paddingEnd="@dimen/news_item_padding"
     android:id="@+id/item_news_linearlayout"
     >
     <ImageView
@@ -25,5 +27,13 @@
         android:paddingEnd="@dimen/padding"
         android:text="@string/default_text"
         android:textSize="@dimen/main_text_size" />
+    <TextView
+        android:id="@+id/item_news_tv_subtitle"
+        android:layout_width="wrap_content"
+        android:paddingTop="10dp"
+        android:textSize="@dimen/margin_text_size"
+        android:paddingStart="@dimen/padding"
+        android:paddingEnd="@dimen/padding"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
