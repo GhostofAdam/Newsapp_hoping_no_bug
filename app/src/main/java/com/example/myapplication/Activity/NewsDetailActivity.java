@@ -112,7 +112,6 @@ public class NewsDetailActivity extends AppCompatActivity {
             OperateOnSQLite op = new OperateOnSQLite();
             SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
             op.insertNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN, news,user.getUsername());
-            new OperateOnServer().inseartNews(SQLiteDbHelper.TABLE_SEEN, news,user.getUsername(), user.getPassword());
             if(op.findNews(help.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,news.getNewsID(),user.getUsername())){
                 collect.setChecked(true);
             }

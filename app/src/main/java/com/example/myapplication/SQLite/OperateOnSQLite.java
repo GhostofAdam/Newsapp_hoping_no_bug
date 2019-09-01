@@ -8,13 +8,23 @@ import java.util.Vector;
 
 import com.example.myapplication.Utilities.News;
 
+import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
+import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
+
 public class OperateOnSQLite
 {
     /* tableName: selected from SQLiteDbHelper.TABLE_ACCOUNT, SQLiteDbHelper.TABLE_COLLECTION, SQLiteDbHelper.TABLE_SEEN */
     /* insert news */
     public void insertNews(SQLiteDatabase db, String tableName, News news, String identity)
     {
-        db.insert(tableName, null, news2ContentValues(news, identity));
+        if(tableName.equals(SQLiteDbHelper.TABLE_COLLECTION))
+        {
+            db.insert(tableName, null, news2ContentValues(news, identity));
+        }
+        else if(tableName.equals(SQLiteDbHelper.TABLE_SEEN))
+        {
+            db.insertWithOnConflict(tableName, null, news2ContentValues(news, identity), CONFLICT_IGNORE);
+        }
     }
 
     private ContentValues news2ContentValues(News news, String identity)
@@ -72,7 +82,7 @@ public class OperateOnSQLite
         ContentValues contentValues = new ContentValues();
         contentValues.put("word", word);
         contentValues.put("identity", identity);
-        db.insert(SQLiteDbHelper.TABLE_SEARCH, null, contentValues);
+        db.insertWithOnConflict(SQLiteDbHelper.TABLE_SEARCH, null, contentValues, CONFLICT_REPLACE);
     }
 
     public void deleteSearch(SQLiteDatabase db, String word, String identity)
