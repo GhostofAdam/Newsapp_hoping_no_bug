@@ -21,6 +21,7 @@ import com.example.myapplication.Adapter.GlideImageLoader;
 
 import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
+import com.example.myapplication.SQLite.OperateOnServer;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Service.SQLservice;
 import com.example.myapplication.Utilities.News;

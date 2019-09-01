@@ -13,8 +13,8 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
     *  获取db，作为参数传入OperateOnSQLite类的函数中*/
     private static SQLiteDbHelper helper;
 
-    public static final int DB_VERSION = 1;
-    public static final String DB_NAME = "database.db";
+    private static final int DB_VERSION = 1;
+    private static final String DB_NAME = "database.db";
     public static final String TABLE_ACCOUNT = "account";
     public static final String TABLE_COLLECTION = "collection";
     public static final String TABLE_SEEN = "seen";

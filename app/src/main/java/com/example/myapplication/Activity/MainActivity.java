@@ -15,29 +15,29 @@ import android.os.Bundle;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.example.myapplication.Adapter.SectionAdapter;
 import com.example.myapplication.Entity.MySearchSuggest;
 import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
+
 import com.example.myapplication.Service.SQLservice;
 import com.example.myapplication.Utilities.GetWeb;
+
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
 import android.view.WindowManager;
 import android.widget.Button;
+
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,13 +63,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.TreeSet;
+
 import java.util.Vector;
-
-import javax.sql.DataSource;
-
-import redis.clients.jedis.Jedis;
 
 import static cn.bingoogolapple.badgeview.BGAExplosionAnimator.ANIM_DURATION;
 
@@ -90,7 +88,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        Jedis jedis = new Jedis();
         super.onCreate(savedInstanceState);
         isConnectIsNomarl();
         setContentView(R.layout.activity_main);

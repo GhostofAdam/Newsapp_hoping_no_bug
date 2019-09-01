@@ -18,9 +18,7 @@ import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Service.SQLservice;
 import com.example.myapplication.Utilities.News;
-import com.example.myapplication.Utilities.SwipeToDeleteCallback;
 import com.example.myapplication.Utilities.User;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Vector;

@@ -11,14 +11,15 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.myapplication.Adapter.NewsListAdapter;
-import com.example.myapplication.SQLite.OperateOnSQLite;
-import com.example.myapplication.Adapter.DeletableNewsListAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.SwipeToDeleteCallback;
+
 import com.example.myapplication.Utilities.User;
 import com.google.android.material.snackbar.Snackbar;
+
 
 import java.util.ArrayList;
 import java.util.Vector;
