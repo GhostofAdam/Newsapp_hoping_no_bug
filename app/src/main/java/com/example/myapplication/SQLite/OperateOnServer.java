@@ -1,10 +1,7 @@
 package com.example.myapplication.SQLite;
 
-import com.example.myapplication.Utilities.DataList;
 import com.example.myapplication.Utilities.News;
 import com.google.gson.Gson;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -29,20 +26,18 @@ public class OperateOnServer
     public boolean isaccount;
     public boolean isright;
 
-    private void _inseartNews(String tableName, News news, String identity, String password)
+    private FormBody.Builder createBuilder(String id, String table, String doing)
     {
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("id", id);
+        builder.add("table", table);
+        builder.add("doing", doing);
+        return builder;
+    }
 
-        FormBody.Builder builder = newsToBuilder(news, identity, password);
-        if(tableName.equals(SQLiteDbHelper.TABLE_COLLECTION))
-        {
-            builder.add("type", "collection");
-        }
-        else if(tableName.equals(SQLiteDbHelper.TABLE_SEEN))
-        {
-            builder.add("type", "seen");
-        }
-        builder.add("doing", "add");
-        builder.add("id", "0");
+    private void _insertNews(String tableName, News news, String identity, String password)
+    {
+        FormBody.Builder builder = newsToBuilder(createBuilder("0", tableName, "add"), news, identity, password);
         RequestBody formBody = builder.build();
         Request request = new Request.Builder().url(URL.url).post(formBody).build();
         try
@@ -56,9 +51,8 @@ public class OperateOnServer
         }
     }
 
-    private FormBody.Builder newsToBuilder(News news, String identity, String password)
+    private FormBody.Builder newsToBuilder(FormBody.Builder builder, News news, String identity, String password)
     {
-        FormBody.Builder builder = new FormBody.Builder();
         builder.add("sole", identity + news.getNewsID());
         builder.add("newsID", news.getNewsID());
         builder.add("title", news.getTitle());
@@ -72,17 +66,7 @@ public class OperateOnServer
 
     private void _deleteNews(String tableName, News news, String identity)
     {
-        FormBody.Builder builder = new FormBody.Builder();
-        if(tableName.equals(SQLiteDbHelper.TABLE_COLLECTION))
-        {
-            builder.add("type", "collection");
-        }
-        else if(tableName.equals(SQLiteDbHelper.TABLE_SEEN))
-        {
-            builder.add("type", "seen");
-        }
-        builder.add("doing", "delete");
-        builder.add("id", "0");
+        FormBody.Builder builder = createBuilder("0", tableName, "delete");
         builder.add("sole", identity + news.getNewsID());
         RequestBody formBody = builder.build();
         Request request = new Request.Builder().url(URL.url).post(formBody).build();
@@ -99,21 +83,11 @@ public class OperateOnServer
 
     private void _allNews(String tableName, String identity)
     {
-        FormBody.Builder builder = new FormBody.Builder();
-        if(tableName.equals(SQLiteDbHelper.TABLE_COLLECTION))
-        {
-            builder.add("type", "collection");
-        }
-        else if(tableName.equals(SQLiteDbHelper.TABLE_SEEN))
-        {
-            builder.add("type", "seen");
-        }
-        builder.add("doing", "all");
-        builder.add("id", "1");
+        FormBody.Builder builder = createBuilder("1", tableName, "all");
         builder.add("identity", identity);
         RequestBody formBody = builder.build();
         Request request = new Request.Builder().url(URL.url).post(formBody).build();
-        myNewsList mynewsList = null;
+        myNewsList mynewsList;
         Response response = null;
         try
         {
@@ -143,17 +117,7 @@ public class OperateOnServer
 
     private void _findNews(String tableName, String newsID, String identity)
     {
-        FormBody.Builder builder = new FormBody.Builder();
-        if(tableName.equals(SQLiteDbHelper.TABLE_COLLECTION))
-        {
-            builder.add("type", "collection");
-        }
-        else if(tableName.equals(SQLiteDbHelper.TABLE_SEEN))
-        {
-            builder.add("type", "seen");
-        }
-        builder.add("doing", "find");
-        builder.add("id", "1");
+        FormBody.Builder builder = createBuilder("1", tableName, "find");
         builder.add("sole", identity + newsID);
         RequestBody formBody = builder.build();
         Request request = new Request.Builder().url(URL.url).post(formBody).build();
@@ -189,10 +153,7 @@ public class OperateOnServer
 
     private void _insertAccount(String identity, String password)
     {
-        FormBody.Builder builder = new FormBody.Builder();
-        builder.add("type", "account");
-        builder.add("doing", "add");
-        builder.add("id", "0");
+        FormBody.Builder builder = createBuilder("0", "account", "add");
         builder.add("identity", identity);
         builder.add("password", password);
         RequestBody formBody = builder.build();
@@ -210,10 +171,7 @@ public class OperateOnServer
 
     private void _deleteAccount(String identity)
     {
-        FormBody.Builder builder = new FormBody.Builder();
-        builder.add("type", "account");
-        builder.add("doing", "delete");
-        builder.add("id", "0");
+        FormBody.Builder builder = createBuilder("0", "account", "delete");
         builder.add("identity", identity);
         RequestBody formBody = builder.build();
         Request request = new Request.Builder().url(URL.url).post(formBody).build();
@@ -230,10 +188,7 @@ public class OperateOnServer
 
     private void _isAccount(String identity)
     {
-        FormBody.Builder builder = new FormBody.Builder();
-        builder.add("type", "account");
-        builder.add("doing", "is");
-        builder.add("id", "1");
+        FormBody.Builder builder = createBuilder("1", "account", "is");
         builder.add("identity", identity);
         RequestBody formBody = builder.build();
         Request request = new Request.Builder().url(URL.url).post(formBody).build();
@@ -269,10 +224,7 @@ public class OperateOnServer
 
     private void _isRightPassword(String identity, String password)
     {
-        FormBody.Builder builder = new FormBody.Builder();
-        builder.add("type", "account");
-        builder.add("doing", "right");
-        builder.add("id", "1");
+        FormBody.Builder builder = createBuilder("1","account", "right");
         builder.add("identity", identity);
         builder.add("password", password);
         RequestBody formBody = builder.build();
@@ -307,12 +259,12 @@ public class OperateOnServer
         }
     }
 
-    public void inseartNews(final String tableName, final News news, final String identity, final String password)
+    public void insertNews(final String tableName, final News news, final String identity, final String password)
     {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                _inseartNews(tableName, news, identity, password);
+                _insertNews(tableName, news, identity, password);
             }
         }).start();
     }
