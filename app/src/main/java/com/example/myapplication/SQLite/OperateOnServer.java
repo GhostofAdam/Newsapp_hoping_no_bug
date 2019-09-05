@@ -1,5 +1,8 @@
 package com.example.myapplication.SQLite;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+
 import com.example.myapplication.Utilities.News;
 import com.google.gson.Gson;
 
@@ -18,6 +21,11 @@ class URL
     static String url = "http://166.111.5.239:8001/app/";
 }
 
+///* DEBUG */
+//SQLiteDbHelper helper = new SQLiteDbHelper(getApplicationContext());
+//    new OperateOnSQLite().clearTables(helper.getWritableDatabase());
+//            new OperateOnServer().downloadAll(helper.getWritableDatabase());
+
 public class OperateOnServer
 {
     static private OkHttpClient client = new OkHttpClient();
@@ -33,6 +41,108 @@ public class OperateOnServer
         builder.add("table", table);
         builder.add("doing", doing);
         return builder;
+    }
+
+    private void _downloadAccount(SQLiteDatabase db) {
+        FormBody.Builder builder = createBuilder("1", SQLiteDbHelper.TABLE_ACCOUNT, "download");
+        RequestBody formBody = builder.build();
+        Request request = new Request.Builder().url(URL.url).post(formBody).build();
+        Accounts[] myaccountList = null;
+        Response response = null;
+        try
+        {
+            response = client.newCall(request).execute();
+            if(response.code() == 200)
+            {
+                String result = response.body().string();
+                if(!result.equals("[]"))
+                {
+                    myaccountList = new Gson().fromJson(result, myAccountList.class).list;
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        db.beginTransaction();
+        if(myaccountList != null)
+        {
+            try
+            {
+                for (Accounts a : myaccountList)
+                {
+                    ContentValues values = new ContentValues();
+                    values.put("identity", a.identity);
+                    values.put("password", a.password);
+                    db.insert(SQLiteDbHelper.TABLE_ACCOUNT, null, values);
+                }
+                db.setTransactionSuccessful();
+            }
+            catch (NullPointerException e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                db.endTransaction();
+            }
+        }
+    }
+
+    private void _downloadNews(SQLiteDatabase db, String tableName)
+    {
+        FormBody.Builder builder = createBuilder("1", tableName, "download");
+        RequestBody formBody = builder.build();
+        Request request = new Request.Builder().url(URL.url).post(formBody).build();
+        News[] mynewsList = null;
+        Response response = null;
+        try
+        {
+            response = client.newCall(request).execute();
+            if(response.code() == 200)
+            {
+                String result = response.body().string();
+                if(!result.equals("[]"))
+                {
+                    mynewsList = new Gson().fromJson(result, myNewsList.class).list;
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        db.beginTransaction();
+        if(mynewsList != null)
+        {
+            try
+            {
+                for (News a : mynewsList)
+                {
+                    ContentValues values = new ContentValues();
+                    String sole = a.getSole();
+                    String id = a.getNewsID();
+                    values.put("sole", sole);
+                    values.put("newsID", id);
+                    values.put("title", a.getTitle());
+                    values.put("content", a.getContent());
+                    values.put("publisher", a.getPublisher());
+                    values.put("publishTime", a.getPublishTime());
+                    values.put("identity", sole.replaceAll(id, ""));
+                    db.insert(tableName, null, values);
+                }
+                db.setTransactionSuccessful();
+            }
+            catch (NullPointerException e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                db.endTransaction();
+            }
+        }
     }
 
     private void _insertNews(String tableName, News news, String identity, String password)
@@ -259,6 +369,18 @@ public class OperateOnServer
         }
     }
 
+    public void downloadAll(final SQLiteDatabase db)
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                _downloadAccount(db);
+                _downloadNews(db, SQLiteDbHelper.TABLE_COLLECTION);
+                _downloadNews(db, SQLiteDbHelper.TABLE_SEEN);
+            }
+        }).start();
+    }
+
     public void insertNews(final String tableName, final News news, final String identity, final String password)
     {
         new Thread(new Runnable() {
@@ -344,6 +466,17 @@ public class OperateOnServer
 class myNewsList
 {
     News[] list = null;
+}
+
+class Accounts
+{
+    String identity;
+    String password;
+}
+
+class myAccountList
+{
+    Accounts[] list = null;
 }
 
 

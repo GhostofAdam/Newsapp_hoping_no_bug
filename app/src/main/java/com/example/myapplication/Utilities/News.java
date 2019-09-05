@@ -23,6 +23,7 @@ public class News implements Serializable
     private Where[] where;
     private String category;
     private Who[] who;
+    private String sole;
 
     public void setNews(String newsID, String title, String content, String publisher, String publishTime)
     {
@@ -66,6 +67,7 @@ public class News implements Serializable
     public Where[] getWhere() { return this.where; }
     public String getCategory() { return this.category; }
     public Who[] getWho() { return this.who; }
+    public String getSole() { return this.sole; }
 }
 
 class Keyword implements Serializable

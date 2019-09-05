@@ -14,6 +14,13 @@ import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
 public class OperateOnSQLite
 {
     /* tableName: selected from SQLiteDbHelper.TABLE_ACCOUNT, SQLiteDbHelper.TABLE_COLLECTION, SQLiteDbHelper.TABLE_SEEN */
+    public void clearTables(SQLiteDatabase db)
+    {
+        db.execSQL("DELETE FROM " + SQLiteDbHelper.TABLE_ACCOUNT);
+        db.execSQL("DELETE FROM " + SQLiteDbHelper.TABLE_COLLECTION);
+        db.execSQL("DELETE FROM " + SQLiteDbHelper.TABLE_SEEN);
+    }
+
     /* insert news */
     public void insertNews(SQLiteDatabase db, String tableName, News news, String identity)
     {
