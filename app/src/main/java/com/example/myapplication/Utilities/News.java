@@ -25,6 +25,7 @@ public class News implements Serializable
     private Where[] where;
     private String category;
     private Who[] who;
+    private String sole;
 
     @Override
     public boolean equals(@Nullable Object obj) {
@@ -74,6 +75,7 @@ public class News implements Serializable
     public Where[] getWhere() { return this.where; }
     public String getCategory() { return this.category; }
     public Who[] getWho() { return this.who; }
+    public String getSole() { return this.sole; }
 }
 
 class Keyword implements Serializable
