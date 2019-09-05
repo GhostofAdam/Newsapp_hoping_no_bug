@@ -1,5 +1,6 @@
 package com.example.myapplication.Adapter;
 import android.content.Context;
+import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -12,10 +13,11 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.example.myapplication.Fragment.Pageholder;
 import com.example.myapplication.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class SectionAdapter extends FragmentStatePagerAdapter{
+public class SectionAdapter extends FragmentStatePagerAdapter implements Serializable {
     private static Vector<String> tab_tiles = new Vector<String>();
     private static Vector<Pageholder>  pages = new Vector<Pageholder>();
     private final Context mContext;
@@ -23,7 +25,7 @@ public class SectionAdapter extends FragmentStatePagerAdapter{
         super(fm);
         pages.add(Pageholder.newInstance(0,"推荐"));
         tab_tiles.add("推荐");
-        for(int i=0;i<chanles.length;i++){
+        for(int i=0;i<4;i++){
             pages.add(Pageholder.newInstance(i+1,chanles[i]));
             tab_tiles.add(chanles[i]);
         }
@@ -66,5 +68,15 @@ public class SectionAdapter extends FragmentStatePagerAdapter{
     }
     public int getCount() {
         return pages.size();
+    }
+    public void notifyAdapter(){
+        if(pages.get(0).newsListAdapter!=null) {
+            for (Pageholder p : pages) {
+                p.newsListAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+    public Vector<Pageholder> getPages(){
+        return pages;
     }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorText" format="reference|color"/>
+    <attr name="colorHeader" format="reference|color"/>
+    <attr name="colorBorder" format="reference|color"/>
+
+</resources>

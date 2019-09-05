@@ -4,13 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="?attr/colorPrimary"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     tools:context=".Activity.CollectionsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/collections_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorHeader"
         android:paddingTop="15dp"
         android:fitsSystemWindows="true">
 
@@ -39,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
+                >
                 <ImageButton
                     android:id="@+id/collections_back"
                     android:layout_width="?attr/actionBarSize"
@@ -54,13 +57,12 @@
 
                     android:textSize="@dimen/header_size"
                     android:gravity="center"
-                    android:textColor="#FFFF"
+
                     android:text="Collections"/>
                 <Button
                     android:layout_width="?attr/actionBarSize"
                     android:layout_height="match_parent"
                     android:layout_gravity="right"
-                    android:textColor="#FFFF"
                     android:text="编辑"
                     android:background="@android:color/transparent"
                     />

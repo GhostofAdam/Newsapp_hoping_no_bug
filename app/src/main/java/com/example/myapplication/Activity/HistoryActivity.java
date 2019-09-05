@@ -32,6 +32,21 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        User user = (User)getApplication();
+        switch (user.gettheme()){
+            case 0:
+                setTheme(R.style.AppTheme);
+                break;
+            case 1:
+                setTheme(R.style.DayTheme);
+                break;
+            case 2:
+                setTheme(R.style.NightTheme);
+                break;
+            default:
+                break;
+
+        }
         setContentView(R.layout.activity_history);
         recyclerView = findViewById(R.id.history_list);
         Vector<News> newslist = new Vector<News>();

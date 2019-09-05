@@ -31,7 +31,6 @@
                 android:text="Signin"
                 android:rotation="90"
                 android:textAllCaps="true"
-                android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:visibility="gone"/>
 
@@ -40,7 +39,7 @@
                 layout="@layout/sign_in"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"></include>
+                android:gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
@@ -48,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:background="@color/orange"
+            android:background="?attr/colorPrimary"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
             app:layout_widthPercent="15%">
@@ -62,7 +61,6 @@
                 android:paddingTop="15dp"
                 android:text="Signup"
                 android:textAllCaps="true"
-                android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:visibility="visible" />
 
@@ -71,7 +69,7 @@
                 layout="@layout/sign_up"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"></include>
+                android:gravity="center"/>
         </LinearLayout>
     </androidx.percentlayout.widget.PercentRelativeLayout>
 

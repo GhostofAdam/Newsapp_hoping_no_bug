@@ -15,23 +15,17 @@
         <FrameLayout
             android:id="@+id/dim_background"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></FrameLayout>
+            android:layout_height="wrap_content"/>
 
     <include layout="@layout/content_main"
         />
     </RelativeLayout>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
 
     <com.arlib.floatingsearchview.FloatingSearchView
         android:id="@+id/floating_search_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
         app:floatingSearch_close_search_on_keyboard_dismiss="false"
         app:floatingSearch_dimBackground="false"
         app:floatingSearch_dismissOnOutsideTouch="true"

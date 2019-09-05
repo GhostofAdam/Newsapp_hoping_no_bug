@@ -1,5 +1,7 @@
 package com.example.myapplication.Utilities;
 
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,12 @@ public class News implements Serializable
     private Where[] where;
     private String category;
     private Who[] who;
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        News news = (News)obj;
+        return newsID.equals(news.newsID);
+    }
 
     public void setNews(String newsID, String title, String content, String publisher, String publishTime)
     {

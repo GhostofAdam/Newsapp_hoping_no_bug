@@ -7,6 +7,7 @@ import android.os.IBinder;
 import androidx.annotation.Nullable;
 
 import com.example.myapplication.SQLite.OperateOnSQLite;
+import com.example.myapplication.SQLite.OperateOnServer;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.User;
@@ -35,22 +36,31 @@ public class SQLservice extends Service {
                 case User.ADD_COLLECTION: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.insertNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername());
+                    OperateOnServer operateOnServer = new OperateOnServer();
+                    operateOnServer.inseartNews(SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername(),user.getPassword());
                 }
                 case User.ADD_HISTORY: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.insertNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,news,user.getUsername());
+                    OperateOnServer operateOnServer = new OperateOnServer();
+                    operateOnServer.inseartNews(SQLiteDbHelper.TABLE_SEEN,news,user.getUsername(),user.getPassword());
                 }
                 case User.DELETE_COLLECTION: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.deleteNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername());
+                    OperateOnServer operateOnServer = new OperateOnServer();
+                    operateOnServer.deleteNews(SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername());
                 }
                 case User.DELETE_HISTORY: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.deleteNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,news,user.getUsername());
+                    OperateOnServer operateOnServer = new OperateOnServer();
+                    operateOnServer.deleteNews(SQLiteDbHelper.TABLE_SEEN,news,user.getUsername());
                 }
                 case User.FIND_COLLECTION: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.findNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,news.getNewsID(),user.getUsername());
+
                 }
                 case User.FIND_HISTORY: {
                     News news = (News)intent.getSerializableExtra("data");

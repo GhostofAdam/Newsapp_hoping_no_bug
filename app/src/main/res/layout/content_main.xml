@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="60dp"
+    android:background="?attr/colorPrimaryDark"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activity.MainActivity"
     tools:showIn="@layout/app_bar_main">
@@ -16,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/tab_layout"
-        android:background="@color/colorPrimary"
+        android:background="?attr/colorPrimary"
         >
 
         <com.ogaclejapan.smarttablayout.SmartTabLayout
@@ -40,7 +41,6 @@
             app:stl_dividerThickness="2dp"
             app:stl_defaultTabBackground="?attr/selectableItemBackground"
             app:stl_defaultTabTextAllCaps="true"
-            app:stl_defaultTabTextColor="#FC000000"
             app:stl_defaultTabTextSize="12sp"
             app:stl_defaultTabTextHorizontalPadding="40dp"
             app:stl_defaultTabTextMinWidth="100dp"

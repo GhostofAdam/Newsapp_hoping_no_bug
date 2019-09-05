@@ -25,12 +25,27 @@ import java.util.Vector;
 
 
 public class CollectionsActivity extends AppCompatActivity {
-    private DeletableNewsListAdapter mAdapter;
+    private NewsListAdapter mAdapter;
     private RecyclerView recyclerView;
     private ImageButton back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        User user = (User)getApplication();
+        switch (user.gettheme()){
+            case 0:
+                setTheme(R.style.AppTheme);
+                break;
+            case 1:
+                setTheme(R.style.DayTheme);
+                break;
+            case 2:
+                setTheme(R.style.NightTheme);
+                break;
+            default:
+                break;
+
+        }
         setContentView(R.layout.activity_collections);
         Vector<News> newslist = new Vector<News>();
         mAdapter = new DeletableNewsListAdapter(newslist,this,null);
@@ -52,6 +67,7 @@ public class CollectionsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        mAdapter.setNoImage();
         setUpRecyclerView();
         back = findViewById(R.id.collections_back);
         back.setOnClickListener(new View.OnClickListener() {

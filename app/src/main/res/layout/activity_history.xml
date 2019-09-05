@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
     tools:context=".Activity.HistoryActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -13,7 +14,8 @@
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
         android:paddingTop="15dp"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:background="?attr/colorHeader"
+        >
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/history_toolbar_layout"
@@ -29,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
+                >
                 <ImageButton
                     android:id="@+id/history_back"
                     android:layout_width="?attr/actionBarSize"
@@ -43,7 +45,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/header_size"
                     android:gravity="center"
-                    android:textColor="#FFFF"
                     android:text="History"/>
             </androidx.appcompat.widget.Toolbar>
 

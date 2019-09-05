@@ -3,17 +3,58 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/mediumseagreen</item>
+        <item name="colorPrimaryDark">@color/md_green_A700</item>
+        <item name="colorAccent">@color/green</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="colorBorder">#FFFFFF</item>
+        <item name="colorHeader">@color/black</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.NoActionBar" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="DayTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryDark">@color/darkorange</item>
+        <item name="colorAccent">@color/sandybrown</item>
+        <item name="colorText">#000000</item>
+        <item name="colorBorder">#000000</item>
+        <item name="colorHeader">@color/red</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="NightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/steelblue</item>
+        <item name="colorPrimaryDark">@color/royalblue</item>
+        <item name="colorAccent">@color/darkslateblue</item>
+        <item name="colorText">#000000</item>
+        <item name="colorBorder">#000000</item>
+        <item name="colorHeader">@color/midnightblue</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <!-- Styles for SampleWelcomeActivity -->
+    <style name="WelcomeScreenPageIndicator.Animated">
+        <item name="animation">slide</item>
+    </style>
+    <style name="SampleWelcomeScreenTheme" parent="WelcomeScreenTheme">
+        <item name="welcomeIndicatorStyle">@style/WelcomeScreenPageIndicator.Animated</item>
+        <item name="welcomeTitleTextStyle">@style/WelcomeScreenText.Title.Centered</item>
+        <item name="welcomeLargeTextStyle">@style/WelcomeScreenText.Large.Centered</item>
+        <item name="welcomeNormalTextStyle">@style/WelcomeScreenText.Centered</item>
+    </style>
+
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"
+
+        />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 

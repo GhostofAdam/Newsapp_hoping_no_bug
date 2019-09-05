@@ -18,7 +18,7 @@
             android:textSize="@dimen/main_text_size"
             android:layout_margin="@dimen/text_margin"
             />
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
@@ -29,22 +29,32 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/margin_text_size"
             android:layout_margin="@dimen/text_margin"
-            android:layout_gravity="left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             />
             <com.varunest.sparkbutton.SparkButton
                 android:id="@+id/spark_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_gravity="right"
+
                 android:paddingEnd="10dp"
                 app:sparkbutton_activeImage="@drawable/ic_star_on"
                 app:sparkbutton_inActiveImage="@drawable/ic_star_off"
                 app:sparkbutton_iconSize="40dp"
                 app:sparkbutton_primaryColor="@color/green"
                 app:sparkbutton_secondaryColor="@color/darkgreen"
-
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 />
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <ImageButton
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/spark_button"
+                android:src="@drawable/ic_share"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <com.youth.banner.Banner
             android:id="@+id/banner"
             android:layout_width="match_parent"

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
+    android:background="?attr/colorPrimary"
     >
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -13,14 +14,15 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:paddingTop="15dp"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:background="?attr/colorHeader"
+        >
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_collapseMode="pin"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+           >
             <ImageButton
                 android:id="@+id/channel_tag_back"
                 android:layout_width="?attr/actionBarSize"
@@ -34,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:background="@color/colorPrimary"
+                android:background="?attr/colorHeader"
                 android:textColor="#FFFFFF"
                 android:textSize="@dimen/larger_margin_text_size"
                 android:text="完成" />

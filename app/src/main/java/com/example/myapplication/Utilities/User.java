@@ -3,6 +3,8 @@ package com.example.myapplication.Utilities;
 import android.app.Application;
 
 import com.example.myapplication.R;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.lang.invoke.WrongMethodTypeException;
 import java.util.Set;
@@ -18,6 +20,8 @@ class WRecord{
     public String label="";
 }
 public class User extends Application {
+    private int theme=0;
+    private IWXAPI mWxApi;
     private  String username=null;
     private  String password=null;
     private Vector<News>colloctionsNews;
@@ -42,6 +46,17 @@ public class User extends Application {
     public void addCollection(News news){
         colloctionsNews.add(news);
     }
+
+    public void onCreate() {
+        super.onCreate();
+        mWxApi = WXAPIFactory.createWXAPI(this, "wx8959869f468fec43", true);
+        mWxApi.registerApp("wx8959869f468fec43");
+
+    }
+    public IWXAPI getAPI(){
+        return  mWxApi;
+    }
+
     public void addHistory(News news){
         if(historyNews.contains(news))
             return;
@@ -122,5 +137,11 @@ public class User extends Application {
         colloctionsNews.clear();
         historyNews.clear();
         searchSuggestios.clear();
+    }
+    public void settheme(int i){
+        theme = i;
+    }
+    public int gettheme(){
+        return theme;
     }
 }

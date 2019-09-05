@@ -19,6 +19,7 @@ import androidx.percentlayout.widget.PercentRelativeLayout;
 import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
+import com.example.myapplication.Utilities.User;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class SignInorOutActivity extends AppCompatActivity implements View.OnClickListener{
@@ -39,6 +40,21 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        User user = (User)getApplication();
+        switch (user.gettheme()){
+            case 0:
+                setTheme(R.style.AppTheme);
+                break;
+            case 1:
+                setTheme(R.style.DayTheme);
+                break;
+            case 2:
+                setTheme(R.style.NightTheme);
+                break;
+            default:
+                break;
+
+        }
         setContentView(R.layout.activity_sign_inor_out);
 
         llSignin = (LinearLayout) findViewById(R.id.llSignin);

@@ -45,6 +45,21 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        User user = (User)getApplication();
+        switch (user.gettheme()){
+            case 0:
+                setTheme(R.style.AppTheme);
+                break;
+            case 1:
+                setTheme(R.style.DayTheme);
+                break;
+            case 2:
+                setTheme(R.style.NightTheme);
+                break;
+            default:
+                break;
+
+        }
         Intent intent = getIntent();
         String query = (String) intent.getSerializableExtra("data");
         setContentView(R.layout.activity_search);

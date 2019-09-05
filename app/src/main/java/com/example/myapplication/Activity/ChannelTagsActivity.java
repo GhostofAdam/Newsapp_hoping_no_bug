@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.myapplication.R;
+import com.example.myapplication.Utilities.User;
 import com.zhl.channeltagview.bean.ChannelItem;
 import com.zhl.channeltagview.bean.GroupItem;
 import com.zhl.channeltagview.listener.OnChannelItemClicklistener;
@@ -29,6 +30,21 @@ public class ChannelTagsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        User user = (User)getApplication();
+        switch (user.gettheme()){
+            case 0:
+                setTheme(R.style.AppTheme);
+                break;
+            case 1:
+                setTheme(R.style.DayTheme);
+                break;
+            case 2:
+                setTheme(R.style.NightTheme);
+                break;
+            default:
+                break;
+
+        }
         setContentView(R.layout.activity_channel_tags);
         channelTagView = (ChannelTagView) findViewById(R.id.channel_tag_view);
         confirm = (Button) findViewById(R.id.confirm_button);
@@ -56,7 +72,7 @@ public class ChannelTagsActivity extends AppCompatActivity {
         initData(added);
         channelTagView.showPahtAnim(false);
         channelTagView.setCategaryAddedBannerTX("已添加(滑动删除)");
-        channelTagView.setCategoryAddedBannerBg(R.color.colorPrimary);
+        channelTagView.setCategoryAddedBannerBg(R.attr.colorPrimary);
         channelTagView.setCategrayUnAddedBannerTX("未添加(点击添加)");
         channelTagView.setCategoryUnAddedBannerBg(R.color.colorPrimary);
         //channelTagView.setCategoryBannerTXsize(10);

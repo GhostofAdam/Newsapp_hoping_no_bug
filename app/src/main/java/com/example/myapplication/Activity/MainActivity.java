@@ -22,40 +22,35 @@ import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
 
 import com.example.myapplication.Service.SQLservice;
-import com.example.myapplication.Utilities.GetWeb;
-
-import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.User;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 
 import android.util.Log;
 import android.view.View;
 
 import android.view.WindowManager;
-import android.widget.Button;
 
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.SearchView;
 
 
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
-import androidx.appcompat.view.menu.MenuView;
+
 import androidx.core.view.GravityCompat;
-import androidx.appcompat.app.ActionBarDrawerToggle;
+
 
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
+
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.stephentuso.welcome.WelcomeHelper;
+
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.PagerAdapter;
+
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.Menu;
@@ -63,10 +58,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
-import java.util.List;
-import java.util.TreeSet;
-
 import java.util.Vector;
 
 import static cn.bingoogolapple.badgeview.BGAExplosionAnimator.ANIM_DURATION;
@@ -76,7 +67,6 @@ public class MainActivity extends AppCompatActivity
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
-
     private SectionAdapter sectionAdapter;
     private ViewPager viewPager;
     private SmartTabLayout tabs;
@@ -85,23 +75,35 @@ public class MainActivity extends AppCompatActivity
     private String mLastQuery="";
     private ColorDrawable mDimDrawable;
     private View mDimSearchViewBackground;
-
+    private WelcomeHelper welcomeScreen;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(savedInstanceState==null) {
+            welcomeScreen = new WelcomeHelper(this, myWelcomeActivity.class);
+            welcomeScreen.forceShow();
+        }
+
+
+        //welcomeScreen.forceShow();
+
+        final User user = (User)getApplication();
+        switch (user.gettheme()){
+            case 0:
+                setTheme(R.style.AppTheme);
+                break;
+            case 1:
+                setTheme(R.style.DayTheme);
+                break;
+            case 2:
+                setTheme(R.style.NightTheme);
+                break;
+            default:
+                break;
+
+        }
         isConnectIsNomarl();
         setContentView(R.layout.activity_main);
-//        toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -116,10 +118,6 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-//        toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
         sectionAdapter = new SectionAdapter(this,getSupportFragmentManager(),getResources().getStringArray(R.array.chanles));
@@ -145,7 +143,36 @@ public class MainActivity extends AppCompatActivity
         mSearchView.attachNavigationDrawerToMenuButton(drawer);
         setSearchSuggestions();
 
+        mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
+            @Override
+            public void onActionMenuItemSelected(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.default_theme:
+                        user.settheme(0);
+                        setTheme(R.style.AppTheme);
+                        break;
+                    case R.id.day:
+                        user.settheme(1);
+                        setTheme(R.style.DayTheme);
+                        break;
+                    case R.id.night:
+                        user.settheme(2);
+                        setTheme(R.style.NightTheme);
+                        break;
+                }
+                refresh();
+        }
+        });
+        mSearchView.setMenuItemIconColor(R.attr.colorText);
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        sectionAdapter.notifyAdapter();
     }
 
     @Override
@@ -375,4 +402,20 @@ public class MainActivity extends AppCompatActivity
         user.initHistory(op.allNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,user.getUsername()));
         user.initSearch(op.findSearch(helper.getWritableDatabase(),user.getUsername()));
     }
+
+    private void refresh() {
+        try {//避免重启太快恢复
+          sectionAdapter.getPages().clear();
+        } catch (Exception e) {
+        }
+        recreate();
+    }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //welcomeScreen.onSaveInstanceState(outState);
+        outState.putSerializable("","");
+    }
+
+
 }

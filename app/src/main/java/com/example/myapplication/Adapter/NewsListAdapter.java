@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.Spannable;
@@ -23,6 +24,7 @@ import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.Resource;
 import com.example.myapplication.Activity.MainActivity;
 import com.example.myapplication.R;
 
@@ -32,6 +34,7 @@ import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.User;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -39,7 +42,7 @@ import java.util.Vector;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
-public class NewsListAdapter extends RecyclerView.Adapter{
+public class NewsListAdapter extends RecyclerView.Adapter implements Serializable {
     public Vector<News> Dataset = new Vector<News>();
     private Activity activity;
     private Fragment fragment;
@@ -92,6 +95,7 @@ public class NewsListAdapter extends RecyclerView.Adapter{
         }
     }
     class ThreeImageHolder extends RecyclerView.ViewHolder{
+        LinearLayout t;
         ImageView imageView_1;
         ImageView imageView_2;
         ImageView imageView_3;
@@ -109,6 +113,7 @@ public class NewsListAdapter extends RecyclerView.Adapter{
         }
     }
     class NoImageHolder extends RecyclerView.ViewHolder{
+        LinearLayout t;
         TextView titleView;
         TextView subtitleView;
 
@@ -120,6 +125,7 @@ public class NewsListAdapter extends RecyclerView.Adapter{
         }
     }
     class VideoHolder extends RecyclerView.ViewHolder{
+        LinearLayout t;
         JCVideoPlayerStandard jcVideoPlayer;
         TextView subtitle;
         public VideoHolder(View view){
@@ -134,30 +140,62 @@ public class NewsListAdapter extends RecyclerView.Adapter{
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(no_image)
+        boolean seen = false;
+        android.content.res.Resources res;
+        if(activity==null){
+            res = fragment.getResources();
+        }
+        else{
+          res = activity.getResources();
+        }
+        if(no_image) {
             viewType = 2;
+        }
+        if(viewType>=10){
+            viewType-=10;
+            seen = true;
+        }
+
         switch (viewType) {
             case 0: {
                 View v = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.news_label, parent, false);
+
+                if(seen){
+                    LinearLayout t = (LinearLayout)v;
+                    t.setBackground(res.getDrawable(R.drawable.ic_seen,null));
+                }
                 OneImageHolder vh = new OneImageHolder(v);
                 return vh;
             }
             case 1: {
                 View v = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.three_image_label, parent, false);
+                if(seen){
+                    LinearLayout t = (LinearLayout)v;
+                    t.setBackground(res.getDrawable(R.drawable.ic_seen,null));
+                }
                 ThreeImageHolder vh = new ThreeImageHolder(v);
                 return vh;
             }
             case 2:{
                 View v = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.no_image_news_label, parent, false);
+                if(seen){
+                    LinearLayout t = (LinearLayout)v;
+
+                    t.setBackground(res.getDrawable(R.drawable.ic_seen,null));
+                }
                 NoImageHolder vh = new NoImageHolder(v);
                 return vh;
             }
             case 3:{
                 View v = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.video_news_label, parent, false);
+                if(seen){
+                    LinearLayout t = (LinearLayout)v;
+                    t.setBackground(res.getDrawable(R.drawable.ic_seen,null));
+                }
                 VideoHolder vh = new VideoHolder(v);
                 return vh;
             }
@@ -233,18 +271,27 @@ public class NewsListAdapter extends RecyclerView.Adapter{
     @Override
     public int getItemViewType(int position) {
         News news = Dataset.get(position);
+        int type = 0;
         if(news.getVideoUrl()!=null){
-            return 3;
+            type=3;
         }
         else if(news.getImageUrl()!=null&&news.getImageUrl().size()>=3){
-            return 1;
+            type=1;
         }
         else if(news.getImageUrl()!=null&&news.getImageUrl().size()>=1){
-            return 0;
+            type=0;
         }
         else
-            return  2;
+            type=2;
 
+        User user;
+        if(activity==null)
+            user = (User)fragment.getActivity().getApplication();
+        else
+            user = (User)activity.getApplication();
+        if(user.getHistory().contains(news))
+            type+=10;
+        return type;
 
     }
 
@@ -252,9 +299,11 @@ public class NewsListAdapter extends RecyclerView.Adapter{
     public int getItemCount() {
         return Dataset.size();
     }
-
     public void deleteItem(int pos){
         Dataset.remove(pos);
         notifyDataSetChanged();
+    }
+    public void setfragment(Fragment f){
+        fragment=f;
     }
 }

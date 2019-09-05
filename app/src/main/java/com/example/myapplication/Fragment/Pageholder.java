@@ -50,19 +50,16 @@ public class Pageholder extends Fragment {
 
     private Vector<String> mImageTitles;//标题集合
 
-    private NewsListAdapter newsListAdapter;
+    public NewsListAdapter newsListAdapter;
     // 在values文件假下创建了pager_image_ids.xml文件，并定义了4张轮播图对应的id，用于点击事件
-    public Pageholder(String label){
-        Label = label;
-    }
     public static Pageholder newInstance(int index, String label) {
-        Pageholder fragment = new Pageholder(label);
+        Pageholder fragment = new Pageholder();
         Bundle bundle = new Bundle();
+        fragment.Label=label;
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
         if(label.equals("推荐")){
             //User user= (User) fragment.getActivity().getApplication();
-
             fragment.newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",label),null,fragment);
         }
         else
@@ -73,7 +70,11 @@ public class Pageholder extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if(savedInstanceState!=null){
+            Vector<News> data = ( Vector<News>) savedInstanceState.getSerializable("data");
+            newsListAdapter = new NewsListAdapter(data,null,this);
+            Label = (String)savedInstanceState.getSerializable("label");
+        }
     }
 
     @Override
@@ -144,5 +145,12 @@ public class Pageholder extends Fragment {
     public  void onPause() {
         super.onPause();
         //isStop = true;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("data",newsListAdapter.Dataset);
+        outState.putSerializable("lable",Label);
     }
 }
