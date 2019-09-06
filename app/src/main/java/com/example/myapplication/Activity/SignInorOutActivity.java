@@ -42,7 +42,7 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        User user = (User)getApplication();
+        final User user = (User)getApplication();
         switch (user.gettheme()){
             case 0:
                 setTheme(R.style.AppTheme);
@@ -141,6 +141,10 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
                 Intent intent = new Intent(SignInorOutActivity.this, SQLservice.class);
                 intent.putExtra("flag",User.ADD_ACCOUNT);
                 intent.putExtra("data",strings);
+
+                SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
+                OperateOnSQLite op = new OperateOnSQLite();
+                op.insertState(helper.getWritableDatabase(),1,user.getUsername());
                 startService(intent);
                 Toast.makeText(getApplicationContext(), "注册成功",
                         Toast.LENGTH_SHORT).show();

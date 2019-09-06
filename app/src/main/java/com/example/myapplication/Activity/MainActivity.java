@@ -25,6 +25,7 @@ import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.SQLite.serverAvail;
 import com.example.myapplication.Service.SQLservice;
 import com.example.myapplication.Service.UpdateService;
+import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.User;
 
 
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         /* DEBUG */
         SQLiteDbHelper helper = new SQLiteDbHelper(getApplicationContext());
-        new OperateOnServer().uploadNews(helper.getWritableDatabase(), "1", "1");
+        //new OperateOnServer().uploadNews(helper.getWritableDatabase(), "1", "1");
         super.onCreate(savedInstanceState);
         if(savedInstanceState==null) {
             welcomeScreen = new WelcomeHelper(this, myWelcomeActivity.class);
@@ -121,6 +122,7 @@ public class MainActivity extends AppCompatActivity
                 if(!server.test()){
                     Toast.makeText(getApplicationContext(), "联网失败",
                             Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 User user = (User)getApplication();
                 if(user.getUsername()==null) {
@@ -422,10 +424,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void refresh() {
-        try {//避免重启太快恢复
-          sectionAdapter.getPages().clear();
-        } catch (Exception e) {
-        }
+        ArrayList<String>vector = new ArrayList<>();
+        sectionAdapter.refreshTabPage(vector);
         recreate();
     }
     @Override
