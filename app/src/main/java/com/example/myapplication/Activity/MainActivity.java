@@ -19,6 +19,7 @@ import com.example.myapplication.Adapter.SectionAdapter;
 import com.example.myapplication.Entity.MySearchSuggest;
 import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
+import com.example.myapplication.SQLite.OperateOnServer;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
 
 import com.example.myapplication.SQLite.serverAvail;
@@ -401,9 +402,17 @@ public class MainActivity extends AppCompatActivity
         anim.start();
     }
     private void initUserData(){
+        User user = (User)getApplication();
         SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
         OperateOnSQLite op = new OperateOnSQLite();
-        User user = (User)getApplication();
+        OperateOnServer os = new OperateOnServer();
+        if(op.getState(helper.getWritableDatabase())){
+
+        }
+        else{
+            os.uploadNews(helper.getWritableDatabase(),,user.getUsername(),user.getPassword());
+        }
+
         user.initCollections(op.allNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,user.getUsername()));
         user.initHistory(op.allNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,user.getUsername()));
         user.initSearch(op.findSearch(helper.getWritableDatabase(),user.getUsername()));
