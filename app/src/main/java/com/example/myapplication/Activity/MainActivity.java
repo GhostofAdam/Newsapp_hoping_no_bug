@@ -19,6 +19,7 @@ import com.example.myapplication.Adapter.SectionAdapter;
 import com.example.myapplication.Entity.MySearchSuggest;
 import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
+import com.example.myapplication.SQLite.OperateOnServer;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
 
 import com.example.myapplication.SQLite.serverAvail;
@@ -80,6 +81,9 @@ public class MainActivity extends AppCompatActivity
     private WelcomeHelper welcomeScreen;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /* DEBUG */
+        SQLiteDbHelper helper = new SQLiteDbHelper(getApplicationContext());
+        new OperateOnServer().uploadNews(helper.getWritableDatabase(), "1", "1");
         super.onCreate(savedInstanceState);
         if(savedInstanceState==null) {
             welcomeScreen = new WelcomeHelper(this, myWelcomeActivity.class);

@@ -69,6 +69,11 @@ public class OperateOnSQLite
         db.delete(tableName, "sole=?", new String[] {identity + news.getNewsID()});
     }
 
+    public void deleteNewsOfAccount(SQLiteDatabase db, String tableName, String identity)
+    {
+        db.delete(tableName, "identity=?", new String[] {identity});
+    }
+
     /* return all news in this identity */
     public Vector<News> allNews(SQLiteDatabase db, String tableName, String identity)
     {

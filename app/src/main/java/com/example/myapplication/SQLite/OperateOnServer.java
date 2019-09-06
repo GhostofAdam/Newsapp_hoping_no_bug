@@ -23,14 +23,15 @@ import okhttp3.Response;
 
 class URL
 {
-    static String url = "http://166.111.5.239:8001/app/";
-    static String _url = "http://166.111.5.239:8001/data/";
+    static String url = "http://166.111.5.239:8005/app/";
+    static String url_s = "http://166.111.5.239:8005/seen/";
+    static String url_c = "http://166.111.5.239:8005/collection/";
 }
 
 ///* DEBUG */
 //SQLiteDbHelper helper = new SQLiteDbHelper(getApplicationContext());
-//    new OperateOnSQLite().clearTables(helper.getWritableDatabase());
-//            new OperateOnServer().downloadAll(helper.getWritableDatabase());
+//new OperateOnSQLite().clearTables(helper.getWritableDatabase());
+//new OperateOnServer().downloadAll(helper.getWritableDatabase());
 
 public class OperateOnServer
 {
@@ -180,7 +181,7 @@ public class OperateOnServer
         }
         cursor.close();
         RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8"), array.toString());
-        Request request = new Request.Builder().url(URL._url).post(body).build();
+        Request request = tableName.equals(SQLiteDbHelper.TABLE_COLLECTION) ? new Request.Builder().url(URL.url_c).post(body).build() : new Request.Builder().url(URL.url_s).post(body).build();
         try
         {
             Response response = client.newCall(request).execute();
@@ -418,22 +419,25 @@ public class OperateOnServer
 
     public void downloadAll(final SQLiteDatabase db, final String identity)
     {
+        OperateOnSQLite op = new OperateOnSQLite();
+        op.deleteNewsOfAccount(db, SQLiteDbHelper.TABLE_COLLECTION, identity);
+        op.deleteNewsOfAccount(db, SQLiteDbHelper.TABLE_SEEN, identity);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                _downloadAccount(db);
                 _downloadNews(db, SQLiteDbHelper.TABLE_COLLECTION, identity);
                 _downloadNews(db, SQLiteDbHelper.TABLE_SEEN, identity);
             }
         }).start();
     }
 
-    public void uploadNews(final SQLiteDatabase db, final String tableName, final String identity, final String password)
+    public void uploadNews(final SQLiteDatabase db, final String identity, final String password)
     {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                _uploadNews(db, tableName, identity, password);
+                _uploadNews(db, SQLiteDbHelper.TABLE_COLLECTION, identity, password);
+                _uploadNews(db, SQLiteDbHelper.TABLE_SEEN, identity, password);
             }
         }).start();
     }
