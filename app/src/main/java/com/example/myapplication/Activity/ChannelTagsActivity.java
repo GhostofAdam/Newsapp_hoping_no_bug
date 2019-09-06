@@ -1,6 +1,7 @@
 package com.example.myapplication.Activity;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -72,6 +73,7 @@ public class ChannelTagsActivity extends AppCompatActivity {
         initData(added);
         channelTagView.showPahtAnim(false);
         channelTagView.setCategaryAddedBannerTX("已添加(滑动删除)");
+        TypedArray ta = getTheme().obtainStyledAttributes(R.style)
         channelTagView.setCategoryAddedBannerBg(R.attr.colorPrimary);
         channelTagView.setCategrayUnAddedBannerTX("未添加(点击添加)");
         channelTagView.setCategoryUnAddedBannerBg(R.color.colorPrimary);

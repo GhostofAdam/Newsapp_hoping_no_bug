@@ -158,8 +158,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                 collect.setChecked(true);
             }
         }
-       else
-           collect.setChecked(true);
+
 
         banner = findViewById(R.id.banner);
 

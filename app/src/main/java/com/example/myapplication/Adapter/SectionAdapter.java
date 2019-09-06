@@ -70,11 +70,11 @@ public class SectionAdapter extends FragmentStatePagerAdapter implements Seriali
         return pages.size();
     }
     public void notifyAdapter(){
-        if(pages.get(0).newsListAdapter!=null) {
-            for (Pageholder p : pages) {
+        for (Pageholder p : pages) {
+            if(p.newsListAdapter!=null)
                 p.newsListAdapter.notifyDataSetChanged();
-            }
         }
+
     }
     public Vector<Pageholder> getPages(){
         return pages;

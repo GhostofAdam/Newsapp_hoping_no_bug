@@ -119,9 +119,6 @@ public class User extends Application {
 //            records.add(r);
 //        }
     }
-    public void initRecords(Vector<News>collections,Vector<News>histories){
-
-    }
 
     public Vector<News> getRecomendation(){
          Vector<News>recomendations = new Vector<>();

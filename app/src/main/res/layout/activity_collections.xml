@@ -28,14 +28,6 @@
             app:expandedTitleMarginEnd="10dp"
             app:expandedTitleMarginStart="10dp"
             app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title">
-            <ImageView
-                android:id="@+id/iv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                android:src="@drawable/pigeon"
-            app:layout_collapseParallaxMultiplier="0.5"/>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/collections_toolbar"

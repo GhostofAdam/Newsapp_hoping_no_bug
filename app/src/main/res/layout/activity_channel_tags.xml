@@ -50,6 +50,7 @@
         android:layout_height="wrap_content"
         app:channelItemTxSize="@dimen/channel_item_txsize"
         app:fixedPos="0"
+
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toTopOf="@id/app_bar" />
 

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,7 +48,7 @@ public class Pageholder extends Fragment {
     private View root;
     private TwinklingRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
-
+    private User user;
     private Vector<String> mImageTitles;//标题集合
 
     public NewsListAdapter newsListAdapter;
@@ -58,22 +59,25 @@ public class Pageholder extends Fragment {
         fragment.Label=label;
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
-        if(label.equals("推荐")){
-            //User user= (User) fragment.getActivity().getApplication();
-            fragment.newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",label),null,fragment);
-        }
-        else
-            fragment.newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",label),null,fragment);
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        user = (User)getActivity().getApplication();
         if(savedInstanceState!=null){
             Vector<News> data = ( Vector<News>) savedInstanceState.getSerializable("data");
             newsListAdapter = new NewsListAdapter(data,null,this);
             Label = (String)savedInstanceState.getSerializable("label");
+        }
+        else{
+            if(Label.equals("推荐")){
+                newsListAdapter = new NewsListAdapter(user.getRecomendation(),null,this);
+            }
+            else
+                newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",Label),null,this);
         }
     }
 
@@ -127,11 +131,19 @@ public class Pageholder extends Fragment {
             mImageTitles.add(newsListAdapter.Dataset.get(i).getTitle());
     }
     private void RefreshData(){
-        newsListAdapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",Label),false);
+        if(Label.equals("推荐")){
+            newsListAdapter.notifyAdapter(user.getRecomendation(),false);
+        }
+        else
+            newsListAdapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",Label),false);
 
     }
     private void LoadMoreData(){
-        newsListAdapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",Label),true);
+        if(Label.equals("推荐")){
+            newsListAdapter.notifyAdapter(user.getRecomendation(),true);
+        }
+        else
+            newsListAdapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",Label),true);
     }
 
     @Override
@@ -145,6 +157,12 @@ public class Pageholder extends Fragment {
     public  void onPause() {
         super.onPause();
         //isStop = true;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
     }
 
     @Override

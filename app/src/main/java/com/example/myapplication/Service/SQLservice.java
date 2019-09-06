@@ -37,13 +37,13 @@ public class SQLservice extends Service {
                     News news = (News)intent.getSerializableExtra("data");
                     op.insertNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername());
                     OperateOnServer operateOnServer = new OperateOnServer();
-                    operateOnServer.inseartNews(SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername(),user.getPassword());
+                    //operateOnServer.inseartNews(SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername(),user.getPassword());
                 }
                 case User.ADD_HISTORY: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.insertNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,news,user.getUsername());
                     OperateOnServer operateOnServer = new OperateOnServer();
-                    operateOnServer.inseartNews(SQLiteDbHelper.TABLE_SEEN,news,user.getUsername(),user.getPassword());
+                    //operateOnServer.inseartNews(SQLiteDbHelper.TABLE_SEEN,news,user.getUsername(),user.getPassword());
                 }
                 case User.DELETE_COLLECTION: {
                     News news = (News)intent.getSerializableExtra("data");
