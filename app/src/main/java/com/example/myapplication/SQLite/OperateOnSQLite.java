@@ -21,6 +21,22 @@ public class OperateOnSQLite
         db.execSQL("DELETE FROM " + SQLiteDbHelper.TABLE_SEEN);
     }
 
+    public void insertState(SQLiteDatabase db, int avail)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("avail", avail);
+        db.insert(SQLiteDbHelper.TABLE_STATE, null, contentValues);
+    }
+
+    public boolean getState(SQLiteDatabase db)
+    {
+        Cursor cursor = db.query(SQLiteDbHelper.TABLE_STATE, null, null, null, null, null, null, null);
+        cursor.moveToLast();
+        int judge = cursor.getInt(cursor.getColumnIndex("avail"));
+        cursor.close();
+        return judge == 1;
+    }
+
     /* insert news */
     public void insertNews(SQLiteDatabase db, String tableName, News news, String identity)
     {

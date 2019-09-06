@@ -1,16 +1,21 @@
 package com.example.myapplication.SQLite;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.myapplication.Utilities.News;
 import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Vector;
 
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -19,6 +24,7 @@ import okhttp3.Response;
 class URL
 {
     static String url = "http://166.111.5.239:8001/app/";
+    static String _url = "http://166.111.5.239:8001/data/";
 }
 
 ///* DEBUG */
@@ -32,7 +38,9 @@ public class OperateOnServer
     public Vector<News> allnews;
     public boolean isFindNews;
     public boolean isaccount;
+    private int isaccount_num;
     public boolean isright;
+    private int isright_num;
 
     private FormBody.Builder createBuilder(String id, String table, String doing)
     {
@@ -90,9 +98,10 @@ public class OperateOnServer
         }
     }
 
-    private void _downloadNews(SQLiteDatabase db, String tableName)
+    private void _downloadNews(SQLiteDatabase db, String tableName, String identity)
     {
         FormBody.Builder builder = createBuilder("1", tableName, "download");
+        builder.add("identity", identity);
         RequestBody formBody = builder.build();
         Request request = new Request.Builder().url(URL.url).post(formBody).build();
         News[] mynewsList = null;
@@ -142,6 +151,44 @@ public class OperateOnServer
             {
                 db.endTransaction();
             }
+        }
+    }
+
+    private void _uploadNews(SQLiteDatabase db, String tableName, String identity, String password)
+    {
+        JSONArray array = new JSONArray();
+        Cursor cursor = db.query(tableName, null, "identity=?", new String[] {identity}, null, null, null);
+        while(cursor.moveToNext())
+        {
+            JSONObject object = new JSONObject();
+            try
+            {
+                object.put("sole", cursor.getString(cursor.getColumnIndex("sole")));
+                object.put("newsID", cursor.getString(cursor.getColumnIndex("newsID")));
+                object.put("title", cursor.getString(cursor.getColumnIndex("title")));
+                object.put("content", cursor.getString(cursor.getColumnIndex("content")));
+                object.put("publisher", cursor.getString(cursor.getColumnIndex("publisher")));
+                object.put("publishTime", cursor.getString(cursor.getColumnIndex("publishTime")));
+                object.put("identity", identity);
+                object.put("password", password);
+            }
+            catch(org.json.JSONException e)
+            {
+                e.printStackTrace();
+            }
+            array.put(object);
+        }
+        cursor.close();
+        RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8"), array.toString());
+        Request request = new Request.Builder().url(URL._url).post(body).build();
+        try
+        {
+            Response response = client.newCall(request).execute();
+            response.body().close();
+        }
+        catch (IOException | NullPointerException e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -311,11 +358,11 @@ public class OperateOnServer
                 String result = response.body().string();
                 if(result.equals("yes"))
                 {
-                    isaccount = true;
+                    isaccount_num = 1;
                 }
                 else if(result.equals("no"))
                 {
-                    isaccount = false;
+                    isaccount_num = 0;
                 }
             }
         }
@@ -348,11 +395,11 @@ public class OperateOnServer
                 String result = response.body().string();
                 if(result.equals("yes"))
                 {
-                    isright = true;
+                    isright_num = 1;
                 }
                 else if(result.equals("no"))
                 {
-                    isright = false;
+                    isright_num = 0;
                 }
             }
         }
@@ -369,14 +416,24 @@ public class OperateOnServer
         }
     }
 
-    public void downloadAll(final SQLiteDatabase db)
+    public void downloadAll(final SQLiteDatabase db, final String identity)
     {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 _downloadAccount(db);
-                _downloadNews(db, SQLiteDbHelper.TABLE_COLLECTION);
-                _downloadNews(db, SQLiteDbHelper.TABLE_SEEN);
+                _downloadNews(db, SQLiteDbHelper.TABLE_COLLECTION, identity);
+                _downloadNews(db, SQLiteDbHelper.TABLE_SEEN, identity);
+            }
+        }).start();
+    }
+
+    public void uploadNews(final SQLiteDatabase db, final String tableName, final String identity, final String password)
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                _uploadNews(db, tableName, identity, password);
             }
         }).start();
     }
@@ -443,22 +500,28 @@ public class OperateOnServer
 
     public void isAccount(final String identity)
     {
+        isaccount_num = -1;
         new Thread(new Runnable() {
             @Override
             public void run() {
                 _isAccount(identity);
             }
         }).start();
+        while(isaccount_num == -1)  {}
+        isaccount = isaccount_num == 1;
     }
 
     public void isRightPassword(final String identity, final String password)
     {
+        isright_num = -1;
         new Thread(new Runnable() {
             @Override
             public void run() {
                 _isRightPassword(identity, password);
             }
         }).start();
+        while(isright_num == -1)   {}
+        isright = isright_num == 1;
     }
 
 }
