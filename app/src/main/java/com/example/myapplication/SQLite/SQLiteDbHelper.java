@@ -18,6 +18,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
     public static final String TABLE_COLLECTION = "collection";
     public static final String TABLE_SEEN = "seen";
     public static final String TABLE_SEARCH = "search";
+    public static final String TABLE_STATE = "state";
     private static final String ACCOUNT_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
             + TABLE_ACCOUNT + " ("
             + "identity TEXT PRIMARY KEY NOT NULL,"

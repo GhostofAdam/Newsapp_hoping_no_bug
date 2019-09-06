@@ -8,10 +8,10 @@ import okhttp3.Response;
 
 public class serverAvail
 {
-    public static boolean avail;
+    private static int avail;
     static private OkHttpClient client = new OkHttpClient();
 
-    public static void test()
+    private static void _test()
     {
         new Thread(new Runnable()
         {
@@ -23,7 +23,7 @@ public class serverAvail
                     Request request = new Request.Builder().url(URL.url).get().build();
                     Response response = client.newCall(request).execute();
                     System.out.print(response.code());
-                    avail = response.code() == 200;
+                    avail = response.code() == 200 ? 1 : 0;
                 }
                 catch(IOException e)
                 {
@@ -31,5 +31,12 @@ public class serverAvail
                 }
             }
         }).start();
+    }
+    public static int test()
+    {
+        avail = -1;
+        _test();
+        while(avail == -1)  {}
+        return avail;
     }
 }
