@@ -56,6 +56,12 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
             + "FOREIGN KEY(identity) REFERENCES account(identity) ON DELETE CASCADE ON UPDATE CASCADE"
             + ");";
 
+    private static final String STATE_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
+            + TABLE_STATE + " ("
+            + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "avail INTEGER"
+            + ");";
+
     public SQLiteDbHelper(Context context)
     {
         super(context, DB_NAME, null, DB_VERSION);
@@ -81,6 +87,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
         db.execSQL(COLLECTION_CREATE_TABLE_SQL);
         db.execSQL(SEEN_CREATE_TABLE_SQL);
         db.execSQL(SEARCH_CREATE_TABLE_SQL);
+        db.execSQL(STATE_CREATE_TABLE_SQL);
     }
     @Override
     public void onOpen(SQLiteDatabase db)
