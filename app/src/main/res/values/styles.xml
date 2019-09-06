@@ -6,9 +6,9 @@
         <item name="colorPrimary">@color/mediumseagreen</item>
         <item name="colorPrimaryDark">@color/md_green_A700</item>
         <item name="colorAccent">@color/green</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="colorBorder">#FFFFFF</item>
-        <item name="colorHeader">@color/black</item>
+        <item name="android:textColor">#000000</item>
+        <item name="colorBorder">#000000</item>
+        <item name="colorHeader">@color/mediumseagreen</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -19,10 +19,10 @@
     </style>
 
     <style name="DayTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/orange</item>
-        <item name="colorPrimaryDark">@color/darkorange</item>
-        <item name="colorAccent">@color/sandybrown</item>
-        <item name="colorText">#000000</item>
+        <item name="colorPrimary">@color/wheat</item>
+        <item name="colorPrimaryDark">@color/firebrick</item>
+        <item name="colorAccent">@color/darkred</item>
+        <item name="android:textColor">#000000</item>
         <item name="colorBorder">#000000</item>
         <item name="colorHeader">@color/red</item>
         <item name="windowActionBar">false</item>
@@ -31,11 +31,11 @@
 
     <style name="NightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/steelblue</item>
-        <item name="colorPrimaryDark">@color/royalblue</item>
+        <item name="colorPrimaryDark">@color/midnightblue</item>
         <item name="colorAccent">@color/darkslateblue</item>
-        <item name="colorText">#000000</item>
+        <item name="android:textColor">#000000</item>
         <item name="colorBorder">#000000</item>
-        <item name="colorHeader">@color/midnightblue</item>
+        <item name="colorHeader">@color/black</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

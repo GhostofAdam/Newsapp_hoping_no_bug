@@ -49,6 +49,7 @@ public class ChannelTagsActivity extends AppCompatActivity {
                 break;
 
         }
+
         setContentView(R.layout.activity_channel_tags);
         channelTagView = (ChannelTagView) findViewById(R.id.channel_tag_view);
         confirm = (Button) findViewById(R.id.confirm_button);
@@ -108,19 +109,19 @@ public class ChannelTagsActivity extends AppCompatActivity {
 
             @Override
             public void onAddedChannelItemClick(View itemView, int position) {
-                ChannelItem item = addedChannels.remove(position);
-                unAddedChannels.add(item);
+//                unAddedChannels.add(addedChannels.remove(position));
+//                onRestart();
             }
 
             @Override
             public void onUnAddedChannelItemClick(View itemView, int position) {
-                ChannelItem item = unAddedChannels.remove(position);
-                addedChannels.add(item);
+                addedChannels.add(unAddedChannels.remove(position));
         }
 
             @Override
             public void onItemDrawableClickListener(View itemView, int position) {
-                unAddedChannels.add(addedChannels.remove(position));
+//                unAddedChannels.add(addedChannels.remove(position));
+//                onRestart();
             }
         });
         channelTagView.setUserActionListener(new UserActionListener() {
@@ -132,6 +133,8 @@ public class ChannelTagsActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(int position, View itemView, ArrayList<ChannelItem> checkedChannels, ArrayList<ChannelItem> uncheckedChannels) {
+                addedChannels.clear();
+                addedChannels.addAll(checkedChannels);
                 unAddedChannels.clear();
                 unAddedChannels.addAll(uncheckedChannels);
             }

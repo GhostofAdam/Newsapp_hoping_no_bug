@@ -190,9 +190,14 @@ public class MainActivity extends AppCompatActivity
                 return;
             case 1:
                 ArrayList<String> titles = data.getStringArrayListExtra("result");
-                this.sectionAdapter.refreshTabPage(titles);
-                tabs.setViewPager(viewPager);
+                try {//避免重启太快恢复
+                    sectionAdapter.getPages().clear();
+                } catch (Exception e) {
 
+                }
+
+                sectionAdapter.refreshTabPage(titles);
+                recreate();
                 break;
             case 2:
                 String []strings = data.getStringArrayExtra("result");

@@ -128,11 +128,13 @@ public class NewsListAdapter extends RecyclerView.Adapter implements Serializabl
         LinearLayout t;
         JCVideoPlayerStandard jcVideoPlayer;
         TextView subtitle;
+        TextView title;
         public VideoHolder(View view){
             super(view);
             view = (LinearLayout)view;
             jcVideoPlayer = view.findViewById(R.id.videoplayer);
             subtitle = view.findViewById(R.id.item_video_news_subtitle);
+            title = view.findViewById(R.id.item_video_news_title);
         }
     }
     public void  setNoImage(){
@@ -224,18 +226,19 @@ public class NewsListAdapter extends RecyclerView.Adapter implements Serializabl
                 }
             });
         }
+        News news = Dataset.get(position);
         if(holder instanceof OneImageHolder){
             OneImageHolder mm = (OneImageHolder) holder;
             if(activity==null)
-                Glide.with(fragment).load(Dataset.get(position).getImageUrl().get(0)).into(mm.item_news_tv_img);
+                Glide.with(fragment).load(news.getImageUrl().get(0)).into(mm.item_news_tv_img);
             else
-                Glide.with(activity).load(Dataset.get(position).getImageUrl().get(0)).into(mm.item_news_tv_img);
-            mm.item_news_tv_title.setText(Dataset.get(position).getTitle());
-            mm.subtitle.setText(Dataset.get(position).getPublisher()+" "+Dataset.get(position).getPublishTime());
+                Glide.with(activity).load(news.getImageUrl().get(0)).into(mm.item_news_tv_img);
+            mm.item_news_tv_title.setText(news.getTitle());
+            mm.subtitle.setText(news.getPublisher()+" "+news.getPublishTime());
         }
         else if(holder instanceof ThreeImageHolder){
             ThreeImageHolder vh = (ThreeImageHolder)holder;
-            ArrayList<String>urls=Dataset.get(position).getImageUrl();
+            ArrayList<String>urls=news.getImageUrl();
             if(activity==null) {
                 Glide.with(fragment).load(urls.get(0)).skipMemoryCache(true).into(vh.imageView_1);
                 Glide.with(fragment).load(urls.get(1)).skipMemoryCache(true).into(vh.imageView_2);
@@ -246,13 +249,13 @@ public class NewsListAdapter extends RecyclerView.Adapter implements Serializabl
                 Glide.with(activity).load(urls.get(1)).skipMemoryCache(true).into(vh.imageView_2);
                 Glide.with(activity).load(urls.get(2)).skipMemoryCache(true).into(vh.imageView_3);
             }
-            vh.textView.setText(Dataset.get(position).getTitle());
-            vh.subtitle.setText(Dataset.get(position).getPublisher()+" "+Dataset.get(position).getPublishTime());
+            vh.textView.setText(news.getTitle());
+            vh.subtitle.setText(news.getPublisher()+" "+news.getPublishTime());
         }
         else if(holder instanceof NoImageHolder) {
             NoImageHolder vh = (NoImageHolder) holder;
-            vh.titleView.setText(Dataset.get(position).getTitle());
-            vh.subtitleView.setText(Dataset.get(position).getPublisher()+" "+Dataset.get(position).getPublishTime());
+            vh.titleView.setText(news.getTitle());
+            vh.subtitleView.setText(news.getPublisher()+" "+news.getPublishTime());
         }
         else if(holder instanceof VideoHolder){
             VideoHolder vh = (VideoHolder)holder;
@@ -260,7 +263,8 @@ public class NewsListAdapter extends RecyclerView.Adapter implements Serializabl
             //vh.videoView.setVideoURI(Uri.parse("https://www.w3schools.com/html/movie.mp4"));
             //vh.jcVideoPlayer.setUp("https://www.w3schools.com/html/movie.mp4", JCVideoPlayer.SCREEN_LAYOUT_LIST,Dataset.get(position).getTitle());
             vh.jcVideoPlayer.setUp(url, JCVideoPlayer.SCREEN_LAYOUT_LIST,Dataset.get(position).getTitle());
-            vh.subtitle.setText(Dataset.get(position).getPublisher()+" "+Dataset.get(position).getPublishTime());
+            vh.title.setText(news.getTitle());
+            vh.subtitle.setText(news.getPublisher()+" "+news.getPublishTime());
 //            Picasso.with(fragment)
 //                    .load(VideoConstant.videoThumbs[pager][position])
 //                    .into(viewHolder.jcVideoPlayer.thumbImageView);

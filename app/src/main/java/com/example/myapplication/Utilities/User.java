@@ -34,6 +34,7 @@ public class User extends Application {
     public final static int FIND_COLLECTION=4;
     public final static int FIND_HISTORY=5;
     public final static int ADD_SEARCH=6;
+    public final static int ADD_ACCOUNT=7;
     public void initCollections(Vector<News> n){
         colloctionsNews = n;
     }

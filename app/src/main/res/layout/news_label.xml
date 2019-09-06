@@ -25,6 +25,7 @@
         android:ellipsize="end"
         android:paddingStart="@dimen/padding"
         android:paddingEnd="@dimen/padding"
+        android:paddingTop="@dimen/padding"
         android:text="@string/default_text"
         android:textSize="@dimen/main_text_size" />
     <TextView

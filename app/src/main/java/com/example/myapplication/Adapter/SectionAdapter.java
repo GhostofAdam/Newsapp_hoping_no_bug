@@ -1,6 +1,9 @@
 package com.example.myapplication.Adapter;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.BoringLayout;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -17,12 +20,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class SectionAdapter extends FragmentStatePagerAdapter implements Serializable {
+public class SectionAdapter extends FragmentPagerAdapter implements Serializable {
     private static Vector<String> tab_tiles = new Vector<String>();
     private static Vector<Pageholder>  pages = new Vector<Pageholder>();
     private final Context mContext;
+    private FragmentManager fm;
     public SectionAdapter(Context context, FragmentManager fm,String[] chanles) {
         super(fm);
+        this.fm = fm;
         pages.add(Pageholder.newInstance(0,"推荐"));
         tab_tiles.add("推荐");
         for(int i=0;i<4;i++){
@@ -33,7 +38,7 @@ public class SectionAdapter extends FragmentStatePagerAdapter implements Seriali
     }
     @Override
     public Fragment getItem(int position){
-        return pages.get(position);
+        return pages.get(position%pages.size());
     }
     @Override
     public CharSequence getPageTitle(int position){
@@ -42,8 +47,9 @@ public class SectionAdapter extends FragmentStatePagerAdapter implements Seriali
     @Override
     public int getItemPosition(Object object) {
         // TODO Auto-generated method stub
-        return PagerAdapter.POSITION_NONE;
+        return POSITION_NONE;
     }
+
     public Vector<String> getTabTitles(){
         return tab_tiles;
     }
