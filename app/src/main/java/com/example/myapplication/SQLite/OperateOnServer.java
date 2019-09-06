@@ -26,6 +26,7 @@ class URL
     static String url = "http://166.111.5.239:8005/app/";
     static String url_s = "http://166.111.5.239:8005/seen/";
     static String url_c = "http://166.111.5.239:8005/collection/";
+    static String url_avail = "http://166.111.5.239:8005/test/";
 }
 
 ///* DEBUG */
