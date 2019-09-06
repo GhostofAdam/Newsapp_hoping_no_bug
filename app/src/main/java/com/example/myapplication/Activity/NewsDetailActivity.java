@@ -31,6 +31,7 @@ import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Service.SQLservice;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.User;
+import com.sackcentury.shinebuttonlib.ShineButton;
 import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
 import com.xyzlf.share.library.bean.ShareEntity;
@@ -45,7 +46,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     private TextView contentView;
     private TextView titleView;
     private TextView subtitleView;
-    private SparkButton collect;
+    private ShineButton collect;
     private ImageButton share;
     private News news;
     private Banner banner;
@@ -53,7 +54,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        User user = (User)getApplication();
+        final User user = (User)getApplication();
         switch (user.gettheme()){
             case 0:
                 setTheme(R.style.AppTheme);
@@ -82,52 +83,42 @@ public class NewsDetailActivity extends AppCompatActivity {
         tp = subtitleView.getPaint();
         tp.setFakeBoldText(true);
         collect = findViewById(R.id.spark_button);
-        collect.setEventListener(new SparkEventListener(){
+        if(user.getUsername()==null)
+            collect.setEnabled(false);
+        collect.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onEvent(ImageView button, boolean buttonState) {
-                User user = (User)getApplication();
-                if (buttonState) {
-                    // Button is active
-                    if(user.getUsername()==null){
-                        Toast.makeText(getApplicationContext(), "请登陆",
-                                Toast.LENGTH_SHORT).show();
-                        collect.setChecked(true);
-                        return;
-                    }
-                    user.addCollection(news);
-                    Intent intent1 = new Intent(NewsDetailActivity.this, SQLservice.class);
-                    intent1.putExtra("flag",User.ADD_COLLECTION);
-                    intent1.putExtra("data",news);
-                    startService(intent1);
-                    Toast.makeText(getApplicationContext(), "收藏成功",
+            public void onClick(View view) {
+                if(user.getUsername()==null)
+                    Toast.makeText(getApplicationContext(), "请登录",
                             Toast.LENGTH_SHORT).show();
-                } else {
-                    if(user.getUsername()==null){
-                        Toast.makeText(getApplicationContext(), "请登陆",
-                                Toast.LENGTH_SHORT).show();
-                        collect.setChecked(true);
-                        return;
-                    }
-                    user.deleteCollection(news);
-                    Intent intent1 = new Intent(NewsDetailActivity.this, SQLservice.class);
-                    intent1.putExtra("flag",User.DELETE_COLLECTION);
-                    intent1.putExtra("data",news);
-                    startService(intent1);
-                    // Button is inactive
-                    Toast.makeText(getApplicationContext(), "取消收藏",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-            @Override
-            public void onEventAnimationStart(ImageView button, boolean buttonState) {
-
-            }
-
-            @Override
-            public void onEventAnimationEnd(ImageView button, boolean buttonState) {
-
             }
         });
+        collect.setOnCheckStateChangeListener(new ShineButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(View view, boolean checked) {
+                User user = (User)getApplication();
+               if(checked){
+                   user.addCollection(news);
+                   Intent intent1 = new Intent(NewsDetailActivity.this, SQLservice.class);
+                   intent1.putExtra("flag",User.ADD_COLLECTION);
+                   intent1.putExtra("data",news);
+                   startService(intent1);
+                   Toast.makeText(getApplicationContext(), "收藏成功",
+                           Toast.LENGTH_SHORT).show();
+               }
+               else{
+                   user.deleteCollection(news);
+                   Intent intent1 = new Intent(NewsDetailActivity.this, SQLservice.class);
+                   intent1.putExtra("flag",User.DELETE_COLLECTION);
+                   intent1.putExtra("data",news);
+                   startService(intent1);
+                   // Button is inactive
+                   Toast.makeText(getApplicationContext(), "取消收藏",
+                           Toast.LENGTH_SHORT).show();
+               }
+            }
+        });
+
         back = findViewById(R.id.news_back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
