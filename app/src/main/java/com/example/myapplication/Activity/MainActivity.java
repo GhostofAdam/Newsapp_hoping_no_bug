@@ -81,6 +81,9 @@ public class MainActivity extends AppCompatActivity
     private WelcomeHelper welcomeScreen;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /* DEBUG */
+        SQLiteDbHelper helper = new SQLiteDbHelper(getApplicationContext());
+        new OperateOnServer().uploadNews(helper.getWritableDatabase(), "1", "1");
         super.onCreate(savedInstanceState);
         if(savedInstanceState==null) {
             welcomeScreen = new WelcomeHelper(this, myWelcomeActivity.class);

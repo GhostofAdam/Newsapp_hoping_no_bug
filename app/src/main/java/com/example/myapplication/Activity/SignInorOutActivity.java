@@ -103,13 +103,13 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
                 strings[0] = uesrname.getText().toString();
                 strings[1] = password.getText().toString();
                 os.isAccount(strings[0]);
-                os.isRightPassword(strings[0],strings[1]);
                 if(!os.isaccount){
                     Toast.makeText(getApplicationContext(), "用户名不存在",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                else if(!os.isright){
+                os.isRightPassword(strings[0],strings[1]);
+                if(!os.isright){
                     Toast.makeText(getApplicationContext(), "密码错误",
                             Toast.LENGTH_SHORT).show();
                     return;
