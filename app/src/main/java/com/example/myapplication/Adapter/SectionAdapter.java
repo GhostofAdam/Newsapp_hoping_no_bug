@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class SectionAdapter extends FragmentPagerAdapter implements Serializable {
+public class SectionAdapter extends FragmentStatePagerAdapter implements Serializable {
     private static Vector<String> tab_tiles = new Vector<String>();
     private static Vector<Pageholder>  pages = new Vector<Pageholder>();
     private final Context mContext;
@@ -46,7 +46,7 @@ public class SectionAdapter extends FragmentPagerAdapter implements Serializable
     }
     @Override
     public int getItemPosition(Object object) {
-        // TODO Auto-generated method stub
+
         return POSITION_NONE;
     }
 
@@ -64,6 +64,7 @@ public class SectionAdapter extends FragmentPagerAdapter implements Serializable
         notifyDataSetChanged();
     }
     public void refreshTabPage(ArrayList<String>titles){
+
         tab_tiles.clear();
         tab_tiles.addAll(titles);
         pages.clear();

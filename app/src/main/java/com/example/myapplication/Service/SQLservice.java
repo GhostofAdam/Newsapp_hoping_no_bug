@@ -73,8 +73,9 @@ public class SQLservice extends Service {
                     String word = (String)intent.getSerializableExtra("data");
                     op.insertSearch(helper.getWritableDatabase(),word,user.getUsername());
                 }
-                case User.ADD_ACCOUNT{
-
+                case User.ADD_ACCOUNT:{
+                    String[] strings = (String[])intent.getSerializableExtra("data");
+                    os.insertAccount(strings[0],strings[1]);
                 }
                 default:
                     break;

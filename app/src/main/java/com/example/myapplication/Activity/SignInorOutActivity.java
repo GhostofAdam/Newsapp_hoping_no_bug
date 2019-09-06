@@ -20,6 +20,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.OperateOnServer;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
+import com.example.myapplication.Service.SQLservice;
 import com.example.myapplication.Utilities.User;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -95,19 +96,20 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OperateOnSQLite op = new OperateOnSQLite();
+
                 OperateOnServer os = new OperateOnServer();
                 SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
                 String[] strings = new String[2];
                 strings[0] = uesrname.getText().toString();
                 strings[1] = password.getText().toString();
-
-                if(!os.isAccount(strings[0])){
+                os.isAccount(strings[0]);
+                os.isRightPassword(strings[0],strings[1]);
+                if(!os.isaccount){
                     Toast.makeText(getApplicationContext(), "用户名不存在",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                else if(!os.isRightPassword(strings[0],strings[1])){
+                else if(!os.isright){
                     Toast.makeText(getApplicationContext(), "密码错误",
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -125,19 +127,21 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
                 Animation clockwise= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_right_to_left);
                 if(isSigninScreen)
                     btnSignup.startAnimation(clockwise);
-                OperateOnSQLite op = new OperateOnSQLite();
                 OperateOnServer os = new OperateOnServer();
                 String[] strings = new String[2];
                 strings[0] = sign_up_uesrname.getText().toString();
                 strings[1] = sign_up_password.getText().toString();
                 SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
-                if(os.isAccount(strings[0])){
+                os.isAccount(strings[0]);
+                if(os.isaccount){
                     Toast.makeText(getApplicationContext(), "用户名已存在",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                op.insertAccount(help.getWritableDatabase(),strings[0],strings[1]);
-                os.insertAccount(strings[0],strings[1]);
+                Intent intent = new Intent(SignInorOutActivity.this, SQLservice.class);
+                intent.putExtra("flag",User.ADD_ACCOUNT);
+                intent.putExtra("data",strings);
+                startService(intent);
                 Toast.makeText(getApplicationContext(), "注册成功",
                         Toast.LENGTH_SHORT).show();
             }
