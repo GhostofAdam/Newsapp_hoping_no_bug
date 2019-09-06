@@ -410,12 +410,12 @@ public class MainActivity extends AppCompatActivity
         OperateOnSQLite op = new OperateOnSQLite();
         OperateOnServer os = new OperateOnServer();
         if(op.getState(helper.getWritableDatabase())){
-
+            os.downloadNews(helper.getWritableDatabase(),user.getUsername());
         }
         else{
-            os.uploadNews(helper.getWritableDatabase(),,user.getUsername(),user.getPassword());
+            os.uploadNews(helper.getWritableDatabase(),user.getUsername(),user.getPassword());
         }
-
+        op.insertState(helper.getWritableDatabase(),1,user.getUsername());
         user.initCollections(op.allNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,user.getUsername()));
         user.initHistory(op.allNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,user.getUsername()));
         user.initSearch(op.findSearch(helper.getWritableDatabase(),user.getUsername()));
@@ -437,8 +437,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        User user = (User)getApplication();
+        if(user.getUsername()!=null) {
+            SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
+            OperateOnSQLite op = new OperateOnSQLite();
+            serverAvail serve = new serverAvail();
+            if(serve.test())
+                op.insertState(helper.getWritableDatabase(), 1, user.getUsername());
+            else
+                op.insertState(helper.getWritableDatabase(), 0, user.getUsername());
+        }
         Intent intent = new Intent(MainActivity.this, UpdateService.class);
         stopService(intent);
+        super.onDestroy();
     }
 }

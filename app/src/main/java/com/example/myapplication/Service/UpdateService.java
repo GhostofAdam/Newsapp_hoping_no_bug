@@ -28,6 +28,10 @@ public class UpdateService extends Service {
             @Override
             public void run() {
                 boolean net = serve.test();
+                SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
+                OperateOnSQLite op = new OperateOnSQLite();
+                OperateOnServer os = new OperateOnServer();
+                User user = (User)getApplication();
                 while (true)
                 {
                     while (net)
@@ -48,6 +52,7 @@ public class UpdateService extends Service {
                         }
                         catch (Exception e){ }
                     }
+                    os.uploadNews(helper.getWritableDatabase(),user.getUsername(),user.getPassword());
                 }
             }
         }).start();
