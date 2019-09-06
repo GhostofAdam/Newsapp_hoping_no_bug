@@ -3,6 +3,7 @@ package com.example.myapplication.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -14,6 +15,8 @@ import com.zhl.channeltagview.bean.GroupItem;
 import com.zhl.channeltagview.listener.OnChannelItemClicklistener;
 import com.zhl.channeltagview.listener.UserActionListener;
 import com.zhl.channeltagview.view.ChannelTagView;
+
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -73,10 +76,11 @@ public class ChannelTagsActivity extends AppCompatActivity {
         initData(added);
         channelTagView.showPahtAnim(false);
         channelTagView.setCategaryAddedBannerTX("已添加(滑动删除)");
-        TypedArray ta = getTheme().obtainStyledAttributes(R.style)
-        channelTagView.setCategoryAddedBannerBg(R.attr.colorPrimary);
+
+        channelTagView.setCategoryAddedBannerBg(R.color.whitesmoke);
         channelTagView.setCategrayUnAddedBannerTX("未添加(点击添加)");
-        channelTagView.setCategoryUnAddedBannerBg(R.color.colorPrimary);
+        channelTagView.setCategoryUnAddedBannerBg(R.color.whitesmoke);
+        channelTagView.setCategoryBannerTXColor(R.color.black);
         //channelTagView.setCategoryBannerTXsize(10);
         //channelTagView.setChannelItemTxSizeSP(10);
         channelTagView.initChannels(addedChannels, unAddedItems, false, new ChannelTagView.RedDotRemainderListener() {

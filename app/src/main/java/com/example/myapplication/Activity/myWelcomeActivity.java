@@ -12,16 +12,16 @@ public class myWelcomeActivity extends WelcomeActivity {
         return new WelcomeConfiguration.Builder(this)
                 .defaultBackgroundColor(R.color.background)
                 .page(new TitlePage(R.drawable.bg_people,
-                        "Title")
+                        "Avain News").background(R.color.black)
                 )
                 .page(new BasicPage(R.drawable.bg_people,
-                        "Header",
-                        "More text.")
+                        "By",
+                        "蒋王一 桂尚彤")
                         .background(R.color.red)
                 )
                 .page(new BasicPage(R.drawable.bg_people,
-                        "Lorem ipsum",
-                        "dolor sit amet.")
+                        "Let's start",
+                        "See the world with a bird") .background(R.color.orange)
                 )
                 .swipeToDismiss(true)
                 .build();
