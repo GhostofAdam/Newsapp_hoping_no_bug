@@ -59,7 +59,9 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
     private static final String STATE_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
             + TABLE_STATE + " ("
             + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + "avail INTEGER"
+            + "avail INTEGER,"
+            + "identity TEXT,"
+            + "FOREIGN KEY(identity) REFERENCES account(identity) ON DELETE CASCADE ON UPDATE CASCADE"
             + ");";
 
     public SQLiteDbHelper(Context context)

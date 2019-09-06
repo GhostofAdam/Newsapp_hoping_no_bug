@@ -21,10 +21,11 @@ public class OperateOnSQLite
         db.execSQL("DELETE FROM " + SQLiteDbHelper.TABLE_SEEN);
     }
 
-    public void insertState(SQLiteDatabase db, int avail)
+    public void insertState(SQLiteDatabase db, int avail, String identity)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put("avail", avail);
+        contentValues.put("identity", identity);
         db.insert(SQLiteDbHelper.TABLE_STATE, null, contentValues);
     }
 
