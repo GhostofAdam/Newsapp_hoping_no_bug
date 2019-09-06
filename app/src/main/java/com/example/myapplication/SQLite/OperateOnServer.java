@@ -417,7 +417,7 @@ public class OperateOnServer
         }
     }
 
-    public void downloadAll(final SQLiteDatabase db, final String identity)
+    public void downloadNews(final SQLiteDatabase db, final String identity)
     {
         OperateOnSQLite op = new OperateOnSQLite();
         op.deleteNewsOfAccount(db, SQLiteDbHelper.TABLE_COLLECTION, identity);
