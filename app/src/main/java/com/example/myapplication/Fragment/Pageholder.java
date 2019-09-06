@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.Activity.VideoNewsActivity;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
@@ -108,17 +109,33 @@ public class Pageholder extends Fragment {
         newsListAdapter.setOnItemClickListener(new NewsListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
-                intent.putExtra("news",newsListAdapter.Dataset.get(position));
-                getActivity().startActivity(intent);
+                News news = newsListAdapter.Dataset.get(position);
+                if(news.getVideoUrl()==null) {
+                    Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+                    intent.putExtra("news", news);
+                    getActivity().startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(getActivity(), VideoNewsActivity.class);
+                    intent.putExtra("news", news);
+                    getActivity().startActivity(intent);
+                }
             }
         });
         newsListAdapter.setOnItemLongClickListener(new NewsListAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
-                intent.putExtra("news",newsListAdapter.Dataset.get(position));
-                getActivity().startActivity(intent);
+                News news = newsListAdapter.Dataset.get(position);
+                if(news.getVideoUrl()==null) {
+                    Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+                    intent.putExtra("news", news);
+                    getActivity().startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(getActivity(), VideoNewsActivity.class);
+                    intent.putExtra("news", news);
+                    getActivity().startActivity(intent);
+                }
             }
         });
         initData();//初始化数据

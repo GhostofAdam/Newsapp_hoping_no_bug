@@ -122,7 +122,8 @@ public class User extends Application {
 
     public Vector<News> getRecomendation(){
          Vector<News>recomendations = new Vector<>();
-         recomendations = new UrlRequest().urlRequest(15,"2019-07-01","2019-07-03","特朗普","科技");
+//         recomendations = new UrlRequest().urlRequest(15,"2019-07-01","2019-07-03","特朗普","科技");
+        recomendations = new UrlRequest().urlRequest(10,"","2019-09-05","海洋研究","");
          return recomendations;
     }
     public void clear(){

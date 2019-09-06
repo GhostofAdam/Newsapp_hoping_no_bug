@@ -53,11 +53,11 @@ public class News implements Serializable
         }
         return list;
     }
-    public String[] getVideoUrl() {
+    public String getVideoUrl() {
         if(video==null||video.length()==0)
             return null;
-        String[] strings = video.split("\\[|\\]|,");
-        return strings;
+
+        return video;
     }
     public String getPublishTime() { return this.publishTime; }
     public Keyword[] getKeywords() { return this.keywords; }

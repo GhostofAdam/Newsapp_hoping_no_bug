@@ -256,8 +256,10 @@ public class NewsListAdapter extends RecyclerView.Adapter implements Serializabl
         }
         else if(holder instanceof VideoHolder){
             VideoHolder vh = (VideoHolder)holder;
+            String url = Dataset.get(position).getVideoUrl();
             //vh.videoView.setVideoURI(Uri.parse("https://www.w3schools.com/html/movie.mp4"));
-            vh.jcVideoPlayer.setUp("https://www.w3schools.com/html/movie.mp4", JCVideoPlayer.SCREEN_LAYOUT_LIST,Dataset.get(position).getTitle());
+            //vh.jcVideoPlayer.setUp("https://www.w3schools.com/html/movie.mp4", JCVideoPlayer.SCREEN_LAYOUT_LIST,Dataset.get(position).getTitle());
+            vh.jcVideoPlayer.setUp(url, JCVideoPlayer.SCREEN_LAYOUT_LIST,Dataset.get(position).getTitle());
             vh.subtitle.setText(Dataset.get(position).getPublisher()+" "+Dataset.get(position).getPublishTime());
 //            Picasso.with(fragment)
 //                    .load(VideoConstant.videoThumbs[pager][position])

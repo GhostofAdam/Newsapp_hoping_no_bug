@@ -2,38 +2,23 @@ package com.example.myapplication.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import android.content.Intent;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
 import android.text.TextPaint;
 import android.util.SparseArray;
 import android.view.View;
-
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.myapplication.Adapter.GlideImageLoader;
-
-import com.example.myapplication.Fragment.ShareFragment;
 import com.example.myapplication.R;
-import com.example.myapplication.SQLite.OperateOnSQLite;
-import com.example.myapplication.SQLite.OperateOnServer;
-import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Service.SQLservice;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.User;
 import com.sackcentury.shinebuttonlib.ShineButton;
-import com.varunest.sparkbutton.SparkButton;
-import com.varunest.sparkbutton.SparkEventListener;
 import com.xyzlf.share.library.bean.ShareEntity;
 import com.xyzlf.share.library.interfaces.ShareConstant;
 import com.xyzlf.share.library.util.ShareUtil;
@@ -41,10 +26,10 @@ import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
-
-public class NewsDetailActivity extends AppCompatActivity {
+public class VideoNewsActivity extends AppCompatActivity {
     private TextView contentView;
     private TextView titleView;
     private TextView subtitleView;
@@ -72,20 +57,20 @@ public class NewsDetailActivity extends AppCompatActivity {
                 break;
 
         }
-        setContentView(R.layout.activity_news_detail);
+        setContentView(R.layout.activity_video_news);
         final Intent intent= getIntent();
         news = (News) intent.getSerializableExtra("news");
-        contentView = findViewById(R.id.news_content);
+        contentView = findViewById(R.id.news_content_video);
         contentView.setText(news.getContent());
-        titleView = findViewById(R.id.news_title);
+        titleView = findViewById(R.id.news_title_video);
         titleView.setText(news.getTitle());
         TextPaint tp = titleView.getPaint();
         tp.setFakeBoldText(true);
-        subtitleView = findViewById(R.id.news_sub_title);
+        subtitleView = findViewById(R.id.news_sub_title_video);
         subtitleView.setText(news.getPublisher()+"\n"+news.getPublishTime()+"\n");
         tp = subtitleView.getPaint();
         tp.setFakeBoldText(true);
-        collect = findViewById(R.id.spark_button);
+        collect = findViewById(R.id.spark_button_video);
         if(user.getUsername()==null)
             collect.setEnabled(false);
         collect.setOnClickListener(new View.OnClickListener() {
@@ -100,29 +85,29 @@ public class NewsDetailActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(View view, boolean checked) {
                 User user = (User)getApplication();
-               if(checked){
-                   user.addCollection(news);
-                   Intent intent1 = new Intent(NewsDetailActivity.this, SQLservice.class);
-                   intent1.putExtra("flag",User.ADD_COLLECTION);
-                   intent1.putExtra("data",news);
-                   startService(intent1);
-                   Toast.makeText(getApplicationContext(), "收藏成功",
-                           Toast.LENGTH_SHORT).show();
-               }
-               else{
-                   user.deleteCollection(news);
-                   Intent intent1 = new Intent(NewsDetailActivity.this, SQLservice.class);
-                   intent1.putExtra("flag",User.DELETE_COLLECTION);
-                   intent1.putExtra("data",news);
-                   startService(intent1);
-                   // Button is inactive
-                   Toast.makeText(getApplicationContext(), "取消收藏",
-                           Toast.LENGTH_SHORT).show();
-               }
+                if(checked){
+                    user.addCollection(news);
+                    Intent intent1 = new Intent(VideoNewsActivity.this, SQLservice.class);
+                    intent1.putExtra("flag",User.ADD_COLLECTION);
+                    intent1.putExtra("data",news);
+                    startService(intent1);
+                    Toast.makeText(getApplicationContext(), "收藏成功",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    user.deleteCollection(news);
+                    Intent intent1 = new Intent(VideoNewsActivity.this, SQLservice.class);
+                    intent1.putExtra("flag",User.DELETE_COLLECTION);
+                    intent1.putExtra("data",news);
+                    startService(intent1);
+                    // Button is inactive
+                    Toast.makeText(getApplicationContext(), "取消收藏",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        back = findViewById(R.id.news_back);
+        back = findViewById(R.id.news_back_video);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,7 +115,7 @@ public class NewsDetailActivity extends AppCompatActivity {
             }
         });
 
-        share = findViewById(R.id.share);
+        share = findViewById(R.id.share_video);
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,7 +129,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         if(user.getUsername()!=null&&!user.getHistory().contains(news)){
 
             user.addHistory(news);
-            Intent intent1 = new Intent(NewsDetailActivity.this, SQLservice.class);
+            Intent intent1 = new Intent(VideoNewsActivity.this, SQLservice.class);
             intent1.putExtra("flag",User.ADD_HISTORY);
             intent1.putExtra("data",news);
             startService(intent1);
@@ -154,7 +139,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         }
 
 
-        banner = findViewById(R.id.banner);
+        banner = findViewById(R.id.banner_video);
 
         banner.setImageLoader(new GlideImageLoader());
         ArrayList<String> urls =  news.getImageUrl();
@@ -167,7 +152,8 @@ public class NewsDetailActivity extends AppCompatActivity {
             banner.setImages(urls);
         }
         banner.start();
-
+        jcVideoPlayerStandard = findViewById(R.id.video_player_news);
+        jcVideoPlayerStandard.setUp(news.getVideoUrl(), JCVideoPlayer.SCREEN_LAYOUT_LIST,news.getTitle());
 
 
     }
@@ -191,6 +177,4 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         ShareUtil.showShareDialog(this, testBean, ShareConstant.REQUEST_CODE);
     }
-
-
 }
