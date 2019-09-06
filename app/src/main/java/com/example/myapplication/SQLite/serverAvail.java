@@ -32,11 +32,11 @@ public class serverAvail
             }
         }).start();
     }
-    public static int test()
+    public static boolean test()
     {
         avail = -1;
         _test();
         while(avail == -1)  {}
-        return avail;
+        return avail == 1;
     }
 }
