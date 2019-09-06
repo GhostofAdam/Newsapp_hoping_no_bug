@@ -3,6 +3,7 @@ package com.example.myapplication.SQLite;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.myapplication.Utilities.News;
 import com.google.gson.Gson;
@@ -36,6 +37,8 @@ class URL
 
 public class OperateOnServer
 {
+    private static final String TAG = "OperateOnServer";
+    
     static private OkHttpClient client = new OkHttpClient();
     public Vector<News> allnews;
     public boolean isFindNews;
@@ -403,6 +406,8 @@ public class OperateOnServer
                 {
                     isright_num = 0;
                 }
+            } else {
+                Log.d(TAG, "_isRightPassword: ");
             }
         }
         catch(IOException e)
