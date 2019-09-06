@@ -20,7 +20,7 @@ public class serverAvail
             {
                 try
                 {
-                    Request request = new Request.Builder().url(URL.url).get().build();
+                    Request request = new Request.Builder().url(URL.url_avail).get().build();
                     Response response = client.newCall(request).execute();
                     System.out.print(response.code());
                     avail = response.code() == 200 ? 1 : 0;
