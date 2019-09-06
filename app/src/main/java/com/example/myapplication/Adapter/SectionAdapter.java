@@ -42,7 +42,7 @@ public class SectionAdapter extends FragmentStatePagerAdapter implements Seriali
     }
     @Override
     public CharSequence getPageTitle(int position){
-        return pages.get(position).Label;
+        return tab_tiles.get(position);
     }
     @Override
     public int getItemPosition(Object object) {
