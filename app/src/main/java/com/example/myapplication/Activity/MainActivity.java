@@ -21,7 +21,9 @@ import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
 
+import com.example.myapplication.SQLite.serverAvail;
 import com.example.myapplication.Service.SQLservice;
+import com.example.myapplication.Service.UpdateService;
 import com.example.myapplication.Utilities.User;
 
 
@@ -111,6 +113,11 @@ public class MainActivity extends AppCompatActivity
         navigationView.getHeaderView(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                serverAvail server = new serverAvail();
+                if(!server.test()){
+                    Toast.makeText(getApplicationContext(), "联网失败",
+                            Toast.LENGTH_SHORT).show();
+                }
                 User user = (User)getApplication();
                 if(user.getUsername()==null) {
                     Intent intent = new Intent(MainActivity.this, SignInorOutActivity.class);
@@ -244,7 +251,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_gallery) {
             final User user = (User)getApplication();
             if(user.getUsername()==null){
-                Toast.makeText(getApplicationContext(), "请登陆",
+                Toast.makeText(getApplicationContext(), "请登录",
                         Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -417,5 +424,10 @@ public class MainActivity extends AppCompatActivity
         outState.putSerializable("","");
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent(MainActivity.this, UpdateService.class);
+        stopService(intent);
+    }
 }

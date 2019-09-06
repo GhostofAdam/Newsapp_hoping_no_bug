@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.OperateOnServer;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
+import com.example.myapplication.SQLite.serverAvail;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.User;
 
@@ -33,26 +34,31 @@ public class SQLservice extends Service {
                 OperateOnSQLite op = new OperateOnSQLite();
                 OperateOnServer os = new OperateOnServer();
                 User user = (User)getApplication();
+                serverAvail  server = new serverAvail();
             switch(flag) {
                 case User.ADD_COLLECTION: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.insertNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername());
-                    os.insertNews(SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername(),user.getPassword());
+                    if(server.test())
+                        os.insertNews(SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername(),user.getPassword());
                 }
                 case User.ADD_HISTORY: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.insertNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,news,user.getUsername());
-                    os.insertNews(SQLiteDbHelper.TABLE_SEEN,news,user.getUsername(),user.getPassword());
+                    if(server.test())
+                        os.insertNews(SQLiteDbHelper.TABLE_SEEN,news,user.getUsername(),user.getPassword());
                 }
                 case User.DELETE_COLLECTION: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.deleteNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername());
-                    os.deleteNews(SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername());
+                    if(server.test())
+                        os.deleteNews(SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername());
                 }
                 case User.DELETE_HISTORY: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.deleteNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,news,user.getUsername());
-                    os.deleteNews(SQLiteDbHelper.TABLE_SEEN,news,user.getUsername());
+                    if(server.test())
+                        os.deleteNews(SQLiteDbHelper.TABLE_SEEN,news,user.getUsername());
                 }
                 case User.FIND_COLLECTION: {
                     News news = (News)intent.getSerializableExtra("data");

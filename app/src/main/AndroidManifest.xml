@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.VideoNewsActivity"></activity>
+        <activity android:name=".Activity.VideoNewsActivity" />
+
         <activity
             android:name=".Activity.ChannelTagsActivity"
             android:label="@string/app_name"
@@ -50,14 +51,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -77,21 +76,26 @@
                 <!-- 100380359 100381104 222222 -->
             </intent-filter>
         </activity>
-
         <meta-data
             android:name="tencent_qq_appid"
             android:value="" />
+
         <meta-data
             android:name="weixin_key"
             android:value="wx8959869f468fec43" />
+        <service
+            android:name=".Service.UpdateService"
+            android:enabled="true"
+            android:exported="true"/>
+
         <service android:name=".Service.SQLservice" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
