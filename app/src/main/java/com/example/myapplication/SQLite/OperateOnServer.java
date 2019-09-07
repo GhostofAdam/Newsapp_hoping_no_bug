@@ -42,6 +42,7 @@ public class OperateOnServer
     static private OkHttpClient client = new OkHttpClient();
     private int isaccount_num;
     private int isright_num;
+    boolean isdownload;
 
     private FormBody.Builder createBuilder(String id, String table, String doing)
     {
@@ -413,6 +414,7 @@ public class OperateOnServer
 
     public void downloadNews(final SQLiteDatabase db, final String identity)
     {
+        isdownload = true;
         OperateOnSQLite op = new OperateOnSQLite();
         op.deleteNewsOfAccount(db, SQLiteDbHelper.TABLE_COLLECTION, identity);
         op.deleteNewsOfAccount(db, SQLiteDbHelper.TABLE_SEEN, identity);
@@ -423,8 +425,13 @@ public class OperateOnServer
                 _downloadNews(db, SQLiteDbHelper.TABLE_COLLECTION, identity);
                 _downloadNews(db, SQLiteDbHelper.TABLE_SEEN, identity);
                 _downloadShield(db, identity);
+                isdownload = false;
             }
         }).start();
+        while(isdownload)
+        {
+            System.out.println("fuck");
+        }
     }
 
     public void uploadNews(final SQLiteDatabase db, final String identity, final String password)
