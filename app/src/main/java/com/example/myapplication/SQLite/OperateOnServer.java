@@ -23,7 +23,7 @@ import okhttp3.Response;
 class URL
 {
 
-    static String port = "8090";
+    static String port = "8080";
 
     static String url = "http://166.111.5.239:" + port + "/app/";
     static String url_avail = "http://166.111.5.239:" + port + "/test/";

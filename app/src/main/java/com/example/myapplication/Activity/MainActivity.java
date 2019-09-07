@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity
         sectionAdapter = new SectionAdapter(this,getSupportFragmentManager(),getResources().getStringArray(R.array.chanles));
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionAdapter);
+        viewPager.setOffscreenPageLimit(7);
         tabs = findViewById(R.id.tabs);
         tabs.setViewPager(viewPager);
         channelTags = findViewById(R.id.tab_button);

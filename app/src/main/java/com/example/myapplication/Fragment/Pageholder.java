@@ -78,11 +78,20 @@ public class Pageholder extends Fragment {
         String now = dateUtility.getDateString(lastDate);
         String before = dateUtility.getDateString(dateUtility.backAWeek(lastDate));
         if(savedInstanceState!=null){
-            Vector<News> data = ( Vector<News>) savedInstanceState.getSerializable("data");
+            //Vector<News> data = ( Vector<News>) savedInstanceState.getSerializable("data");
             serverAvail server = new serverAvail();
 
-            newsListAdapter = new NewsListAdapter(data,null,this);
+//            newsListAdapter = new NewsListAdapter(data,null,this);
             Label = (String)savedInstanceState.getSerializable("label");
+            if(!server.test()){
+                newsListAdapter = new NewsListAdapter(new Vector<News>(),null,this);
+            }
+            else {
+                if (Label.equals("推荐")) {
+                    newsListAdapter = new NewsListAdapter(user.getRecomendation(), null, this);
+                } else
+                    newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10, before, now, "", Label), null, this);
+            }
         }
         else{
             serverAvail server = new serverAvail();
@@ -229,7 +238,7 @@ public class Pageholder extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable("data",newsListAdapter.Dataset);
+        //outState.putSerializable("data",newsListAdapter.Dataset);
         outState.putSerializable("label",Label);
     }
 }
