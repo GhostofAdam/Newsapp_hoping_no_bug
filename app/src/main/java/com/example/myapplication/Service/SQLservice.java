@@ -39,44 +39,34 @@ public class SQLservice extends Service {
                 case User.ADD_COLLECTION: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.insertNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername());
-//                    if(server.test())
+                   if(server.test())
                         os.insertNews(SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername(),user.getPassword());
                     break;
                 }
                 case User.ADD_HISTORY: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.insertNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,news,user.getUsername());
-//                    if(server.test())
+                    if(server.test())
                         os.insertNews(SQLiteDbHelper.TABLE_SEEN,news,user.getUsername(),user.getPassword());
                     break;
                 }
                 case User.DELETE_COLLECTION: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.deleteNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername());
-//                    if(server.test())
+                    if(server.test())
                         os.deleteNews(SQLiteDbHelper.TABLE_COLLECTION,news,user.getUsername());
                     break;
                 }
                 case User.DELETE_HISTORY: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.deleteNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,news,user.getUsername());
-//                    if(server.test())
+                    if(server.test())
                         os.deleteNews(SQLiteDbHelper.TABLE_SEEN,news,user.getUsername());
                     break;
                 }
                 case User.FIND_COLLECTION: {
                     News news = (News)intent.getSerializableExtra("data");
                     op.findNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,news.getNewsID(),user.getUsername());
-                    break;
-                }
-                case User.FIND_HISTORY: {
-                    News news = (News)intent.getSerializableExtra("data");
-                    op.findNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,news.getNewsID(),user.getUsername());
-                    break;
-                }
-                case User.ADD_SEARCH: {
-                    String word = (String)intent.getSerializableExtra("data");
-                    op.insertSearch(helper.getWritableDatabase(),word,user.getUsername());
                     break;
                 }
                 case User.ADD_ACCOUNT:{

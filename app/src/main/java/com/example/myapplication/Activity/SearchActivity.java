@@ -6,7 +6,10 @@ import com.example.myapplication.Entity.MySearchSuggest;
 import com.example.myapplication.R;
 import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
+import com.example.myapplication.SQLite.serverAvail;
 import com.example.myapplication.Service.SQLservice;
+import com.example.myapplication.Utilities.DateUtility;
+import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Utilities.UrlRequest;
 import com.example.myapplication.Utilities.User;
 
@@ -65,7 +68,13 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         recyclerView = findViewById(R.id.search_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",query,""),this,null);
+        DateUtility dateUtility = new DateUtility();
+        String today = dateUtility.getDateString(dateUtility.getCurrent());
+        serverAvail server = new serverAvail();
+        if(server.test())
+            adapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"",today,query,""),this,null);
+        else
+            adapter = new NewsListAdapter(new Vector<News>(),this,null);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new NewsListAdapter.OnItemClickListener() {
             @Override
@@ -127,7 +136,11 @@ public class SearchActivity extends AppCompatActivity {
                 if(searchSuggestion.getBody().equals(""))
                     return;
                 mLastQuery = searchSuggestion.getBody();
-                adapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",searchSuggestion.getBody(),""),false);
+                DateUtility dateUtility = new DateUtility();
+                String today = dateUtility.getDateString(dateUtility.getCurrent());
+                serverAvail server = new serverAvail();
+                if(server.test())
+                    adapter.notifyAdapter(new UrlRequest().urlRequest(10,"",today,searchSuggestion.getBody(),""),false);
                 setSearchSuggestions();
                 addSearch(searchSuggestion.getBody());
             }
@@ -137,7 +150,11 @@ public class SearchActivity extends AppCompatActivity {
                 if(currentQuery.equals(""))
                     return;
                 mLastQuery = currentQuery;
-                adapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25",currentQuery,""),false);
+                DateUtility dateUtility = new DateUtility();
+                String today = dateUtility.getDateString(dateUtility.getCurrent());
+                serverAvail server = new serverAvail();
+                if(server.test())
+                    adapter.notifyAdapter(new UrlRequest().urlRequest(10,"",today,currentQuery,""),false);
                 setSearchSuggestions();
                 addSearch(currentQuery);
             }
