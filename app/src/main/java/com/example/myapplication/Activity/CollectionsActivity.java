@@ -18,6 +18,7 @@ import com.example.myapplication.SQLite.OperateOnSQLite;
 import com.example.myapplication.SQLite.SQLiteDbHelper;
 import com.example.myapplication.Service.SQLservice;
 import com.example.myapplication.Utilities.News;
+import com.example.myapplication.Utilities.SpacesItemDecoration;
 import com.example.myapplication.Utilities.User;
 
 import java.util.ArrayList;
@@ -51,6 +52,9 @@ public class CollectionsActivity extends AppCompatActivity {
         mAdapter = new DeletableNewsListAdapter(newslist,this,null);
 
         recyclerView = findViewById(R.id.collections_list);
+        int space = 8;
+        float rad = 20;
+        recyclerView.addItemDecoration(new SpacesItemDecoration(space,rad));
         mAdapter.setOnItemClickListener(new NewsListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

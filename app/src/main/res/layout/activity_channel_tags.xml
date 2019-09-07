@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,19 +8,13 @@
     android:fitsSystemWindows="true"
     android:background="?attr/colorPrimary"
     >
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:paddingTop="15dp"
-        android:background="?attr/colorHeader"
-        >
+
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorHeader"
             app:layout_collapseMode="pin"
            >
             <ImageButton
@@ -37,12 +31,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:background="?attr/colorHeader"
-                android:textColor="#FFFFFF"
                 android:textSize="@dimen/larger_margin_text_size"
                 android:text="完成" />
         </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
-
 
     <com.zhl.channeltagview.view.ChannelTagView
         android:id="@+id/channel_tag_view"
@@ -51,7 +42,7 @@
         app:channelItemTxSize="@dimen/channel_item_txsize"
         app:fixedPos="0"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toTopOf="@id/app_bar" />
+         />
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

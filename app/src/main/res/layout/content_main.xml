@@ -16,12 +16,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/tab_layout"
-        android:background="?attr/colorPrimaryDark"
+        android:background="?attr/colorHeader"
         >
 
         <com.ogaclejapan.smarttablayout.SmartTabLayout
             android:id="@+id/tabs"
-            android:layout_width="355dp"
+            android:layout_width="340dp"
             android:layout_height="50dp"
             app:stl_clickable="true"
             app:stl_defaultTabBackground="?attr/selectableItemBackground"
@@ -54,14 +54,16 @@
             />
         <ImageButton
             android:id="@+id/tab_button"
-            android:layout_width="?attr/actionBarSize"
+            android:layout_width="60dp"
             android:layout_height="50dp"
             android:layout_gravity="right"
-            android:background="?attr/colorPrimaryDark"
+            android:background="@drawable/ic_seen"
             app:layout_constraintStart_toEndOf="@+id/tabs"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:paddingEnd="10dp"
+            android:paddingStart="0dp"
             android:src="@drawable/ic_plus_circle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.viewpager.widget.ViewPager
@@ -69,6 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginTop="48dp"
+        android:background="?attr/colorPrimary"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

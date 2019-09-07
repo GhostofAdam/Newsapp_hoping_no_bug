@@ -13,8 +13,10 @@
         android:orientation="vertical">
         <TextView
             android:id="@+id/news_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorHeader"
+            android:text="Title"
             android:textSize="@dimen/main_text_size"
             android:layout_margin="@dimen/text_margin"
             />
@@ -22,15 +24,18 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
         <TextView
             android:id="@+id/news_sub_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Sub Title"
             android:textSize="@dimen/margin_text_size"
             android:layout_margin="@dimen/text_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+
             />
             <com.sackcentury.shinebuttonlib.ShineButton
                 android:id="@+id/spark_button"
@@ -52,6 +57,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="@dimen/text_margin"
                 />
             <ImageButton
                 android:id="@+id/share"
@@ -67,13 +73,14 @@
         <com.youth.banner.Banner
             android:id="@+id/banner"
             android:layout_width="match_parent"
+            android:layout_margin="@dimen/text_margin"
         android:layout_height="200dp" />
 
     <TextView
         android:id="@+id/news_content"
         android:paddingTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_margin="@dimen/text_margin"
         android:text="@string/large_text" />
     </LinearLayout>

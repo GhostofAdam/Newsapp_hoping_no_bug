@@ -3,12 +3,12 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/mediumseagreen</item>
-        <item name="colorPrimaryDark">@color/md_green_A700</item>
-        <item name="colorAccent">@color/green</item>
+        <item name="colorPrimary">@color/wheat</item>
+        <item name="colorPrimaryDark">@color/darkolivegreen</item>
+        <item name="colorAccent">@color/md_grey_400</item>
         <item name="android:textColor">#000000</item>
         <item name="colorBorder">#000000</item>
-        <item name="colorHeader">@color/mediumseagreen</item>
+        <item name="colorHeader">@color/olive</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -21,7 +21,7 @@
     <style name="DayTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/wheat</item>
         <item name="colorPrimaryDark">@color/firebrick</item>
-        <item name="colorAccent">@color/darkred</item>
+        <item name="colorAccent">@color/md_grey_400</item>
         <item name="android:textColor">#000000</item>
         <item name="colorBorder">#000000</item>
         <item name="colorHeader">@color/red</item>
@@ -30,11 +30,11 @@
     </style>
 
     <style name="NightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/steelblue</item>
-        <item name="colorPrimaryDark">@color/midnightblue</item>
-        <item name="colorAccent">@color/darkslateblue</item>
-        <item name="android:textColor">#000000</item>
-        <item name="colorBorder">#000000</item>
+        <item name="colorPrimary">@color/md_grey_600</item>
+        <item name="colorPrimaryDark">@color/md_grey_800</item>
+        <item name="colorAccent">@color/darkslategrey</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="colorBorder">#FFFFFF</item>
         <item name="colorHeader">@color/black</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

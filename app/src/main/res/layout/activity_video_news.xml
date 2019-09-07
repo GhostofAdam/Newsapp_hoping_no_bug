@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,14 +9,6 @@
     android:background="?attr/colorPrimary"
     >
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_video"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:paddingTop="15dp"
-        android:background="?attr/colorHeader"
-        >
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_video"
@@ -40,10 +32,6 @@
                 android:text="Avian News"/>
 
         </androidx.appcompat.widget.Toolbar>
-
-
-
-    </com.google.android.material.appbar.AppBarLayout>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -58,6 +46,7 @@
                 android:id="@+id/news_title_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?attr/colorHeader"
                 android:textSize="@dimen/main_text_size"
                 android:layout_margin="@dimen/text_margin"
                 />
@@ -93,6 +82,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_margin="@dimen/text_margin"
                     />
                 <ImageButton
                     android:id="@+id/share_video"
@@ -102,16 +92,19 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/spark_button_video"
                     android:src="@drawable/ic_menu_share"
+
                     android:background="@android:color/transparent"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
             <com.youth.banner.Banner
                 android:id="@+id/banner_video"
                 android:layout_width="match_parent"
+                android:layout_margin="@dimen/text_margin"
                 android:layout_height="200dp" />
             <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
                 android:id="@+id/video_player_news"
                 android:layout_width="match_parent"
+                android:layout_margin="@dimen/text_margin"
                 android:layout_height="200dp" />
             <TextView
                 android:id="@+id/news_content_video"
@@ -124,4 +117,4 @@
 
     </androidx.core.widget.NestedScrollView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
