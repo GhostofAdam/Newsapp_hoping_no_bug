@@ -167,7 +167,11 @@ public class NewsListAdapter extends RecyclerView.Adapter implements Serializabl
 
                 if(seen){
                     LinearLayout t = (LinearLayout)v;
-                    t.setBackground(res.getDrawable(R.drawable.ic_seen,fragment.getActivity().getTheme()));
+                    if(activity==null)
+                        t.setBackground(res.getDrawable(R.drawable.ic_seen,fragment.getActivity().getTheme()));
+                    else{
+                        t.setBackground(res.getDrawable(R.drawable.ic_seen,activity.getTheme()));
+                    }
                 }
                 OneImageHolder vh = new OneImageHolder(v);
                 return vh;
@@ -177,7 +181,11 @@ public class NewsListAdapter extends RecyclerView.Adapter implements Serializabl
                         .inflate(R.layout.three_image_label, parent, false);
                 if(seen){
                     LinearLayout t = (LinearLayout)v;
-                    t.setBackground(res.getDrawable(R.drawable.ic_seen,fragment.getActivity().getTheme()));
+                    if(activity==null)
+                        t.setBackground(res.getDrawable(R.drawable.ic_seen,fragment.getActivity().getTheme()));
+                    else{
+                        t.setBackground(res.getDrawable(R.drawable.ic_seen,activity.getTheme()));
+                    }
                 }
                 ThreeImageHolder vh = new ThreeImageHolder(v);
                 return vh;
@@ -188,7 +196,11 @@ public class NewsListAdapter extends RecyclerView.Adapter implements Serializabl
                 if(seen){
                     LinearLayout t = (LinearLayout)v;
 
-                    t.setBackground(res.getDrawable(R.drawable.ic_seen,fragment.getActivity().getTheme()));
+                    if(activity==null)
+                        t.setBackground(res.getDrawable(R.drawable.ic_seen,fragment.getActivity().getTheme()));
+                    else{
+                        t.setBackground(res.getDrawable(R.drawable.ic_seen,activity.getTheme()));
+                    }
                 }
                 NoImageHolder vh = new NoImageHolder(v);
                 return vh;
@@ -198,7 +210,11 @@ public class NewsListAdapter extends RecyclerView.Adapter implements Serializabl
                         .inflate(R.layout.video_news_label, parent, false);
                 if(seen){
                     LinearLayout t = (LinearLayout)v;
-                    t.setBackground(res.getDrawable(R.drawable.ic_seen,fragment.getActivity().getTheme()));
+                    if(activity==null)
+                        t.setBackground(res.getDrawable(R.drawable.ic_seen,fragment.getActivity().getTheme()));
+                    else{
+                        t.setBackground(res.getDrawable(R.drawable.ic_seen,activity.getTheme()));
+                    }
                 }
                 VideoHolder vh = new VideoHolder(v);
                 return vh;

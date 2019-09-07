@@ -82,27 +82,21 @@ public class Pageholder extends Fragment {
             serverAvail server = new serverAvail();
 //            newsListAdapter = new NewsListAdapter(data,null,this);
             Label = (String)savedInstanceState.getSerializable("label");
-            if(!server.test()){
-                newsListAdapter = new NewsListAdapter(new Vector<News>(),null,this);
-            }
-            else {
-                if (Label.equals("推荐")) {
-                    newsListAdapter = new NewsListAdapter(user.getRecomendation(), null, this);
-                } else
-                    newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10, before, now, "", Label), null, this);
-            }
+
+            if (Label.equals("推荐")) {
+                newsListAdapter = new NewsListAdapter(user.getRecomendation(), null, this);
+            } else
+                newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10, before, now, "", Label), null, this);
+
         }
         else{
-            serverAvail server = new serverAvail();
-            if(!server.test()){
-                newsListAdapter = new NewsListAdapter(new Vector<News>(),null,this);
-            }
-            else {
-                if (Label.equals("推荐")) {
-                    newsListAdapter = new NewsListAdapter(user.getRecomendation(), null, this);
-                } else
-                    newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10, before, now, "", Label), null, this);
-            }
+
+
+            if (Label.equals("推荐")) {
+                newsListAdapter = new NewsListAdapter(user.getRecomendation(), null, this);
+            } else
+                newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10, before, now, "", Label), null, this);
+
         }
         User user = (User)getActivity().getApplication();
         newsListAdapter.updateFliter(user.getKeyswords());
@@ -179,9 +173,6 @@ public class Pageholder extends Fragment {
     }
     private void RefreshData(){
         serverAvail server = new serverAvail();
-        if(!server.test()){
-            return;
-        }
         if(Label.equals("推荐")){
             newsListAdapter.notifyAdapter(user.getRecomendation(),false);
         }
@@ -199,9 +190,6 @@ public class Pageholder extends Fragment {
     }
     private void LoadMoreData(){
         serverAvail server = new serverAvail();
-        if(!server.test()){
-            return;
-        }
         if(Label.equals("推荐")){
             newsListAdapter.notifyAdapter(user.getRecomendation(),true);
         }
