@@ -78,6 +78,19 @@ public class News implements Serializable
     public String getCategory() { return this.category; }
     public Who[] getWho() { return this.who; }
     public String getSole() { return this.sole; }
+    public boolean filter(String s){
+        for (Keyword k:keywords){
+            if(k.getWord().contains(s))
+                return true;
+        }
+        if(title.contains(s)){
+            return true;
+        }
+        if(content.contains(s)){
+            return true;
+        }
+        return false;
+    }
 }
 
 class Keyword implements Serializable

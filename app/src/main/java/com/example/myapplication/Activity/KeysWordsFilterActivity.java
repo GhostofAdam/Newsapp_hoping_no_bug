@@ -53,6 +53,7 @@ public class KeysWordsFilterActivity extends AppCompatActivity {
                                     Intent intent = new Intent(KeysWordsFilterActivity.this,SQLservice.class);
                                     intent.putExtra("flag",User.DELETE_FLITER);
                                     intent.putExtra("data",tag);
+                                    startService(intent);
                                 }
 
                             }
@@ -83,6 +84,7 @@ public class KeysWordsFilterActivity extends AppCompatActivity {
                     Intent intent = new Intent(KeysWordsFilterActivity.this,SQLservice.class);
                     intent.putExtra("flag",User.DELETE_FLITER);
                     intent.putExtra("data",tag);
+                    startService(intent);
                 }
             }
         });
@@ -98,6 +100,7 @@ public class KeysWordsFilterActivity extends AppCompatActivity {
                 Intent intent = new Intent(KeysWordsFilterActivity.this,SQLservice.class);
                 intent.putExtra("flag",User.ADD_FLITER);
                 intent.putExtra("data",tag);
+                startService(intent);
                 // Add tag in the specified position
 //                mTagContainerLayout1.addTag(text.getText().toString(), 4);
             }
@@ -115,8 +118,9 @@ public class KeysWordsFilterActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-        setResult(3);
+        Intent intent = new Intent();
+        setResult(3,intent);
+        intent.putExtra("data","not null");
         finish();
     }
 }

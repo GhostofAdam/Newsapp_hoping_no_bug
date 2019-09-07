@@ -19,6 +19,7 @@ import com.example.myapplication.Utilities.News;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class SectionAdapter extends FragmentStatePagerAdapter implements Serializable {
@@ -90,7 +91,9 @@ public class SectionAdapter extends FragmentStatePagerAdapter implements Seriali
     public void updateFliter(Vector<String> strings){
         for (Pageholder p : pages) {
             if(p.newsListAdapter!=null)
-                for(News news:)
+               p.newsListAdapter.updateFliter(strings);
+
         }
+        notifyAdapter();
     }
 }

@@ -49,6 +49,7 @@ public class User extends Application {
     public void initSearch(Vector<String> s){
         searchSuggestios.addAll(s);
     }
+    public void initFliter(Vector<String> s){keyswords =s;}
     public void addCollection(News news){
         colloctionsNews.add(news);
     }
@@ -172,6 +173,7 @@ public class User extends Application {
         colloctionsNews.clear();
         historyNews.clear();
         searchSuggestios.clear();
+        keyswords.clear();
     }
     public void settheme(int i){
         theme = i;
