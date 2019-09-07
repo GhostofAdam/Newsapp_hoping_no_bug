@@ -64,11 +64,7 @@ public class SQLservice extends Service {
                         os.deleteNews(SQLiteDbHelper.TABLE_SEEN,news,user.getUsername());
                     break;
                 }
-                case User.FIND_COLLECTION: {
-                    News news = (News)intent.getSerializableExtra("data");
-                    op.findNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,news.getNewsID(),user.getUsername());
-                    break;
-                }
+            
                 case User.ADD_ACCOUNT:{
                     String[] strings = (String[])intent.getSerializableExtra("data");
                     os.insertAccount(strings[0],strings[1]);
