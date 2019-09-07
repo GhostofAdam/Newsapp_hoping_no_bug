@@ -39,7 +39,7 @@ public class OperateOnSQLite {
         contentValues.put("sole", identity + word);
         contentValues.put("word", word);
         contentValues.put("identity", identity);
-        db.insert(SQLiteDbHelper.TABLE_SHIELD, null, contentValues);
+        db.insertWithOnConflict(SQLiteDbHelper.TABLE_SHIELD, null, contentValues, CONFLICT_IGNORE);
     }
 
     public void deleteShield(SQLiteDatabase db, String word, String identity)
