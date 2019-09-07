@@ -47,7 +47,7 @@ public class serverAvail
         while(avail == -1)  {
             System.out.println("asshole");
         }
-        System.out.println("fuck$$");
+        System.out.println("fuck");
         return avail == 1;
     }
 }
