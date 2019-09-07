@@ -40,6 +40,7 @@ public class OperateOnSQLite {
                     judge = cursor.getInt(cursor.getColumnIndex("avail"));
                 }
             }
+            System.out.println("fuckkkkkkk " + judge);
             cursor.close();
             return judge == 1;
         }

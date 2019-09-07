@@ -444,7 +444,7 @@ public class MainActivity extends AppCompatActivity
         SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
         OperateOnSQLite op = new OperateOnSQLite();
         OperateOnServer os = new OperateOnServer();
-        if(op.getState(helper.getWritableDatabase(),user.getUsername())){
+        if(op.getState(helper.getWritableDatabase(), user.getUsername())){
             os.downloadNews(helper.getWritableDatabase(),user.getUsername());
         }
         else{
