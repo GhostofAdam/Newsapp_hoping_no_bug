@@ -47,6 +47,18 @@ public class OperateOnSQLite {
         db.delete(SQLiteDbHelper.TABLE_SHIELD, "sole=?", new String[] {identity + word});
     }
 
+    public Vector<String> allShields(SQLiteDatabase db, String identity)
+    {
+        Vector<String> list = new Vector<>();
+        Cursor cursor = db.query(SQLiteDbHelper.TABLE_SHIELD, null, "identity=?", new String[] {identity}, null, null, null);
+        while (cursor.moveToNext())
+        {
+            list.add(cursor.getString(cursor.getColumnIndex("word")));
+        }
+        cursor.close();
+        return list;
+    }
+
     public void insertNews(SQLiteDatabase db, String tableName, News news, String identity) {
         if (tableName.equals(SQLiteDbHelper.TABLE_COLLECTION))
         {
