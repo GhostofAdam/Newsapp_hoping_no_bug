@@ -34,7 +34,6 @@ public class serverAvail
                 catch(IOException e)
                 {
                     e.printStackTrace();
-
                     avail = 0;
                     System.out.println("ass");
                 }

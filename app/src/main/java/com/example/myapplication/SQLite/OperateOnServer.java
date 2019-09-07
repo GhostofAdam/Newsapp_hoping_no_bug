@@ -12,8 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Vector;
 
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -24,25 +22,21 @@ import okhttp3.Response;
 
 class URL
 {
-    static String url = "http://166.111.5.239:8006/app/";
-    static String url_s = "http://166.111.5.239:8006/seen/";
-    static String url_c = "http://166.111.5.239:8006/collection/";
-    static String url_avail = "http://166.111.5.239:8006/test/";
+    static String port = "8006";
+    static String url = "http://166.111.5.239:" + port + "/app/";
+    static String url_avail = "http://166.111.5.239:" + port + "/test/";
+    static String url_us = "http://166.111.5.239:" + port + "/uploadseen/";
+    static String url_uc = "http://166.111.5.239:" + port + "/uploadcollection/";
+    static String url_ds = "http://166.111.5.239:" + port + "/downloadseen/";
+    static String url_dc = "http://166.111.5.239:" + port + "/downloadcollection/";
 }
-
-///* DEBUG */
-//SQLiteDbHelper helper = new SQLiteDbHelper(getApplicationContext());
-//new OperateOnSQLite().clearTables(helper.getWritableDatabase());
-//new OperateOnServer().downloadAll(helper.getWritableDatabase());
 
 public class OperateOnServer
 {
     private static final String TAG = "OperateOnServer";
     
     static private OkHttpClient client = new OkHttpClient();
-    public boolean isaccount;
     private int isaccount_num;
-    public boolean isright;
     private int isright_num;
 
     private FormBody.Builder createBuilder(String id, String table, String doing)
@@ -56,12 +50,13 @@ public class OperateOnServer
 
     private void _downloadNews(SQLiteDatabase db, String tableName, String identity)
     {
-        FormBody.Builder builder = createBuilder("1", tableName, "download");
+        FormBody.Builder builder = new FormBody.Builder();
         builder.add("identity", identity);
         RequestBody formBody = builder.build();
-        Request request = new Request.Builder().url(URL.url).post(formBody).build();
-        News[] mynewsList = null;
-        Response response = null;
+        Request request = tableName.equals(SQLiteDbHelper.TABLE_COLLECTION) ? new Request.Builder().url(URL.url_dc).post(formBody).build()
+                                                                            : new Request.Builder().url(URL.url_ds).post(formBody).build();
+        News[] newsList = null;
+        Response response;
         try
         {
             response = client.newCall(request).execute();
@@ -70,7 +65,7 @@ public class OperateOnServer
                 String result = response.body().string();
                 if(!result.equals("[]"))
                 {
-                    mynewsList = new Gson().fromJson(result, myNewsList.class).list;
+                    newsList = new Gson().fromJson(result, myNewsList.class).list;
                 }
             }
         }
@@ -79,11 +74,11 @@ public class OperateOnServer
             e.printStackTrace();
         }
         db.beginTransaction();
-        if(mynewsList != null)
+        if(newsList != null)
         {
             try
             {
-                for (News a : mynewsList)
+                for (News a : newsList)
                 {
                     ContentValues values = new ContentValues();
                     String sole = a.getSole();
@@ -136,7 +131,7 @@ public class OperateOnServer
         }
         cursor.close();
         RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8"), array.toString());
-        Request request = tableName.equals(SQLiteDbHelper.TABLE_COLLECTION) ? new Request.Builder().url(URL.url_c).post(body).build() : new Request.Builder().url(URL.url_s).post(body).build();
+        Request request = tableName.equals(SQLiteDbHelper.TABLE_COLLECTION) ? new Request.Builder().url(URL.url_uc).post(body).build() : new Request.Builder().url(URL.url_us).post(body).build();
         try
         {
             Response response = client.newCall(request).execute();
@@ -345,7 +340,7 @@ public class OperateOnServer
         }).start();
     }
 
-    public void isAccount(final String identity)
+    public boolean isAccount(final String identity)
     {
         isaccount_num = -1;
         new Thread(new Runnable() {
@@ -358,10 +353,10 @@ public class OperateOnServer
         {
             System.out.println("fuck");
         }
-        isaccount = isaccount_num == 1;
+        return isaccount_num == 1;
     }
 
-    public void isRightPassword(final String identity, final String password)
+    public boolean isRightPassword(final String identity, final String password)
     {
         isright_num = -1;
         new Thread(new Runnable() {
@@ -374,7 +369,7 @@ public class OperateOnServer
         {
             System.out.println("fuck");
         }
-        isright = isright_num == 1;
+        return isright_num == 1;
     }
 
 }

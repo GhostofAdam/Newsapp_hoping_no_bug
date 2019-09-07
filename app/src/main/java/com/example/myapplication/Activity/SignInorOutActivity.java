@@ -102,14 +102,12 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
                 String[] strings = new String[2];
                 strings[0] = uesrname.getText().toString();
                 strings[1] = password.getText().toString();
-                os.isAccount(strings[0]);
-                if(!os.isaccount){
+                if(!os.isAccount(strings[0])){
                     Toast.makeText(getApplicationContext(), "用户名不存在",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                os.isRightPassword(strings[0],strings[1]);
-                if(!os.isright){
+                if(!os.isRightPassword(strings[0],strings[1])){
                     Toast.makeText(getApplicationContext(), "密码错误",
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -131,9 +129,7 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
                 String[] strings = new String[2];
                 strings[0] = sign_up_uesrname.getText().toString();
                 strings[1] = sign_up_password.getText().toString();
-                SQLiteDbHelper help = SQLiteDbHelper.getInstance(getApplicationContext());
-                os.isAccount(strings[0]);
-                if(os.isaccount){
+                if(os.isAccount(strings[0])){
                     Toast.makeText(getApplicationContext(), "用户名已存在",
                             Toast.LENGTH_SHORT).show();
                     return;
