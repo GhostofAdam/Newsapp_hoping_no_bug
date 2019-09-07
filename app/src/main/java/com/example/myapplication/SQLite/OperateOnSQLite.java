@@ -30,10 +30,14 @@ public class OperateOnSQLite {
 
     public boolean getState(SQLiteDatabase db) {
         Cursor cursor = db.query(SQLiteDbHelper.TABLE_STATE, null, null, null, null, null, null, null);
-        cursor.moveToLast();
-        int judge = cursor.getInt(cursor.getColumnIndex("avail"));
-        cursor.close();
-        return judge == 1;
+        if(cursor.getCount() > 0)
+        {
+            cursor.moveToLast();
+            int judge = cursor.getInt(cursor.getColumnIndex("avail"));
+            cursor.close();
+            return judge == 1;
+        }
+        return true;
     }
 
     public void insertShield(SQLiteDatabase db, String word, String identity)
