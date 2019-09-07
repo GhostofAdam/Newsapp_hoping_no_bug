@@ -148,12 +148,11 @@ public class NewsDetailActivity extends AppCompatActivity {
             intent1.putExtra("flag",User.ADD_HISTORY);
             intent1.putExtra("data",news);
             startService(intent1);
-            if(user.findCollection(news)){
-                collect.setChecked(true);
-            }
+
         }
-
-
+        if(user.findCollection(news)){
+            collect.setChecked(true);
+        }
         banner = findViewById(R.id.banner);
 
         banner.setImageLoader(new GlideImageLoader());
@@ -172,13 +171,14 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     }
     public void showShareDialog() {
-        ShareEntity testBean = new ShareEntity(news.getTitle(), news.getPublisher()+news.getPublishTime());
-        testBean.setShareBigImg(true);
-
+        ShareEntity testBean = new ShareEntity(news.getNewsID(), news.getTitle());
+        testBean.setShareBigImg(false);
+        testBean.setUrl(news.getUrl());
+        testBean.setTitle(news.getTitle());
         if(news.getImageUrl()!=null&&news.getImageUrl().size()>0)
             testBean.setImgUrl(news.getImageUrl().get(0));
         else {
-            Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.bg_people );
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.bg_people);
             String filePath = ShareUtil.saveBitmapToSDCard(this,bmp);
             testBean.setImgUrl(filePath);
         }

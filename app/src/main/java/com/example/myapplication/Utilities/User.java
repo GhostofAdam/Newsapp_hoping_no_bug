@@ -38,6 +38,8 @@ public class User extends Application {
     public final static int FIND_HISTORY=5;
     public final static int ADD_SEARCH=6;
     public final static int ADD_ACCOUNT=7;
+    public final static int ADD_FLITER=8;
+    public final static int DELETE_FLITER=9;
     public void initCollections(Vector<News> n){
         colloctionsNews = n;
     }

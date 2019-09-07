@@ -39,7 +39,7 @@ public class UpdateService extends Service {
                         net = serve.test();
                         try
                         {
-                            Thread.sleep(300);
+                            Thread.sleep(10000);
                              }
                         catch (Exception e){ }
                     }
@@ -48,7 +48,7 @@ public class UpdateService extends Service {
                         net = serve.test();
                         try
                         {
-                            Thread.sleep(300);
+                            Thread.sleep(10000);
                         }
                         catch (Exception e){ }
                     }

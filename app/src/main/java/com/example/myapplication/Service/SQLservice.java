@@ -64,10 +64,20 @@ public class SQLservice extends Service {
                         os.deleteNews(SQLiteDbHelper.TABLE_SEEN,news,user.getUsername());
                     break;
                 }
-            
+
                 case User.ADD_ACCOUNT:{
                     String[] strings = (String[])intent.getSerializableExtra("data");
                     os.insertAccount(strings[0],strings[1]);
+                    break;
+                }
+                case User.ADD_FLITER:{
+                    String tag = (String)intent.getSerializableExtra("data");
+                    os.insertShield("tag",user.getUsername(),user.getPassword());
+                    break;
+                }
+                case User.DELETE_FLITER:{
+                    String tag = (String)intent.getSerializableExtra("data");
+                    os.deleteShield(tag,user.getUsername());
                     break;
                 }
                 default:

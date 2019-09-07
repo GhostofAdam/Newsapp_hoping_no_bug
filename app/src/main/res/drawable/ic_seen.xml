@@ -6,7 +6,7 @@
         android:bottomRightRadius="1dp"
         android:topLeftRadius="1dp"
         android:topRightRadius="1dp"/>
-    <solid android:color="?attr/colorAccent"/>
+    <solid android:color="?attr/colorPrimaryDark"/>
     <stroke android:width="0.6dp"
         android:color="?attr/editTextColor"/>
 </shape>

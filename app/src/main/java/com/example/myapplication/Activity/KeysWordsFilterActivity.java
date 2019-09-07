@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.Service.SQLservice;
 import com.example.myapplication.Utilities.User;
 
 import co.lujun.androidtagview.TagContainerLayout;
@@ -36,16 +38,23 @@ public class KeysWordsFilterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTagLongClick(final int position, String text) {
+            public void onTagLongClick(final int position, final String text) {
                 AlertDialog dialog = new AlertDialog.Builder(KeysWordsFilterActivity.this)
                         .setTitle("long click")
-                        .setMessage("You will delete this tag!")
+                        .setMessage("You will delete this key word")
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (position < mTagContainerLayout.getChildCount()) {
+                                    User user = (User)getApplication();
+                                    String tag = (String) mTagContainerLayout.getTag(position);
+                                    user.deleteKeywords(tag);
                                     mTagContainerLayout.removeTag(position);
+                                    Intent intent = new Intent(KeysWordsFilterActivity.this,SQLservice.class);
+                                    intent.putExtra("flag",User.DELETE_FLITER);
+                                    intent.putExtra("data",tag);
                                 }
+
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -67,7 +76,13 @@ public class KeysWordsFilterActivity extends AppCompatActivity {
 //                Toast.makeText(KeysWordsFilterActivity.this, "Click TagView cross! position = " + position,
 //                        Toast.LENGTH_SHORT).show();
                 if (position < mTagContainerLayout.getChildCount()) {
+                    User user = (User)getApplication();
+                    String tag = (String) mTagContainerLayout.getTag(position);
+                    user.deleteKeywords(tag);
                     mTagContainerLayout.removeTag(position);
+                    Intent intent = new Intent(KeysWordsFilterActivity.this,SQLservice.class);
+                    intent.putExtra("flag",User.DELETE_FLITER);
+                    intent.putExtra("data",tag);
                 }
             }
         });
@@ -76,7 +91,13 @@ public class KeysWordsFilterActivity extends AppCompatActivity {
         btnAddTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTagContainerLayout.addTag(text.getText().toString());
+                String tag = text.getText().toString();
+                mTagContainerLayout.addTag(tag);
+                User user = (User)getApplication();
+                user.addKeywords(tag);
+                Intent intent = new Intent(KeysWordsFilterActivity.this,SQLservice.class);
+                intent.putExtra("flag",User.ADD_FLITER);
+                intent.putExtra("data",tag);
                 // Add tag in the specified position
 //                mTagContainerLayout1.addTag(text.getText().toString(), 4);
             }
@@ -90,4 +111,13 @@ public class KeysWordsFilterActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        setResult(3);
+        finish();
+    }
 }
+

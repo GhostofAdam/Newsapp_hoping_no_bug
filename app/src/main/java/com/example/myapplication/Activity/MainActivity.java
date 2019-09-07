@@ -178,13 +178,13 @@ public class MainActivity extends AppCompatActivity
         });
         mSearchView.setMenuItemIconColor(R.attr.colorText);
 
-
+        Intent intent = new Intent(MainActivity.this, UpdateService.class);
+        startService(intent);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         sectionAdapter.notifyAdapter();
     }
 
@@ -210,6 +210,10 @@ public class MainActivity extends AppCompatActivity
                 TextView textView = headView.findViewById(R.id.user_name_show);
                 textView.setText(user.getUsername());
                 navigationView.getMenu().getItem(3).setEnabled(true);
+                break;
+            case 3:
+                User  user
+                break;
                 default:
                     break;
         }
@@ -274,14 +278,14 @@ public class MainActivity extends AppCompatActivity
 
         }
         else if(id == R.id.nav_keys){
-//            final User user = (User)getApplication();
-//            if(user.getUsername()==null){
-//                Toast.makeText(getApplicationContext(), "请登录",
-//                        Toast.LENGTH_SHORT).show();
-//                return false;
-//            }
+            final User user = (User)getApplication();
+            if(user.getUsername()==null){
+                Toast.makeText(getApplicationContext(), "请登录",
+                        Toast.LENGTH_SHORT).show();
+                return false;
+            }
             Intent intent = new Intent(this,KeysWordsFilterActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,0);
         }
         else if(id==R.id.exit){
             User user = (User)getApplication();
