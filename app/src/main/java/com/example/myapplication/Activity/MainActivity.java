@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-        navigationView.getMenu().getItem(2).setEnabled(false);
+        navigationView.getMenu().getItem(3).setEnabled(false);
         navigationView.getHeaderView(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity
                 View headView = navigationView.getHeaderView(0);
                 TextView textView = headView.findViewById(R.id.user_name_show);
                 textView.setText(user.getUsername());
-                navigationView.getMenu().getItem(2).setEnabled(true);
+                navigationView.getMenu().getItem(3).setEnabled(true);
                 default:
                     break;
         }
@@ -272,6 +272,16 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this,HistoryActivity.class);
             startActivity(intent);
 
+        }
+        else if(id == R.id.nav_keys){
+//            final User user = (User)getApplication();
+//            if(user.getUsername()==null){
+//                Toast.makeText(getApplicationContext(), "请登录",
+//                        Toast.LENGTH_SHORT).show();
+//                return false;
+//            }
+            Intent intent = new Intent(this,KeysWordsFilterActivity.class);
+            startActivity(intent);
         }
         else if(id==R.id.exit){
             User user = (User)getApplication();

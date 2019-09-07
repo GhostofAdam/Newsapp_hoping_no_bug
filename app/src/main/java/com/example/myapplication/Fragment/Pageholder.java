@@ -31,10 +31,12 @@ import com.example.myapplication.Activity.VideoNewsActivity;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
 
+import com.example.myapplication.Utilities.DateUtility;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Adapter.NewsListAdapter;
 import com.example.myapplication.Activity.NewsDetailActivity;
@@ -51,7 +53,7 @@ public class Pageholder extends Fragment {
     private RecyclerView recyclerView;
     private User user;
     private Vector<String> mImageTitles;//标题集合
-
+    private Date lastDate;
     public NewsListAdapter newsListAdapter;
     // 在values文件假下创建了pager_image_ids.xml文件，并定义了4张轮播图对应的id，用于点击事件
     public static Pageholder newInstance(int index, String label) {
@@ -67,7 +69,12 @@ public class Pageholder extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         user = (User)getActivity().getApplication();
+        DateUtility dateUtility = new DateUtility();
+        lastDate = dateUtility.getCurrent();
+        String now = dateUtility.getDateString(lastDate);
+        String before = dateUtility.getDateString(dateUtility.backAWeek(lastDate));
         if(savedInstanceState!=null){
             Vector<News> data = ( Vector<News>) savedInstanceState.getSerializable("data");
             newsListAdapter = new NewsListAdapter(data,null,this);
@@ -78,8 +85,9 @@ public class Pageholder extends Fragment {
                 newsListAdapter = new NewsListAdapter(user.getRecomendation(),null,this);
             }
             else
-                newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",Label),null,this);
+                newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10,before,now,"",Label),null,this);
         }
+
     }
 
     @Override
@@ -151,16 +159,26 @@ public class Pageholder extends Fragment {
         if(Label.equals("推荐")){
             newsListAdapter.notifyAdapter(user.getRecomendation(),false);
         }
-        else
-            newsListAdapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",Label),false);
+        else {
+            DateUtility dateUtility = new DateUtility();
+            lastDate = dateUtility.getCurrent();
+            String now = dateUtility.getDateString(lastDate);
+            String before = dateUtility.getDateString(dateUtility.backAWeek(lastDate));
+            newsListAdapter.notifyAdapter(new UrlRequest().urlRequest(10, before, now, "", Label), false);
+        }
 
     }
     private void LoadMoreData(){
         if(Label.equals("推荐")){
             newsListAdapter.notifyAdapter(user.getRecomendation(),true);
         }
-        else
-            newsListAdapter.notifyAdapter(new UrlRequest().urlRequest(10,"2019-08-01","2019-08-25","",Label),true);
+        else {
+            DateUtility dateUtility = new DateUtility();
+            lastDate = dateUtility.backAWeek(lastDate);
+            String now = dateUtility.getDateString(lastDate);
+            String before = dateUtility.getDateString(dateUtility.backAWeek(lastDate));
+            newsListAdapter.notifyAdapter(new UrlRequest().urlRequest(10, before, now, "", Label), true);
+        }
     }
 
     @Override

@@ -24,10 +24,10 @@ import okhttp3.Response;
 
 class URL
 {
-    static String url = "http://166.111.5.239:8005/app/";
-    static String url_s = "http://166.111.5.239:8005/seen/";
-    static String url_c = "http://166.111.5.239:8005/collection/";
-    static String url_avail = "http://166.111.5.239:8005/test/";
+    static String url = "http://166.111.5.239:8006/app/";
+    static String url_s = "http://166.111.5.239:8006/seen/";
+    static String url_c = "http://166.111.5.239:8006/collection/";
+    static String url_avail = "http://166.111.5.239:8006/test/";
 }
 
 ///* DEBUG */
@@ -395,9 +395,12 @@ public class OperateOnServer
         try
         {
             response = client.newCall(request).execute();
+            Thread.sleep(1000);
+            Log.d(TAG, "_isRightPassword: " + response);
             if(response.code() == 200)
             {
                 String result = response.body().string();
+                Log.d(TAG, "_isRightPassword: " + result);
                 if(result.equals("yes"))
                 {
                     isright_num = 1;
@@ -410,7 +413,7 @@ public class OperateOnServer
                 Log.d(TAG, "_isRightPassword: ");
             }
         }
-        catch(IOException e)
+        catch(IOException | InterruptedException e)
         {
             e.printStackTrace();
         }
