@@ -80,18 +80,6 @@ public class OperateOnSQLite {
         return newsList;
     }
 
-    public boolean findNews(SQLiteDatabase db, String tableName, String newsID, String identity)
-    {
-        Cursor cursor = db.query(tableName, null, "sole=?", new String[] {identity + newsID}, null, null, null);
-        if(cursor.moveToNext())
-        {
-            cursor.close();
-            return true;
-        }
-        cursor.close();
-        return false;
-    }
-
     public void insertSearch(SQLiteDatabase db, String word, String identity) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("word", word);
