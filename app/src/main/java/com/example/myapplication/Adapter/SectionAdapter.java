@@ -15,6 +15,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.myapplication.Fragment.Pageholder;
 import com.example.myapplication.R;
+import com.example.myapplication.Utilities.News;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -85,5 +86,11 @@ public class SectionAdapter extends FragmentStatePagerAdapter implements Seriali
     }
     public Vector<Pageholder> getPages(){
         return pages;
+    }
+    public void updateFliter(Vector<String> strings){
+        for (Pageholder p : pages) {
+            if(p.newsListAdapter!=null)
+                for(News news:)
+        }
     }
 }

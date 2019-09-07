@@ -212,7 +212,8 @@ public class MainActivity extends AppCompatActivity
                 navigationView.getMenu().getItem(3).setEnabled(true);
                 break;
             case 3:
-                User  user
+                User user1 = (User)getApplication();
+                sectionAdapter.updateFliter(user1.getKeyswords());
                 break;
                 default:
                     break;
