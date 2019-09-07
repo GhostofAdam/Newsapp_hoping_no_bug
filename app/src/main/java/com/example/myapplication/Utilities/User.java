@@ -7,6 +7,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.lang.invoke.WrongMethodTypeException;
+import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -27,6 +28,7 @@ public class User extends Application {
     private Vector<News>colloctionsNews;
     private Vector<News>historyNews;
     private Vector<String> searchSuggestios;
+    private Vector<String> keyswords = new Vector<>();
     public final static int ADD_COLLECTION=0;
     public final static int ADD_HISTORY=1;
     public final static int DELETE_COLLECTION=2;
@@ -53,6 +55,15 @@ public class User extends Application {
         mWxApi = WXAPIFactory.createWXAPI(this, "wx8959869f468fec43", true);
         mWxApi.registerApp("wx8959869f468fec43");
 
+    }
+    public Vector<String>getKeyswords(){
+        return keyswords;
+    }
+    public void deleteKeywords(String s){
+        keyswords.remove(s);
+    }
+    public void addKeywords(String s){
+        keyswords.add(s);
     }
     public IWXAPI getAPI(){
         return  mWxApi;
@@ -124,8 +135,27 @@ public class User extends Application {
     public Vector<News> getRecomendation(){
          Vector<News>recomendations = new Vector<>();
 //         recomendations = new UrlRequest().urlRequest(15,"2019-07-01","2019-07-03","特朗普","科技");
-        recomendations = new UrlRequest().urlRequest(10,"","2019-09-05","海洋研究","");
-         return recomendations;
+        DateUtility dateUtility = new DateUtility();
+        String today = dateUtility.getDateString(dateUtility.getCurrent());
+        if(username==null)
+            recomendations = new UrlRequest().urlRequest(10,"","2019-09-05","海洋研究","");
+        else{
+            for(News news:colloctionsNews){
+                if(recomendations.size()>10) break;
+                if(Math.random()<0.5){
+                    recomendations.addAll(new UrlRequest().urlRequest(2,"",today,news.getKeywords()[0].getWord(),news.getCategory()));
+                }
+            }
+            for(News news:historyNews){
+                if(recomendations.size()>15) break;
+                if(Math.random()<0.5){
+                    recomendations.addAll(new UrlRequest().urlRequest(2,"",today,news.getKeywords()[0].getWord(),news.getCategory()));
+                }
+            }
+
+            recomendations.addAll(new UrlRequest().urlRequest(15-recomendations.size(),"",today,"",""));
+        }
+        return recomendations;
     }
     public void clear(){
         username = null;

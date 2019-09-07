@@ -8,6 +8,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_exit">Exit</string>
+    <string name="menu_keywords">Key words filter</string>
     <string name="menu_gallery">Collections</string>
     <string name="menu_slideshow">Histories</string>
     <string name="menu_tools">Tools</string>

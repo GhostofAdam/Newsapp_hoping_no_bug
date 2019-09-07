@@ -12,8 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.VideoNewsActivity" />
+        <activity android:name=".Activity.KeysWordsFilterActivity" />
 
+        <activity android:name=".Activity.VideoNewsActivity" />
         <activity
             android:name=".Activity.ChannelTagsActivity"
             android:label="@string/app_name"
@@ -84,18 +85,22 @@
             android:name="weixin_key"
             android:value="wx8959869f468fec43" />
         <service
+            android:name=".Service.HttpTestService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <service
             android:name=".Service.UpdateService"
             android:enabled="true"
-            android:exported="true"/>
-
+            android:exported="true" />
         <service android:name=".Service.SQLservice" />
     </application>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
 </manifest>

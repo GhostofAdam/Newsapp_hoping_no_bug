@@ -395,9 +395,12 @@ public class OperateOnServer
         try
         {
             response = client.newCall(request).execute();
+            Thread.sleep(1000);
+            Log.d(TAG, "_isRightPassword: " + response);
             if(response.code() == 200)
             {
                 String result = response.body().string();
+                Log.d(TAG, "_isRightPassword: " + result);
                 if(result.equals("yes"))
                 {
                     isright_num = 1;
@@ -410,7 +413,7 @@ public class OperateOnServer
                 Log.d(TAG, "_isRightPassword: ");
             }
         }
-        catch(IOException e)
+        catch(IOException | InterruptedException e)
         {
             e.printStackTrace();
         }

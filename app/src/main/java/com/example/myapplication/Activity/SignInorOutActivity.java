@@ -144,7 +144,7 @@ public class SignInorOutActivity extends AppCompatActivity implements View.OnCli
 
                 SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
                 OperateOnSQLite op = new OperateOnSQLite();
-                op.insertState(helper.getWritableDatabase(),1,user.getUsername());
+                op.insertState(helper.getWritableDatabase(),1,strings[0]);
                 startService(intent);
                 Toast.makeText(getApplicationContext(), "注册成功",
                         Toast.LENGTH_SHORT).show();
