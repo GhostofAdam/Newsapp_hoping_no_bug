@@ -4,6 +4,7 @@ import com.example.myapplication.SQLite.serverAvail;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,7 +21,7 @@ public class GetWeb
             @Override
             public void run() {
                 try {
-                    OkHttpClient client = new OkHttpClient();
+                    OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(3, TimeUnit.SECONDS).readTimeout(3, TimeUnit.SECONDS).build();
                     Request request = new Request.Builder().url(interFace).build();
                     Response response = client.newCall(request).execute();
                     ResponseBody responseBody = response.body();
