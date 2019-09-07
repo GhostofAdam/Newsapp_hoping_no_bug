@@ -32,7 +32,7 @@ public class OperateOnSQLite {
         Cursor cursor = db.query(SQLiteDbHelper.TABLE_STATE, null, null, null, null, null, null, null);
         if(cursor.getCount() > 0)
         {
-            int judge = -1;
+            int judge = 1;
             while (cursor.moveToNext())
             {
                 if (identity.equals(cursor.getString(cursor.getColumnIndex("identity"))))
