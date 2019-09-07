@@ -138,32 +138,45 @@ public class User extends Application {
     }
 
     public Vector<News> getRecomendation(){
-         Vector<News>recomendations = new Vector<>();
+         Vector<News>recomend = new Vector<>();
 //         recomendations = new UrlRequest().urlRequest(15,"2019-07-01","2019-07-03","特朗普","科技");
         DateUtility dateUtility = new DateUtility();
         String today = dateUtility.getDateString(dateUtility.getCurrent());
         serverAvail server = new serverAvail();
         if(!server.test())
-            return recomendations;
+            return recomend;
         if(username==null)
-            recomendations = new UrlRequest().urlRequest(10,"","2019-09-05","海洋研究","");
+            recomend = new UrlRequest().urlRequest(10,"","2019-09-05","海洋研究","");
+
         else{
             for(News news:colloctionsNews){
-                if(recomendations.size()>10) break;
+                if(recomend.size()>10) break;
                 if(Math.random()<0.5){
-                    recomendations.addAll(new UrlRequest().urlRequest(2,"",today,news.getKeywords()[0].getWord(),news.getCategory()));
+                    String str;
+                    if(news.getKeywords()==null)
+                        str = "";
+                    else
+                        str = news.getKeywords()[0].getWord();
+                    Vector<News> re = new UrlRequest().urlRequest(2,"",today,str,news.getCategory());
+                    recomend.addAll(re);
                 }
             }
             for(News news:historyNews){
-                if(recomendations.size()>15) break;
+                if(recomend.size()>15) break;
                 if(Math.random()<0.5){
-                    recomendations.addAll(new UrlRequest().urlRequest(2,"",today,news.getKeywords()[0].getWord(),news.getCategory()));
+                    String str;
+                    if(news.getKeywords()==null)
+                        str = "";
+                    else
+                        str = news.getKeywords()[0].getWord();
+                    Vector<News> re = new UrlRequest().urlRequest(2,"",today,str,news.getCategory());
+                    recomend.addAll(re);
                 }
             }
 
-            recomendations.addAll(new UrlRequest().urlRequest(15-recomendations.size(),"",today,"",""));
+            recomend.addAll(new UrlRequest().urlRequest(15-recomend.size(),"",today,"",""));
         }
-        return recomendations;
+        return recomend;
     }
     public void clear(){
         username = null;

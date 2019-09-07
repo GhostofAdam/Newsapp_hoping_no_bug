@@ -208,16 +208,17 @@ public class MainActivity extends AppCompatActivity
                 //TextView textView=(TextView)navigationView.getHeaderView(1);
                 View headView = navigationView.getHeaderView(0);
                 TextView textView = headView.findViewById(R.id.user_name_show);
+
                 textView.setText(user.getUsername());
+
                 navigationView.getMenu().getItem(3).setEnabled(true);
                 Intent intent = new Intent(MainActivity.this, UpdateService.class);
                 startService(intent);
                 SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
                 OperateOnSQLite op = new OperateOnSQLite();
-                if(user.net)
-                    op.insertState(helper.getWritableDatabase(), 1, user.getUsername());
-                else
-                    op.insertState(helper.getWritableDatabase(), 0, user.getUsername());
+                op.insertState(helper.getWritableDatabase(), 1, user.getUsername());
+
+
                 break;
             case 3:
                 User user1 = (User)getApplication();
@@ -305,6 +306,16 @@ public class MainActivity extends AppCompatActivity
             View headView = navigationView.getHeaderView(0);
             TextView textView = headView.findViewById(R.id.user_name_show);
             textView.setText("请登录");
+            SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
+            OperateOnSQLite op = new OperateOnSQLite();
+            if(user.net) {
+                op.insertState(helper.getWritableDatabase(), 1, user.getUsername());
+                System.out.println("________________________________connected  server");
+            }
+            else {
+                op.insertState(helper.getWritableDatabase(), 0, user.getUsername());
+                System.out.println("________________________________not connected  server");
+            }
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -436,7 +447,7 @@ public class MainActivity extends AppCompatActivity
         SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
         OperateOnSQLite op = new OperateOnSQLite();
         OperateOnServer os = new OperateOnServer();
-        if(op.getState(helper.getWritableDatabase())){
+        if(op.getState(helper.getWritableDatabase(),user.getUsername())){
             os.downloadNews(helper.getWritableDatabase(),user.getUsername());
         }
         else{
@@ -468,10 +479,14 @@ public class MainActivity extends AppCompatActivity
             SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
             OperateOnSQLite op = new OperateOnSQLite();
             serverAvail serve = new serverAvail();
-            if(user.net)
+            if(user.net) {
                 op.insertState(helper.getWritableDatabase(), 1, user.getUsername());
-            else
+                System.out.println("________________________________connected  server");
+            }
+            else {
                 op.insertState(helper.getWritableDatabase(), 0, user.getUsername());
+                System.out.println("________________________________not connected  server");
+            }
         }
         super.onDestroy();
     }

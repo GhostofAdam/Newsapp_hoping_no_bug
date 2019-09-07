@@ -40,7 +40,7 @@ public class UpdateService extends Service {
                         user.net = serve.test();
                         try
                         {
-                            Thread.sleep(100000);
+                            Thread.sleep(1000);
                              }
                         catch (Exception e){ }
                     }
@@ -49,11 +49,12 @@ public class UpdateService extends Service {
                         user.net = serve.test();
                         try
                         {
-                            Thread.sleep(100000);
+                            Thread.sleep(1000);
                         }
                         catch (Exception e){ }
                     }
-                    os.uploadNews(helper.getWritableDatabase(),user.getUsername(),user.getPassword());
+                    if(user.getUsername()!=null)
+                        os.uploadNews(helper.getWritableDatabase(),user.getUsername(),user.getPassword());
                 }
             }
         }).start();
