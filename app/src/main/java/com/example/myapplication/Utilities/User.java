@@ -3,6 +3,7 @@ package com.example.myapplication.Utilities;
 import android.app.Application;
 
 import com.example.myapplication.R;
+import com.example.myapplication.SQLite.serverAvail;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -137,6 +138,9 @@ public class User extends Application {
 //         recomendations = new UrlRequest().urlRequest(15,"2019-07-01","2019-07-03","特朗普","科技");
         DateUtility dateUtility = new DateUtility();
         String today = dateUtility.getDateString(dateUtility.getCurrent());
+        serverAvail server = new serverAvail();
+        if(!server.test())
+            return recomendations;
         if(username==null)
             recomendations = new UrlRequest().urlRequest(10,"","2019-09-05","海洋研究","");
         else{

@@ -174,6 +174,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     public void showShareDialog() {
         ShareEntity testBean = new ShareEntity(news.getTitle(), news.getPublisher()+news.getPublishTime());
         testBean.setShareBigImg(true);
+
         if(news.getImageUrl()!=null&&news.getImageUrl().size()>0)
             testBean.setImgUrl(news.getImageUrl().get(0));
         else {

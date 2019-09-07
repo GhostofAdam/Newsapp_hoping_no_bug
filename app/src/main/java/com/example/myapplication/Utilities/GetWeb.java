@@ -1,5 +1,6 @@
 package com.example.myapplication.Utilities;
 
+import com.example.myapplication.SQLite.serverAvail;
 import com.google.gson.Gson;
 
 import java.io.IOException;

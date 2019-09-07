@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Vector;
 
 
+import com.example.myapplication.SQLite.serverAvail;
 import com.example.myapplication.Utilities.DateUtility;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Adapter.NewsListAdapter;
@@ -77,15 +78,22 @@ public class Pageholder extends Fragment {
         String before = dateUtility.getDateString(dateUtility.backAWeek(lastDate));
         if(savedInstanceState!=null){
             Vector<News> data = ( Vector<News>) savedInstanceState.getSerializable("data");
+            serverAvail server = new serverAvail();
+
             newsListAdapter = new NewsListAdapter(data,null,this);
             Label = (String)savedInstanceState.getSerializable("label");
         }
         else{
-            if(Label.equals("推荐")){
-                newsListAdapter = new NewsListAdapter(user.getRecomendation(),null,this);
+            serverAvail server = new serverAvail();
+            if(!server.test()){
+                newsListAdapter = new NewsListAdapter(new Vector<News>(),null,this);
             }
-            else
-                newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10,before,now,"",Label),null,this);
+            else {
+                if (Label.equals("推荐")) {
+                    newsListAdapter = new NewsListAdapter(user.getRecomendation(), null, this);
+                } else
+                    newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10, before, now, "", Label), null, this);
+            }
         }
 
     }
@@ -156,6 +164,10 @@ public class Pageholder extends Fragment {
             mImageTitles.add(newsListAdapter.Dataset.get(i).getTitle());
     }
     private void RefreshData(){
+        serverAvail server = new serverAvail();
+        if(!server.test()){
+            return;
+        }
         if(Label.equals("推荐")){
             newsListAdapter.notifyAdapter(user.getRecomendation(),false);
         }
@@ -169,6 +181,10 @@ public class Pageholder extends Fragment {
 
     }
     private void LoadMoreData(){
+        serverAvail server = new serverAvail();
+        if(!server.test()){
+            return;
+        }
         if(Label.equals("推荐")){
             newsListAdapter.notifyAdapter(user.getRecomendation(),true);
         }
