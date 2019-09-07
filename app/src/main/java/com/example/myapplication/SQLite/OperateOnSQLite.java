@@ -28,12 +28,18 @@ public class OperateOnSQLite {
         db.insert(SQLiteDbHelper.TABLE_STATE, null, contentValues);
     }
 
-    public boolean getState(SQLiteDatabase db) {
+    public boolean getState(SQLiteDatabase db, String identity) {
         Cursor cursor = db.query(SQLiteDbHelper.TABLE_STATE, null, null, null, null, null, null, null);
         if(cursor.getCount() > 0)
         {
-            cursor.moveToLast();
-            int judge = cursor.getInt(cursor.getColumnIndex("avail"));
+            int judge = -1;
+            while (cursor.moveToNext())
+            {
+                if (identity.equals(cursor.getString(cursor.getColumnIndex("identity"))))
+                {
+                    judge = cursor.getInt(cursor.getColumnIndex("avail"));
+                }
+            }
             cursor.close();
             return judge == 1;
         }
