@@ -215,10 +215,6 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, UpdateService.class);
                 startService(intent);
                 SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
-                OperateOnSQLite op = new OperateOnSQLite();
-                op.insertState(helper.getWritableDatabase(), 1, user.getUsername());
-
-
                 break;
             case 3:
                 User user1 = (User)getApplication();
@@ -299,7 +295,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if(id==R.id.exit){
             User user = (User)getApplication();
-            user.clear();
+
             navigationView.getMenu().getItem(3).setEnabled(false);
             Intent intent = new Intent(MainActivity.this,UpdateService.class);
             stopService(intent);
@@ -316,6 +312,7 @@ public class MainActivity extends AppCompatActivity
                 op.insertState(helper.getWritableDatabase(), 0, user.getUsername());
                 System.out.println("________________________________not connected  server");
             }
+            user.clear();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
