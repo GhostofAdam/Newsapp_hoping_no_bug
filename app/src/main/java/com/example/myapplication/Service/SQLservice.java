@@ -72,12 +72,19 @@ public class SQLservice extends Service {
                 }
                 case User.ADD_FLITER:{
                     String tag = (String)intent.getSerializableExtra("data");
-                    os.insertShield("tag",user.getUsername(),user.getPassword());
+                    os.insertShield(tag,user.getUsername(),user.getPassword());
+                    op.insertShield(helper.getWritableDatabase(),tag,user.getUsername());
                     break;
                 }
                 case User.DELETE_FLITER:{
                     String tag = (String)intent.getSerializableExtra("data");
                     os.deleteShield(tag,user.getUsername());
+                    op.deleteShield(helper.getWritableDatabase(),tag,user.getUsername());
+                    break;
+                }
+                case User.ADD_SEARCH:{
+                    String s = (String)intent.getSerializableExtra("data");
+                    op.insertSearch(helper.getWritableDatabase(),s,user.getUsername());
                     break;
                 }
                 default:

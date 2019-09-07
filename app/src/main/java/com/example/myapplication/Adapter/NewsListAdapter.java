@@ -3,6 +3,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.DirectAction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -37,6 +38,7 @@ import com.squareup.picasso.Picasso;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.ListIterator;
 import java.util.Vector;
 
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
@@ -311,5 +313,18 @@ public class NewsListAdapter extends RecyclerView.Adapter implements Serializabl
     }
     public void setfragment(Fragment f){
         fragment=f;
+    }
+    public void updateFliter(Vector<String> strings){
+        java.util.Iterator<News> iterable = Dataset.iterator();
+        while (iterable.hasNext()){
+            News news = iterable.next();
+            for(String s:strings) {
+                if (news.filter(s)){
+                    iterable.remove();
+                    break;
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 }

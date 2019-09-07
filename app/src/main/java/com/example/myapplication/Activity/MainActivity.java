@@ -436,6 +436,7 @@ public class MainActivity extends AppCompatActivity
         user.initCollections(op.allNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_COLLECTION,user.getUsername()));
         user.initHistory(op.allNews(helper.getWritableDatabase(),SQLiteDbHelper.TABLE_SEEN,user.getUsername()));
         user.initSearch(op.findSearch(helper.getWritableDatabase(),user.getUsername()));
+        user.initFliter(op.allShields(helper.getWritableDatabase(),user.getUsername()));
     }
 
     private void refresh() {

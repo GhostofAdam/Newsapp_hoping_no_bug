@@ -48,7 +48,7 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 public class Pageholder extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
-    public String Label;
+    public String Label="";
     private View root;
     private TwinklingRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
@@ -95,6 +95,8 @@ public class Pageholder extends Fragment {
                     newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10, before, now, "", Label), null, this);
             }
         }
+        User user = (User)getActivity().getApplication();
+        newsListAdapter.updateFliter(user.getKeyswords());
 
     }
 
@@ -178,6 +180,8 @@ public class Pageholder extends Fragment {
             String before = dateUtility.getDateString(dateUtility.backAWeek(lastDate));
             newsListAdapter.notifyAdapter(new UrlRequest().urlRequest(10, before, now, "", Label), false);
         }
+        User user = (User)getActivity().getApplication();
+        newsListAdapter.updateFliter(user.getKeyswords());
 
     }
     private void LoadMoreData(){
@@ -195,6 +199,8 @@ public class Pageholder extends Fragment {
             String before = dateUtility.getDateString(dateUtility.backAWeek(lastDate));
             newsListAdapter.notifyAdapter(new UrlRequest().urlRequest(10, before, now, "", Label), true);
         }
+        User user = (User)getActivity().getApplication();
+        newsListAdapter.updateFliter(user.getKeyswords());
     }
 
     @Override
@@ -220,6 +226,6 @@ public class Pageholder extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("data",newsListAdapter.Dataset);
-        outState.putSerializable("lable",Label);
+        outState.putSerializable("label",Label);
     }
 }
