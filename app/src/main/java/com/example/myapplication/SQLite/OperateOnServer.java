@@ -416,6 +416,7 @@ public class OperateOnServer
         OperateOnSQLite op = new OperateOnSQLite();
         op.deleteNewsOfAccount(db, SQLiteDbHelper.TABLE_COLLECTION, identity);
         op.deleteNewsOfAccount(db, SQLiteDbHelper.TABLE_SEEN, identity);
+        op.deleteShieldOfAccount(db, identity);
         new Thread(new Runnable() {
             @Override
             public void run() {

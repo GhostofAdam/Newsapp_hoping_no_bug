@@ -16,6 +16,9 @@ public class OperateOnSQLite {
     public void clearTables(SQLiteDatabase db) {
         db.execSQL("DELETE FROM " + SQLiteDbHelper.TABLE_COLLECTION);
         db.execSQL("DELETE FROM " + SQLiteDbHelper.TABLE_SEEN);
+        db.execSQL("DELETE FROM " + SQLiteDbHelper.TABLE_STATE);
+        db.execSQL("DELETE FROM " + SQLiteDbHelper.TABLE_SHIELD);
+        db.execSQL("DELETE FROM " + SQLiteDbHelper.TABLE_SEARCH);
     }
 
     public void insertState(SQLiteDatabase db, int avail, String identity) {
@@ -88,6 +91,11 @@ public class OperateOnSQLite {
 
     void deleteNewsOfAccount(SQLiteDatabase db, String tableName, String identity) {
         db.delete(tableName, "identity=?", new String[]{identity});
+    }
+
+    void deleteShieldOfAccount(SQLiteDatabase db, String identity)
+    {
+        db.delete(SQLiteDbHelper.TABLE_SHIELD, "identity=?", new String[] {identity});
     }
 
     public Vector<News> allNews(SQLiteDatabase db, String tableName, String identity) {
