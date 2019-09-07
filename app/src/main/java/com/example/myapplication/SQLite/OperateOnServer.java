@@ -22,13 +22,15 @@ import okhttp3.Response;
 
 class URL
 {
-    static String port = "8006";
+    static private String port = "8090";
     static String url = "http://166.111.5.239:" + port + "/app/";
     static String url_avail = "http://166.111.5.239:" + port + "/test/";
     static String url_us = "http://166.111.5.239:" + port + "/uploadseen/";
     static String url_uc = "http://166.111.5.239:" + port + "/uploadcollection/";
+    static String url_uh = "http://166.111.5.239:" + port + "/uploadshield/";
     static String url_ds = "http://166.111.5.239:" + port + "/downloadseen/";
     static String url_dc = "http://166.111.5.239:" + port + "/downloadcollection/";
+    static String url_dh = "http://166.111.5.239:" + port + "/downloadshield/";
 }
 
 public class OperateOnServer
@@ -105,6 +107,56 @@ public class OperateOnServer
         }
     }
 
+    private void _downloadShield(SQLiteDatabase db, String identity)
+    {
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("identity", identity);
+        RequestBody formBody = builder.build();
+        Request request = new Request.Builder().url(URL.url_dh).post(formBody).build();
+        Shield[] myshieldList = null;
+        Response response;
+        try
+        {
+            response = client.newCall(request).execute();
+            if(response.code() == 200)
+            {
+                String result = response.body().string();
+                if(!result.equals("[]"))
+                {
+                    myshieldList = new Gson().fromJson(result, shieldList.class).list;
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        db.beginTransaction();
+        if(myshieldList != null)
+        {
+            try
+            {
+                for (Shield a : myshieldList)
+                {
+                    ContentValues values = new ContentValues();
+                    values.put("sole", a.sole);
+                    values.put("word", a.word);
+                    values.put("identity", identity);
+                    db.insert(SQLiteDbHelper.TABLE_SHIELD, null, values);
+                }
+                db.setTransactionSuccessful();
+            }
+            catch (NullPointerException e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                db.endTransaction();
+            }
+        }
+    }
+
     private void _uploadNews(SQLiteDatabase db, String tableName, String identity, String password)
     {
         JSONArray array = new JSONArray();
@@ -132,6 +184,41 @@ public class OperateOnServer
         cursor.close();
         RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8"), array.toString());
         Request request = tableName.equals(SQLiteDbHelper.TABLE_COLLECTION) ? new Request.Builder().url(URL.url_uc).post(body).build() : new Request.Builder().url(URL.url_us).post(body).build();
+        try
+        {
+            Response response = client.newCall(request).execute();
+            response.body().close();
+        }
+        catch (IOException | NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void _uploadShield(SQLiteDatabase db, String identity, String password)
+    {
+        JSONArray array = new JSONArray();
+        String tableName = SQLiteDbHelper.TABLE_SHIELD;
+        Cursor cursor = db.query(tableName, null, "identity=?", new String[] {identity}, null, null, null);
+        while(cursor.moveToNext())
+        {
+            JSONObject object = new JSONObject();
+            try
+            {
+                object.put("sole", cursor.getString(cursor.getColumnIndex("sole")));
+                object.put("word", cursor.getString(cursor.getColumnIndex("word")));
+                object.put("identity", identity);
+                object.put("password", password);
+            }
+            catch(org.json.JSONException e)
+            {
+                e.printStackTrace();
+            }
+            array.put(object);
+        }
+        cursor.close();
+        RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8"), array.toString());
+        Request request = new Request.Builder().url(URL.url_uh).post(body).build();
         try
         {
             Response response = client.newCall(request).execute();
@@ -332,6 +419,7 @@ public class OperateOnServer
             public void run() {
                 _downloadNews(db, SQLiteDbHelper.TABLE_COLLECTION, identity);
                 _downloadNews(db, SQLiteDbHelper.TABLE_SEEN, identity);
+                _downloadShield(db, identity);
             }
         }).start();
     }
@@ -343,6 +431,7 @@ public class OperateOnServer
             public void run() {
                 _uploadNews(db, SQLiteDbHelper.TABLE_COLLECTION, identity, password);
                 _uploadNews(db, SQLiteDbHelper.TABLE_SEEN, identity, password);
+                _uploadShield(db, identity, password);
             }
         }).start();
     }
@@ -434,4 +523,16 @@ public class OperateOnServer
 class myNewsList
 {
     News[] list = null;
+}
+
+class Shield
+{
+    String sole;
+    String word;
+    String identity;
+}
+
+class shieldList
+{
+    Shield[] list = null;
 }

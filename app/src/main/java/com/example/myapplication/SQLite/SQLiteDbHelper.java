@@ -18,6 +18,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
     public static final String TABLE_SEEN = "seen";
     static final String TABLE_SEARCH = "search";
     static final String TABLE_STATE = "state";
+    public static final String TABLE_SHIELD = "shield";
     private static final String COLLECTION_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
             + TABLE_COLLECTION + " ("
             + "sole TEXT PRIMARY KEY,"
@@ -54,6 +55,14 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
             + "identity TEXT"
             + ");";
 
+    private static final String SHIELD_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
+            + TABLE_SHIELD + " ("
+            + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "sole TEXT,"
+            + "word TEXT,"
+            + "identity TEXT"
+            + ");";
+
     public SQLiteDbHelper(Context context)
     {
         super(context, DB_NAME, null, DB_VERSION);
@@ -79,6 +88,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
         db.execSQL(SEEN_CREATE_TABLE_SQL);
         db.execSQL(SEARCH_CREATE_TABLE_SQL);
         db.execSQL(STATE_CREATE_TABLE_SQL);
+        db.execSQL(SHIELD_CREATE_TABLE_SQL);
     }
     @Override
     public void onOpen(SQLiteDatabase db)
