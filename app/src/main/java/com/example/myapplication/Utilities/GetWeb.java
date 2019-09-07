@@ -31,6 +31,7 @@ public class GetWeb
                     }
                     newsList = parseJSON(responseData);
                 } catch (IOException | NullPointerException e) {
+                    newsList.setData();
                     e.printStackTrace();
                 }
             }

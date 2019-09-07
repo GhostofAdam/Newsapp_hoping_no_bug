@@ -17,5 +17,6 @@ public class DataList
     }
     public News[] getData() { return this.data; }
     public String getCurrentPage() { return this.currentPage; }
+    public void setData()   { this.data = new News[0];}
 }
 
