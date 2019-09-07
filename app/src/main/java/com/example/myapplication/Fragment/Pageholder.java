@@ -80,7 +80,6 @@ public class Pageholder extends Fragment {
         if(savedInstanceState!=null){
             //Vector<News> data = ( Vector<News>) savedInstanceState.getSerializable("data");
             serverAvail server = new serverAvail();
-
 //            newsListAdapter = new NewsListAdapter(data,null,this);
             Label = (String)savedInstanceState.getSerializable("label");
             if(!server.test()){
@@ -191,7 +190,8 @@ public class Pageholder extends Fragment {
             lastDate = dateUtility.getCurrent();
             String now = dateUtility.getDateString(lastDate);
             String before = dateUtility.getDateString(dateUtility.backAWeek(lastDate));
-            newsListAdapter.notifyAdapter(new UrlRequest().urlRequest(10, before, now, "", Label), false);
+            Vector<News> vv =new UrlRequest().urlRequest(10, before, now, "", Label);
+            newsListAdapter.notifyAdapter(vv, false);
         }
         User user = (User)getActivity().getApplication();
         newsListAdapter.updateFliter(user.getKeyswords());

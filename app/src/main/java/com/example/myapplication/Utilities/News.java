@@ -86,9 +86,6 @@ public class News implements Serializable
         if(title.contains(s)){
             return true;
         }
-        if(content.contains(s)){
-            return true;
-        }
         return false;
     }
 }

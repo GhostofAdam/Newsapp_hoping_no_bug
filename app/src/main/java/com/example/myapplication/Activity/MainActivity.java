@@ -179,8 +179,7 @@ public class MainActivity extends AppCompatActivity
         });
         mSearchView.setMenuItemIconColor(R.attr.colorText);
 
-        Intent intent = new Intent(MainActivity.this, UpdateService.class);
-        startService(intent);
+
     }
 
     @Override
@@ -209,8 +208,17 @@ public class MainActivity extends AppCompatActivity
                 //TextView textView=(TextView)navigationView.getHeaderView(1);
                 View headView = navigationView.getHeaderView(0);
                 TextView textView = headView.findViewById(R.id.user_name_show);
+
                 textView.setText(user.getUsername());
+
                 navigationView.getMenu().getItem(3).setEnabled(true);
+                Intent intent = new Intent(MainActivity.this, UpdateService.class);
+                startService(intent);
+                SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
+                OperateOnSQLite op = new OperateOnSQLite();
+                op.insertState(helper.getWritableDatabase(), 1, user.getUsername());
+
+
                 break;
             case 3:
                 User user1 = (User)getApplication();
@@ -293,9 +301,21 @@ public class MainActivity extends AppCompatActivity
             User user = (User)getApplication();
             user.clear();
             navigationView.getMenu().getItem(3).setEnabled(false);
+            Intent intent = new Intent(MainActivity.this,UpdateService.class);
+            stopService(intent);
             View headView = navigationView.getHeaderView(0);
             TextView textView = headView.findViewById(R.id.user_name_show);
             textView.setText("请登录");
+            SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
+            OperateOnSQLite op = new OperateOnSQLite();
+            if(user.net) {
+                op.insertState(helper.getWritableDatabase(), 1, user.getUsername());
+                System.out.println("________________________________connected  server");
+            }
+            else {
+                op.insertState(helper.getWritableDatabase(), 0, user.getUsername());
+                System.out.println("________________________________not connected  server");
+            }
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -459,13 +479,15 @@ public class MainActivity extends AppCompatActivity
             SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
             OperateOnSQLite op = new OperateOnSQLite();
             serverAvail serve = new serverAvail();
-            if(serve.test())
+            if(user.net) {
                 op.insertState(helper.getWritableDatabase(), 1, user.getUsername());
-            else
+                System.out.println("________________________________connected  server");
+            }
+            else {
                 op.insertState(helper.getWritableDatabase(), 0, user.getUsername());
+                System.out.println("________________________________not connected  server");
+            }
         }
-        Intent intent = new Intent(MainActivity.this, UpdateService.class);
-        stopService(intent);
         super.onDestroy();
     }
 }
