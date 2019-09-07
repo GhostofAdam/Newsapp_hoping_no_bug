@@ -143,6 +143,43 @@ public class OperateOnServer
         }
     }
 
+    private void _insertShield(String word, String identity, String password)
+    {
+        FormBody.Builder builder = createBuilder("0", "shield", "add");
+        builder.add("sole", identity + word);
+        builder.add("word", word);
+        builder.add("identity", identity);
+        builder.add("password", password);
+        RequestBody formBody = builder.build();
+        Request request = new Request.Builder().url(URL.url).post(formBody).build();
+        try
+        {
+            Response response = client.newCall(request).execute();
+            response.body().close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void _deleteShield(String word, String identity)
+    {
+        FormBody.Builder builder = createBuilder("0", "shield", "delete");
+        builder.add("sole", identity + word);
+        RequestBody formBody = builder.build();
+        Request request = new Request.Builder().url(URL.url).post(formBody).build();
+        try
+        {
+            Response response = client.newCall(request).execute();
+            response.body().close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     private void _insertNews(String tableName, News news, String identity, String password)
     {
         FormBody.Builder builder = newsToBuilder(createBuilder("0", tableName, "add"), news, identity, password);
@@ -306,6 +343,26 @@ public class OperateOnServer
             public void run() {
                 _uploadNews(db, SQLiteDbHelper.TABLE_COLLECTION, identity, password);
                 _uploadNews(db, SQLiteDbHelper.TABLE_SEEN, identity, password);
+            }
+        }).start();
+    }
+
+    public void insertShield(final String word, final String identity, final String password)
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                _insertShield(word, identity, password);
+            }
+        }).start();
+    }
+
+    public void deleteShield(final String word, final String identity)
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                _deleteShield(word, identity);
             }
         }).start();
     }

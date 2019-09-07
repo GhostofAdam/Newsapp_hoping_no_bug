@@ -16,6 +16,7 @@ public class News implements Serializable
     private String title;
     private When[] when;
     private String content;
+    private String url;
     private Person[] persons;
     private String newsID;
     private String crawlTime;
@@ -66,6 +67,7 @@ public class News implements Serializable
     public String getTitle() { return this.title; }
     public When[] getWhen() { return this.when; }
     public String getContent() { return this.content; }
+    public String getUrl()  { return this.url; }
     public Person[] getPersons() { return this.persons; }
     public String getNewsID() { return this.newsID; }
     public String getCrawlTime() { return this.crawlTime; }
