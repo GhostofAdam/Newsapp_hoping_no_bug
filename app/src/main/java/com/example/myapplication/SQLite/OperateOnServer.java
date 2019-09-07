@@ -40,8 +40,6 @@ public class OperateOnServer
     private static final String TAG = "OperateOnServer";
     
     static private OkHttpClient client = new OkHttpClient();
-    public Vector<News> allnews;
-    public boolean isFindNews;
     public boolean isaccount;
     private int isaccount_num;
     public boolean isright;
@@ -54,53 +52,6 @@ public class OperateOnServer
         builder.add("table", table);
         builder.add("doing", doing);
         return builder;
-    }
-
-    private void _downloadAccount(SQLiteDatabase db) {
-        FormBody.Builder builder = createBuilder("1", SQLiteDbHelper.TABLE_ACCOUNT, "download");
-        RequestBody formBody = builder.build();
-        Request request = new Request.Builder().url(URL.url).post(formBody).build();
-        Accounts[] myaccountList = null;
-        Response response = null;
-        try
-        {
-            response = client.newCall(request).execute();
-            if(response.code() == 200)
-            {
-                String result = response.body().string();
-                if(!result.equals("[]"))
-                {
-                    myaccountList = new Gson().fromJson(result, myAccountList.class).list;
-                }
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        db.beginTransaction();
-        if(myaccountList != null)
-        {
-            try
-            {
-                for (Accounts a : myaccountList)
-                {
-                    ContentValues values = new ContentValues();
-                    values.put("identity", a.identity);
-                    values.put("password", a.password);
-                    db.insert(SQLiteDbHelper.TABLE_ACCOUNT, null, values);
-                }
-                db.setTransactionSuccessful();
-            }
-            catch (NullPointerException e)
-            {
-                e.printStackTrace();
-            }
-            finally
-            {
-                db.endTransaction();
-            }
-        }
     }
 
     private void _downloadNews(SQLiteDatabase db, String tableName, String identity)
@@ -243,98 +194,11 @@ public class OperateOnServer
         }
     }
 
-    private void _allNews(String tableName, String identity)
-    {
-        FormBody.Builder builder = createBuilder("1", tableName, "all");
-        builder.add("identity", identity);
-        RequestBody formBody = builder.build();
-        Request request = new Request.Builder().url(URL.url).post(formBody).build();
-        myNewsList mynewsList;
-        Response response = null;
-        try
-        {
-            response = client.newCall(request).execute();
-            if(response.code() == 200)
-            {
-                String result = response.body().string();
-                if(!result.equals("[]"))
-                {
-                    mynewsList = new Gson().fromJson(result, myNewsList.class);
-                    allnews = new Vector<>(Arrays.asList(mynewsList.list));
-                }
-            }
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-        finally
-        {
-            if(response != null)
-            {
-                response.body().close();
-            }
-        }
-    }
-
-    private void _findNews(String tableName, String newsID, String identity)
-    {
-        FormBody.Builder builder = createBuilder("1", tableName, "find");
-        builder.add("sole", identity + newsID);
-        RequestBody formBody = builder.build();
-        Request request = new Request.Builder().url(URL.url).post(formBody).build();
-        Response response = null;
-        try
-        {
-            response = client.newCall(request).execute();
-            if(response.code() == 200)
-            {
-                String result = response.body().string();
-                if(result.equals("yes"))
-                {
-                    isFindNews = true;
-                }
-                else if(result.equals("no"))
-                {
-                    isFindNews = false;
-                }
-            }
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-        finally
-        {
-            if(response != null)
-            {
-                response.body().close();
-            }
-        }
-    }
-
     private void _insertAccount(String identity, String password)
     {
         FormBody.Builder builder = createBuilder("0", "account", "add");
         builder.add("identity", identity);
         builder.add("password", password);
-        RequestBody formBody = builder.build();
-        Request request = new Request.Builder().url(URL.url).post(formBody).build();
-        try
-        {
-            Response response = client.newCall(request).execute();
-            response.body().close();
-        }
-        catch (IOException | NullPointerException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    private void _deleteAccount(String identity)
-    {
-        FormBody.Builder builder = createBuilder("0", "account", "delete");
-        builder.add("identity", identity);
         RequestBody formBody = builder.build();
         Request request = new Request.Builder().url(URL.url).post(formBody).build();
         try
@@ -471,42 +335,12 @@ public class OperateOnServer
         }).start();
     }
 
-    public void allNews(final String tableName, final String identity)
-    {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                _allNews(tableName, identity);
-            }
-        }).start();
-    }
-
-    public void findNews(final String tableName, final String newsID, final String identity)
-    {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                _findNews(tableName, newsID, identity);
-            }
-        }).start();
-    }
-
     public void insertAccount(final String identity, final String password)
     {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 _insertAccount(identity, password);
-            }
-        }).start();
-    }
-
-    public void deleteAccount(final String identity)
-    {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                _deleteAccount(identity);
             }
         }).start();
     }
@@ -520,7 +354,10 @@ public class OperateOnServer
                 _isAccount(identity);
             }
         }).start();
-        while(isaccount_num == -1)  {}
+        while (isaccount_num == -1)
+        {
+            System.out.println("fuck");
+        }
         isaccount = isaccount_num == 1;
     }
 
@@ -533,7 +370,10 @@ public class OperateOnServer
                 _isRightPassword(identity, password);
             }
         }).start();
-        while(isright_num == -1)   {}
+        while (isright_num == -1)
+        {
+            System.out.println("fuck");
+        }
         isright = isright_num == 1;
     }
 
@@ -543,16 +383,3 @@ class myNewsList
 {
     News[] list = null;
 }
-
-class Accounts
-{
-    String identity;
-    String password;
-}
-
-class myAccountList
-{
-    Accounts[] list = null;
-}
-
-

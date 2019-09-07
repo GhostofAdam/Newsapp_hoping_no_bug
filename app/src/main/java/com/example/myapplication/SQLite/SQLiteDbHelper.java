@@ -14,16 +14,10 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
 
     private static final int DB_VERSION = 1;
     private static final String DB_NAME = "database.db";
-    public static final String TABLE_ACCOUNT = "account";
     public static final String TABLE_COLLECTION = "collection";
     public static final String TABLE_SEEN = "seen";
-    public static final String TABLE_SEARCH = "search";
-    public static final String TABLE_STATE = "state";
-    private static final String ACCOUNT_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
-            + TABLE_ACCOUNT + " ("
-            + "identity TEXT PRIMARY KEY NOT NULL,"
-            + "password TEXT NOT NULL"
-            + ");";
+    static final String TABLE_SEARCH = "search";
+    static final String TABLE_STATE = "state";
     private static final String COLLECTION_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
             + TABLE_COLLECTION + " ("
             + "sole TEXT PRIMARY KEY,"
@@ -32,8 +26,7 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
             + "content TEXT,"
             + "publisher TEXT,"
             + "publishTime TEXT,"
-            + "identity TEXT,"
-            + "FOREIGN KEY(identity) REFERENCES account(identity) ON DELETE CASCADE ON UPDATE CASCADE"
+            + "identity TEXT"
             + ");";
 
     private static final String SEEN_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
@@ -44,24 +37,21 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
             + "content TEXT,"
             + "publisher TEXT,"
             + "publishTime TEXT,"
-            + "identity TEXT,"
-            + "FOREIGN KEY(identity) REFERENCES account(identity) ON DELETE CASCADE ON UPDATE CASCADE"
+            + "identity TEXT"
             + ");";
 
     private static final String SEARCH_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
             + TABLE_SEARCH + " ("
             + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "word TEXT NOT NULL,"
-            + "identity TEXT,"
-            + "FOREIGN KEY(identity) REFERENCES account(identity) ON DELETE CASCADE ON UPDATE CASCADE"
+            + "identity TEXT"
             + ");";
 
     private static final String STATE_CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS "
             + TABLE_STATE + " ("
             + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "avail INTEGER,"
-            + "identity TEXT,"
-            + "FOREIGN KEY(identity) REFERENCES account(identity) ON DELETE CASCADE ON UPDATE CASCADE"
+            + "identity TEXT"
             + ");";
 
     public SQLiteDbHelper(Context context)
@@ -85,7 +75,6 @@ public class SQLiteDbHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        db.execSQL(ACCOUNT_CREATE_TABLE_SQL);
         db.execSQL(COLLECTION_CREATE_TABLE_SQL);
         db.execSQL(SEEN_CREATE_TABLE_SQL);
         db.execSQL(SEARCH_CREATE_TABLE_SQL);
