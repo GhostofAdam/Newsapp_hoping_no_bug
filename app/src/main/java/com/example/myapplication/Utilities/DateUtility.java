@@ -16,7 +16,7 @@ public class DateUtility {
     public Date backAWeek(Date date){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_WEEK,-1);
+        calendar.add(Calendar.DATE,-7);
         return calendar.getTime();
 
     }

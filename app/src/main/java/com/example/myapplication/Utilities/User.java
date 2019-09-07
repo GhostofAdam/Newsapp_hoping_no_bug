@@ -23,6 +23,7 @@ class WRecord{
 }
 public class User extends Application {
     private int theme=0;
+    public boolean net;
     private IWXAPI mWxApi;
     private  String username=null;
     private  String password=null;

@@ -179,8 +179,7 @@ public class MainActivity extends AppCompatActivity
         });
         mSearchView.setMenuItemIconColor(R.attr.colorText);
 
-        Intent intent = new Intent(MainActivity.this, UpdateService.class);
-        startService(intent);
+
     }
 
     @Override
@@ -211,6 +210,14 @@ public class MainActivity extends AppCompatActivity
                 TextView textView = headView.findViewById(R.id.user_name_show);
                 textView.setText(user.getUsername());
                 navigationView.getMenu().getItem(3).setEnabled(true);
+                Intent intent = new Intent(MainActivity.this, UpdateService.class);
+                startService(intent);
+                SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
+                OperateOnSQLite op = new OperateOnSQLite();
+                if(user.net)
+                    op.insertState(helper.getWritableDatabase(), 1, user.getUsername());
+                else
+                    op.insertState(helper.getWritableDatabase(), 0, user.getUsername());
                 break;
             case 3:
                 User user1 = (User)getApplication();
@@ -293,6 +300,8 @@ public class MainActivity extends AppCompatActivity
             User user = (User)getApplication();
             user.clear();
             navigationView.getMenu().getItem(3).setEnabled(false);
+            Intent intent = new Intent(MainActivity.this,UpdateService.class);
+            stopService(intent);
             View headView = navigationView.getHeaderView(0);
             TextView textView = headView.findViewById(R.id.user_name_show);
             textView.setText("请登录");
@@ -459,13 +468,11 @@ public class MainActivity extends AppCompatActivity
             SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
             OperateOnSQLite op = new OperateOnSQLite();
             serverAvail serve = new serverAvail();
-            if(serve.test())
+            if(user.net)
                 op.insertState(helper.getWritableDatabase(), 1, user.getUsername());
             else
                 op.insertState(helper.getWritableDatabase(), 0, user.getUsername());
         }
-        Intent intent = new Intent(MainActivity.this, UpdateService.class);
-        stopService(intent);
         super.onDestroy();
     }
 }

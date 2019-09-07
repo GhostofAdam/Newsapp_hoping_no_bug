@@ -25,30 +25,31 @@ public class UpdateService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         new Thread(new Runnable() {
             serverAvail serve = new serverAvail();
+            User user = (User)getApplication();
             @Override
             public void run() {
-                boolean net = serve.test();
+                user.net = serve.test();
                 SQLiteDbHelper helper = SQLiteDbHelper.getInstance(getApplicationContext());
                 OperateOnSQLite op = new OperateOnSQLite();
                 OperateOnServer os = new OperateOnServer();
                 User user = (User)getApplication();
                 while (true)
                 {
-                    while (net)
+                    while (user.net)
                     {
-                        net = serve.test();
+                        user.net = serve.test();
                         try
                         {
-                            Thread.sleep(10000);
+                            Thread.sleep(100000);
                              }
                         catch (Exception e){ }
                     }
-                    while(!net)
+                    while(!user.net)
                     {
-                        net = serve.test();
+                        user.net = serve.test();
                         try
                         {
-                            Thread.sleep(10000);
+                            Thread.sleep(100000);
                         }
                         catch (Exception e){ }
                     }
