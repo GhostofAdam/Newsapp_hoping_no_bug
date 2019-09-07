@@ -33,6 +33,20 @@ public class OperateOnSQLite {
         return judge == 1;
     }
 
+    public void insertShield(SQLiteDatabase db, String word, String identity)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("sole", identity + word);
+        contentValues.put("word", word);
+        contentValues.put("identity", identity);
+        db.insert(SQLiteDbHelper.TABLE_SHIELD, null, contentValues);
+    }
+
+    public void deleteShield(SQLiteDatabase db, String word, String identity)
+    {
+        db.delete(SQLiteDbHelper.TABLE_SHIELD, "sole=?", new String[] {identity + word});
+    }
+
     public void insertNews(SQLiteDatabase db, String tableName, News news, String identity) {
         if (tableName.equals(SQLiteDbHelper.TABLE_COLLECTION))
         {
