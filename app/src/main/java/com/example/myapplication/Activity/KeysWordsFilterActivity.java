@@ -47,7 +47,7 @@ public class KeysWordsFilterActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 if (position < mTagContainerLayout.getChildCount()) {
                                     User user = (User)getApplication();
-                                    String tag = (String) mTagContainerLayout.getTag(position);
+                                    String tag =  mTagContainerLayout.getTagText(position);
                                     user.deleteKeywords(tag);
                                     mTagContainerLayout.removeTag(position);
                                     Intent intent = new Intent(KeysWordsFilterActivity.this,SQLservice.class);
@@ -78,7 +78,7 @@ public class KeysWordsFilterActivity extends AppCompatActivity {
 //                        Toast.LENGTH_SHORT).show();
                 if (position < mTagContainerLayout.getChildCount()) {
                     User user = (User)getApplication();
-                    String tag = (String) mTagContainerLayout.getTag(position);
+                    String tag = mTagContainerLayout.getTagText(position);
                     user.deleteKeywords(tag);
                     mTagContainerLayout.removeTag(position);
                     Intent intent = new Intent(KeysWordsFilterActivity.this,SQLservice.class);

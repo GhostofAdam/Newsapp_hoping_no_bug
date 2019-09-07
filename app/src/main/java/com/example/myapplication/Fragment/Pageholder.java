@@ -41,6 +41,7 @@ import com.example.myapplication.Utilities.DateUtility;
 import com.example.myapplication.Utilities.News;
 import com.example.myapplication.Adapter.NewsListAdapter;
 import com.example.myapplication.Activity.NewsDetailActivity;
+import com.example.myapplication.Utilities.SpacesItemDecoration;
 import com.example.myapplication.Utilities.UrlRequest;
 import com.example.myapplication.Utilities.User;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -124,6 +125,9 @@ public class Pageholder extends Fragment {
         recyclerView = root.findViewById(R.id.myRecycle);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         recyclerView.setAdapter(newsListAdapter);
+        int space = 8;
+        float rad = 20;
+        recyclerView.addItemDecoration(new SpacesItemDecoration(space,rad));
         newsListAdapter.setOnItemClickListener(new NewsListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

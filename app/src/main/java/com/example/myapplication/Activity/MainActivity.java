@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity
         else if(id==R.id.exit){
             User user = (User)getApplication();
             user.clear();
-            navigationView.getMenu().getItem(2).setEnabled(false);
+            navigationView.getMenu().getItem(3).setEnabled(false);
             View headView = navigationView.getHeaderView(0);
             TextView textView = headView.findViewById(R.id.user_name_show);
             textView.setText("请登录");
