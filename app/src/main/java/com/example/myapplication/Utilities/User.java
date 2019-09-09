@@ -146,7 +146,7 @@ public class User extends Application {
         if(!server.test())
             return recomend;
         if(username==null)
-            recomend = new UrlRequest().urlRequest(10,"","2019-09-05","海洋研究","");
+            recomend = new UrlRequest().urlRequest(10,"","2019-09-05","","");
 
         else{
             for(News news:colloctionsNews){

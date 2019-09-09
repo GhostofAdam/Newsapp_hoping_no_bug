@@ -57,6 +57,7 @@ dependencies {
     api('com.xyzlf.share:sharesdk:0.0.11') {
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
+    api 'com.getbase:floatingactionbutton:1.10.1'
     api 'com.stephentuso:welcome:1.4.1'
     api 'com.sackcentury:shinebutton:1.0.0'
 

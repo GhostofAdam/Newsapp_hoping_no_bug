@@ -11,17 +11,17 @@ public class myWelcomeActivity extends WelcomeActivity {
     protected WelcomeConfiguration configuration() {
         return new WelcomeConfiguration.Builder(this)
                 .defaultBackgroundColor(R.color.background)
-                .page(new TitlePage(R.drawable.bg_people,
-                        "Avain News").background(R.color.black)
+                .page(new TitlePage(R.drawable.aaa,
+                        "Avain News").background(R.color.md_grey_800)
                 )
-                .page(new BasicPage(R.drawable.bg_people,
+                .page(new BasicPage(R.drawable.dalao,
                         "By",
                         "蒋王一 桂尚彤")
-                        .background(R.color.red)
+                        .background(R.color.firebrick)
                 )
-                .page(new BasicPage(R.drawable.bg_people,
-                        "Let's start",
-                        "See the world with a bird") .background(R.color.orange)
+                .page(new BasicPage(R.drawable.timg,
+                        "Fly freely",
+                        "Some birds aren't meant to be caged, that's all. Their feathers are just too bright.") .background(R.color.olive)
                 )
                 .swipeToDismiss(true)
                 .build();

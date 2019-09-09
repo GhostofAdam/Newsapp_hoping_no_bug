@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:paddingTop="65dp"
+    android:background="?attr/colorError"
     tools:context=".Activity.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
@@ -57,7 +58,7 @@
             android:layout_width="60dp"
             android:layout_height="50dp"
             android:layout_gravity="right"
-            android:background="@drawable/ic_seen"
+            android:background="@drawable/ic_add_channel"
             app:layout_constraintStart_toEndOf="@+id/tabs"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

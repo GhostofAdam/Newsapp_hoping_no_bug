@@ -46,6 +46,7 @@ import com.example.myapplication.Utilities.UrlRequest;
 import com.example.myapplication.Utilities.User;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.footer.LoadingView;
 
 public class Pageholder extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -82,18 +83,18 @@ public class Pageholder extends Fragment {
             serverAvail server = new serverAvail();
 //            newsListAdapter = new NewsListAdapter(data,null,this);
             Label = (String)savedInstanceState.getSerializable("label");
-
             if (Label.equals("推荐")) {
-                newsListAdapter = new NewsListAdapter(user.getRecomendation(), null, this);
+                newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"","2019-09-05","海洋研究",""), null, this);
             } else
                 newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10, before, now, "", Label), null, this);
 
         }
         else{
-
-
             if (Label.equals("推荐")) {
-                newsListAdapter = new NewsListAdapter(user.getRecomendation(), null, this);
+                if(user.getUsername()!=null)
+                    newsListAdapter = new NewsListAdapter(user.getRecomendation(), null, this);
+                else
+                    newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"","2019-09-05","海洋研究",""), null, this);
             } else
                 newsListAdapter = new NewsListAdapter(new UrlRequest().urlRequest(10, before, now, "", Label), null, this);
 
@@ -110,6 +111,7 @@ public class Pageholder extends Fragment {
         root = inflater.inflate(R.layout.fragment_pageholder, container, false);
 
         refreshLayout = root.findViewById(R.id.refreshLayout);
+
         refreshLayout.setOnRefreshListener(new RefreshListenerAdapter(){
             @Override
             public void onRefresh(final TwinklingRefreshLayout refreshLayout) {

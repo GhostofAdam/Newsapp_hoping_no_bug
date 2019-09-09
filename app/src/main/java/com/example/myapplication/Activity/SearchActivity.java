@@ -71,10 +71,8 @@ public class SearchActivity extends AppCompatActivity {
         DateUtility dateUtility = new DateUtility();
         String today = dateUtility.getDateString(dateUtility.getCurrent());
         serverAvail server = new serverAvail();
-        if(server.test())
-            adapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"",today,query,""),this,null);
-        else
-            adapter = new NewsListAdapter(new Vector<News>(),this,null);
+        adapter = new NewsListAdapter(new UrlRequest().urlRequest(10,"",today,query,""),this,null);
+
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new NewsListAdapter.OnItemClickListener() {
             @Override

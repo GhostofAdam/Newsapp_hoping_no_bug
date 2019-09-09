@@ -45,11 +45,12 @@ import androidx.core.view.GravityCompat;
 
 import android.view.MenuItem;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.stephentuso.welcome.WelcomeHelper;
-
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -80,6 +81,11 @@ public class MainActivity extends AppCompatActivity
     private ColorDrawable mDimDrawable;
     private View mDimSearchViewBackground;
     private WelcomeHelper welcomeScreen;
+    private FloatingActionsMenu menuMultipleActions;
+    private FloatingActionButton actionEnable;
+    private FloatingActionButton action_a;
+    private FloatingActionButton action_b;
+    private FloatingActionButton action_c;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /* DEBUG */
@@ -90,7 +96,6 @@ public class MainActivity extends AppCompatActivity
             welcomeScreen = new WelcomeHelper(this, myWelcomeActivity.class);
             welcomeScreen.forceShow();
         }
-
 
         //welcomeScreen.forceShow();
 
@@ -160,24 +165,42 @@ public class MainActivity extends AppCompatActivity
         mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
             @Override
             public void onActionMenuItemSelected(MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.default_theme:
-                        user.settheme(0);
-                        setTheme(R.style.AppTheme);
-                        break;
-                    case R.id.day:
-                        user.settheme(1);
-                        setTheme(R.style.DayTheme);
-                        break;
-                    case R.id.night:
-                        user.settheme(2);
-                        setTheme(R.style.NightTheme);
-                        break;
-                }
-                refresh();
+               return;
         }
         });
-        mSearchView.setMenuItemIconColor(R.attr.colorText);
+//        mSearchView.setMenuItemIconColor(R.attr.colorText);
+
+        action_a = (FloatingActionButton)findViewById(R.id.action_a);
+        action_b = (FloatingActionButton)findViewById(R.id.action_b);
+        action_c = (FloatingActionButton)findViewById(R.id.action_c);
+        menuMultipleActions = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+        action_a.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                user.settheme(0);
+                setTheme(R.style.AppTheme);
+                refresh();
+            }
+        });
+        action_b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                user.settheme(1);
+                setTheme(R.style.DayTheme);
+                refresh();
+            }
+        });
+        action_c.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                user.settheme(2);
+                setTheme(R.style.NightTheme);
+                refresh();
+            }
+        });
+//        menuMultipleActions.addButton(action_a);
+//        menuMultipleActions.addButton(action_b);
+//        menuMultipleActions.addButton(action_c);
 
 
     }
